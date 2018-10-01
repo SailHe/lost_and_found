@@ -1,0 +1,161 @@
+/*! CSS Used from: http://localhost:63342/node-web-ejs/temp/input_style/css/style.css */
+body, div, form, audio {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+.clear {
+  /*图像的左侧和右侧均不允许出现浮动元*/
+  clear: both;
+}
+
+body {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background: RGB(58, 77, 84) center;
+  background-size: 100% 100%;
+  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.main {
+  margin: 7em auto 0;
+  width: 44%;
+}
+
+input[type="Password"]:hover {
+  color: #DCDCDC;
+  border-left: 6px solid #40A46F;
+}
+
+input[type="Password"] {
+  padding: 14px;
+  width: 94%;
+  font-size: 1em;
+  margin: 18px 0px;
+  border: none;
+  color: #666666;
+  cursor: pointer;
+  background: none;
+  float: left;
+  outline: none;
+  font-weight: 700;
+  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #ffffff;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  border-left: 6px solid #fff;
+  border-bottom: none;
+  border-right: none;
+  border-top: none;
+}
+
+.submit {
+  padding: 5px 4px;
+  text-align: center;
+}
+
+input[type=submit] {
+  padding: 17px 30px;
+  color: #fff;
+  float: right;
+  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #40A46F;
+  border: 1px solid #40A46F;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.5s ease-out;
+  -webkit-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -ms-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  outline: none;
+  width: 100%;
+}
+
+.submit input[type=submit]:hover {
+  background: #07793D;
+  border: 1px solid #07793D;
+}
+
+@media (max-width: 1440px) {
+  .main {
+    width: 46%;
+    margin: 7em auto 0;
+  }
+}
+
+@media (max-width: 1366px) {
+  .main {
+    width: 48%;
+  }
+}
+
+@media (max-width: 1280px) {
+  .main {
+    width: 53%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .main {
+    width: 66%;
+    margin: 9em auto 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    width: 91%;
+    margin: 6em auto 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .main {
+    width: 90%;
+    margin: 6em auto 0;
+  }
+
+  input[type="Password"] {
+    width: 92.3%;
+    font-size: 1em;
+    margin: 10px 0px;
+    text-align: left;
+  }
+
+  input[type=submit] {
+    padding: 15px 15px;
+    font-size: 1em;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    width: 90%;
+    margin: 6em auto 0;
+  }
+
+  @media (max-width: 320px) {
+    .main {
+      width: 90%;
+      margin: 3em auto 0;
+    }
+
+    input[type="Password"] {
+      font-size: 16px;
+      padding: 13px 10px;
+      width: 90%;
+    }
+  }
+}

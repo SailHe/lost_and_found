@@ -1,0 +1,180 @@
+.dynamic-border::before,
+.dynamic-border::after {
+    position: absolute;
+    left: 0;
+    content: "";
+    display: block;
+    width: 1px;
+    height: 0px;
+    background: #333;
+    z-index: 1;
+}
+
+.dynamic-border::before {
+    top: 0;
+}
+
+.dynamic-border::after {
+    bottom: 0;
+}
+
+.dynamic-border .border-inner-contents {
+    position: relative;
+    /*display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;*/
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -o-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    /*元素在主轴上的对齐方式*/
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 50px;
+}
+
+.dynamic-border .border-inner-contents::before,
+.dynamic-border .border-inner-contents::after {
+    position: absolute;
+    right: 0;
+    content: "";
+    display: block;
+    width: 0px;
+    height: 1px;
+    background: #3333;
+    z-index: 1;
+}
+
+.dynamic-border .border-inner-contents::before {
+    top: 0;
+}
+
+.dynamic-border .border-inner-contents::after {
+    bottom: 0;
+}
+
+
+.dynamic-border {
+    position: relative;
+
+    display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+
+    /*旧的flex-box草案属性*/
+    /*-webkit-box-align: center;
+    -moz-box-align: center;
+    -o-box-align: center;*/
+
+    /*元素在侧轴上的对齐方式*/
+    -webkit-align-items: center;
+    align-items: center;
+    /*元素在主轴上的对齐方式*/
+    justify-content: center;
+
+    /*文本装饰: 下划线, 上划线, 直线, 组合线 等*/
+    text-decoration: none;
+    color: #c4d700;
+    background-color: rgba(196, 215, 0, 0.15);
+    /*width: 10%;*/
+}
+/*左侧边缘线*/
+.dynamic-border::before,
+.dynamic-border::after {
+    background: #c4d700;
+}
+
+.dynamic-border .border-inner-contents::before,
+.dynamic-border .border-inner-contents::after {
+    background: #c4d700;
+}
+
+/*响应式自适应*/
+@media screen and (min-width: 751px) {
+    /*只在751px以上的设备中才使用动画*/
+    .dynamic-border:hover .border-inner-contents::before,
+    .dynamic-border:hover .border-inner-contents::after {
+        width: 0;
+        animation: hoverLine-2 0.5s ease forwards 0.15s;
+    }
+    /*
+    tips:
+    0.同一选择器无法应用多个动画
+    1.time controler
+    */
+    .dynamic-border:hover::before,
+    .dynamic-border:hover::after {
+        animation: hoverLine-3 0.15s ease forwards 0.7s;
+    }
+
+    .dynamic-border {
+        display: block;
+    }
+}
+
+@keyframes hoverLine-2 {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes hoverLine-3 {
+    0% {
+        height: 0;
+    }
+    100% {
+        height: 50%;
+    }
+}
+
+
+@keyframes rocket-keyframe-1 {
+    0% {
+        top: 0%;
+        left: 0%;
+    }
+    100% {
+        top: 60%;
+        left: 0%;
+        background: red;
+    }
+}
+
+.main-animation {
+    width: 50px;
+    height: 80px;
+    background: white;
+    border-radius: 75px 75px 5px 5px;
+    position: relative;
+    animation: rocket-keyframe-1 5s cubic-bezier(1, 0.18, 1, 0.9)  forwards;
+}
+
+
+.imaginary-line {
+    width: 0;
+    /*position: relative;*/
+    position: absolute;
+    border:dashed 2px #000000;
+    animation: height-grown 5s cubic-bezier(1, 0.18, 1, 0.9)  forwards;
+}
+
+@keyframes height-grown {
+    0% {
+        top: 0;
+        height: 0;
+    }
+    100% {
+        top: 25%;
+        height: 50%;
+    }
+}

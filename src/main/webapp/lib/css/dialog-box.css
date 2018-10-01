@@ -1,0 +1,208 @@
+@-webkit-keyframes resize {
+    0% {
+        padding: 0;
+        background-color: rgba(60, 60, 60, 0);
+        height: 0px;
+        width: 0px;
+        border-radius: 10px;
+        font-size: 0px;
+        color: #FFF;
+        top: 50px;
+    }
+    15% {
+        height: 1px;
+        width: 10px;
+        border-radius: 10px;
+        background-color: rgba(60, 60, 60, 4);
+    }
+    25% {
+        height: 1px;
+        width: 100%;
+        top: 50px;
+    }
+    40% {
+        height: 100%;
+        top: 0;
+        background-color: rgba(60, 60, 60, 1);
+    }
+    60% {
+        background-color: rgba(0, 136, 204, 1);
+        font-size: 0px;
+    }
+    70% {
+        font-size: 40px;
+    }
+    100% {
+        background-color: rgba(12, 170, 244, 1);
+    }
+}
+
+@-moz-keyframes resize {
+    0% {
+        padding: 0;
+        background-color: rgba(60, 60, 60, 0);
+        height: 0px;
+        width: 0px;
+        border-radius: 10px;
+        font-size: 0px;
+        color: #FFF;
+        top: 50px;
+    }
+    15% {
+        height: 1px;
+        width: 10px;
+        border-radius: 10px;
+        background-color: rgba(60, 60, 60, 4);
+    }
+    25% {
+        height: 1px;
+        width: 100%;
+        top: 50px;
+    }
+    40% {
+        height: 100%;
+        top: 0;
+        background-color: rgba(60, 60, 60, 1);
+    }
+    60% {
+        background-color: rgba(0, 136, 204, 1);
+        font-size: 0px;
+    }
+    70% {
+        font-size: 40px;
+    }
+    100% {
+        background-color: rgba(12, 170, 244, 1);
+    }
+}
+
+@-o-keyframes resize {
+    0% {
+        padding: 0;
+        background-color: rgba(60, 60, 60, 0);
+        height: 0px;
+        width: 0px;
+        border-radius: 10px;
+        font-size: 0px;
+        color: #FFF;
+        top: 50px;
+    }
+    15% {
+        height: 1px;
+        width: 10px;
+        border-radius: 10px;
+        background-color: rgba(60, 60, 60, 4);
+    }
+    25% {
+        height: 1px;
+        width: 100%;
+        top: 50px;
+    }
+    40% {
+        height: 100%;
+        top: 0;
+        background-color: rgba(60, 60, 60, 1);
+    }
+    60% {
+        background-color: rgba(0, 136, 204, 1);
+        font-size: 0px;
+    }
+    70% {
+        font-size: 40px;
+    }
+    100% {
+        background-color: rgba(12, 170, 244, 1);
+    }
+}
+
+@keyframes resize {
+    0% {
+        padding: 0;
+        background-color: rgba(60, 60, 60, 0);
+        height: 0px;
+        width: 0px;
+        border-radius: 10px;
+        font-size: 0px;
+        color: #FFF;
+        top: 50px;
+    }
+    15% {
+        height: 1px;
+        width: 10px;
+        border-radius: 10px;
+        background-color: rgba(60, 60, 60, 4);
+    }
+    25% {
+        height: 1px;
+        width: 100%;
+        top: 50px;
+    }
+    40% {
+        height: 100%;
+        top: 0;
+        background-color: rgba(60, 60, 60, 1);
+    }
+    60% {
+        background-color: rgba(0, 136, 204, 1);
+        font-size: 0px;
+    }
+    70% {
+        font-size: 40px;
+    }
+    100% {
+        background-color: rgba(12, 170, 244, 1);
+    }
+}
+
+.dialog-box-container {
+    height: 100px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.dialog-box-container .dialog-box {
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    background-color: rgba(0, 136, 204, 1);
+    font-size: 40px;
+    color: #FFF;
+    text-align: center;
+    line-height: 100px;
+    margin: 0 auto;
+    top: 0;
+    position: relative;
+    -webkit-animation-name: resize;
+    -webkit-animation-duration: 5s;
+    /*-webkit-animation-iteration-count: infinite;*/
+    -webkit-animation-direction: alternate;
+
+    -moz-animation-name: resize;
+    -moz-animation-duration: 5s;
+    /*-moz-animation-iteration-count: infinite;*/
+    -moz-animation-direction: alternate;
+
+    -o-animation-name: resize;
+    -o-animation-duration: 5s;
+    /*-o-animation-iteration-count: infinite;*/
+    -o-animation-direction: alternate;
+
+    animation-name: resize;
+    animation-duration: 5s;
+    /*animation-iteration-count: infinite;*/
+    animation-direction: alternate;
+}
+
+.animation-once {
+    -webkit-animation-iteration-count: 1;
+    -moz-animation-iteration-count: 1;
+    -o-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+}
+
+.animation-infinite {
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-iteration-count: infinite;
+    -o-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+}

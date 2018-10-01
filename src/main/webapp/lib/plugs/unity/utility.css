@@ -1,0 +1,133 @@
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0;
+}
+
+/*居中显示*/
+.dataTable {
+    text-align: center;
+}
+
+.select_wrapper {
+    /*用于选择框动态加载时绑定事件*/
+}
+
+/*table table-striped table-condensed table-bordered*/
+.ma-young_table {
+
+}
+
+/*标签头*/
+.header {
+    width: 80%;
+    left: 2%;
+    /*分割下划线*/
+    border-bottom: 1px solid #CCC;
+    border-bottom-left-radius: 10px;
+}
+
+/*日期范围*/
+.date-time-picker {
+    /*width: 17%;*/
+    display: inline-table;
+    background-color: #eeeeee6e
+}
+
+/*弹窗置于最前面*/
+.ui-dialog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: .2em;
+    outline: 0;
+    z-index: 2000;
+}
+
+/*
+p span{}选择了P元素下的所有span元素。这是后代选择器，空格是后代选择器的标识符。
+p,span{}选择了P元素和span元素。这是多元素选择器，同时选择多个元素，元素之间用逗号分隔。
+http://www.w3school.com.cn/cssref/pr_class_float.asp
+*/
+.left, .right {
+    float: left;
+    width: 41%;
+    /*width: auto;*/
+    height: 100%;
+}
+
+.left {
+    /*float: left;
+    width: auto;
+    height: 100%;*/
+}
+
+.right {
+    /*float: right;
+    width: auto;
+    height: 100%;*/
+}
+
+.border-box {
+    /*width(left top bottom right); style; color*/
+    /*border: 1px solid #3367b7;*/
+    border: 1px solid #ccc;
+    padding: 0;
+    margin: 0;
+    /*background: #6633990d;*/
+}
+
+/*在必要时显示滚动条 否则隐藏 放置于需要滚动的block的外层div上*/
+.auto-scroll {
+    max-height: 30em;
+    overflow: scroll;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.time {
+    width: 125px;
+    padding: 0px 5px 0px 5px;
+    font-size: 12px;
+}
+
+.ma-young-button {
+    /*padding:0 5px;*/
+    /*color:#1890FF;*/
+    color: #00CCFF;
+    cursor: pointer;
+}
+
+/*自定宜表格的行id列专用*/
+.tableRowIdCol {
+    display: none;
+}
+
+.goodsSuggestModalTable-nva {
+    margin-top: 3px;
+    margin-left: 3px;
+}
+
+.search-type {
+    display: block;
+    background: rgba(255, 255, 255, 0.3);
+    border-bottom: dashed 1px #cccccc;
+    text-align: center;
+    line-height: 26px;
+    cursor: pointer;
+}
+
+.search-type:hover {
+    color: #126AC1;
+}
+
+/**************************login-add**********************/
+.clickable {
+    padding: 0 5px;
+    /*color: #1890FF;*/
+    cursor: pointer;
+}
+
+th.clickable:hover {
+    /*padding:0 5px;*/ /*凹陷*/
+    color: #00CCFF;
+}
+

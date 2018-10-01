@@ -1,0 +1,36 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: rgba(112, 234, 239, 0.13);
+  color: rgba(54, 120, 121, .67);
+}
+
+css-doodle {
+  width: 100vmin;
+  height: 50vmin;
+  --rule: (
+    ::after {
+      content: '500';
+      font-size: 50vmin;
+      color: transparent;
+      text-shadow:
+        @multi(250, (
+          calc(@n() * @n() * .001vmin)
+          calc(@n() * @n() * -.001vmin)
+          0 hsla(@r(120, 240), 80%, 55%, .004)
+        )),
+        @multi(250, (
+          calc(@n() * @n() * -.001vmin)
+          calc(@n() * @n() * -.001vmin)
+          0 hsla(@r(120, 240), 80%, 55%, .004)
+        ));
+    }
+  );
+}

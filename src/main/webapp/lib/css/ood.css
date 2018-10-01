@@ -1,0 +1,95 @@
+/*面向对象CSS设计*/
+body.back-color {
+    background-color: #99974d;
+}
+
+.normal-box {
+    height: 100px;
+    background-color: snow;
+}
+
+.box2 {
+    height: 100px;
+    background-color: green;
+    position: relative;
+    left: 50px;
+    top: 50px;
+}
+
+.box3 {
+    height: 100px;
+    background-color: blue;
+}
+
+.box4 {
+    height: 100px;
+    background-color: cyan;
+}
+
+.box5 {
+    text-align: center;
+    height: 100px;
+    opacity: 0.95;
+    background-color: red;
+    /*
+    元素会脱离文档流，如果设置偏移量，会影响其他元素的位置定位
+    说明：元素在没有定义宽度的情况下，宽度由元素里面的内容决定，效果和用float方法一样。
+    act: 若5 挪到4上面 那么5的高度会被忽略
+    */
+    position: absolute;
+    /*
+    absolute定位原理剖析：
+    1.在父元素没有设置 相对定位 或 绝对定位 的情况下，元素相对于根元素定位（即html元素）（是父元素没有）。
+    2.父元素设置了相对定位或绝对定位，元素会相对于离自己最近的设置了相对或绝对定位的父元素进行定位
+     （或者说离自己最近的不是static的父元素进行定位，因为元素默认是 static）。
+     如果定义了absolute但没有定义top的话与没有定义absolute行为一致
+     act: 试着去掉 位置坐标(left, top)
+     */
+    left: 50px;
+    top: 0px;
+}
+
+.ab-container{
+    background-color: #b197cc;
+    position: absolute;
+}
+
+/*弹性容器*/
+/*https://www.htmllion.com/css-flexbox.html*/
+.flex-container {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    /*background-color: snow;*/
+    /*flex-direction: column;*/
+    /*justify-content: center;*/
+}
+
+.cavern-gate{
+    border:dashed 2px #000000;
+    -moz-border-radius: 75px 75px 5px 5px;
+    -webkit-border-radius: 75px 75px 5px 5px;
+    border-radius: 75px 75px 5px 5px;
+    height: 200px;
+}
+
+.container1 {
+    height: 500px;
+    background-color: yellow;
+    position: absolute;
+}
+
+.container2 {
+    height: 200px;
+    background-color: #00b4F5;
+    position: relative;
+    top: -5px;
+}
+
+.container3 {
+    height: 200px;
+    position: relative;
+    top: 25px;
+}

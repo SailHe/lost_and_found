@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>翻转式用户登录注册界面</title>
+    <link rel="stylesheet" type="text/css" href="lib/plugs/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="lib/plugs/suit/bootstrap.css">
+
+    <!--<link rel="stylesheet" type="text/css" href="lib/plugs/bootstrapValidator/bootstrapValidator.min.css/css/bootstrap.css">-->
+    <link rel="stylesheet" type="text/css" href="lib/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="lib/plugs/unity/utility.css">
+</head>
+<body style="background: url(./plugins/assets/images/common/main-lostandfound.gif)">
+
+<div class="container">
+    <div class="login-wrap">
+        <div class="login-html">
+            <!--Sign In标签-->
+            <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
+            <label for="tab-1" class="tab clickable">登 录</label>
+
+            <!--Sign Up标签 register-->
+            <input id="tab-2" type="radio" name="tab" class="sign-up">
+            <label for="tab-2" class="tab clickable">注 册</label>
+
+            <!--Login表单-->
+            <div class="login-form">
+                <!--登录Html-->
+                <form id='login-in-form' class="sign-in-htm">
+                    <div class="group form-group">
+                        <label class="label">用户名</label>
+                        <input name="username" type="text" class="input">
+                    </div>
+                    <div class="group form-group">
+                        <label class="label">密码</label>
+                        <input name="loginInPassword" type="password" class="input" data-type="password">
+                    </div>
+                    <!--验证码-->
+                    <div class="group form-group">
+                        <label class="label">验证码</label>
+                        <!--<input name="loginInPassword" type="password" class="input" data-type="password">-->
+                        <input autocomplete="off" type="text" name="code" id="code" class="input"/>
+                        <div id="v_container" style="border-radius: 50px"></div>
+                    </div>
+                    <div class="group form-group">
+                        <input id="check" type="checkbox" class="check" checked>
+                        <!--for属性: 点击文本标记之一，就可以触发相关控件 通过id标识; 规定 label 与哪个表单元素绑定。-->
+                        <!--Keep me Signed in-->
+                        <label for="check"><span class="icon"></span> 保持登录 </label>
+                    </div>
+                    <div class="group form-group">
+                        <input type="submit" name="loginInButton" class="button clickable" value="登 录 big">
+                    </div>
+                    <div class="hr"></div>
+                    <div class="foot-lnk">
+                        <a href="inputBox.html">forgot-忘记了密码?</a>
+                    </div>
+                </form>
+
+                <!--注册Html-->
+                <form id='login-up-form' class="sign-up-htm">
+                    <div class="group form-group">
+                        <label class="label">用户名</label>
+                        <input name="username" type="text" class="input">
+                    </div>
+                    <div class="group form-group">
+                        <label class="label">密码</label>
+                        <input name="loginUpPassword" type="password" class="input" data-type="password">
+                    </div>
+                    <div class="group form-group">
+                        <label class="label">重复密码</label>
+                        <input name="confirmPassword" type="password" class="input" data-type="password">
+                    </div>
+                    <div class="group form-group">
+                        <label class="label">邮箱</label>
+                        <input name="emailAddress" type="text" class="input">
+                    </div>
+                    <div class="group form-group">
+                        <label class="label">身份证号</label>
+                        <input name="idCard" type="text" class="input">
+                    </div>
+                    <!--<div class="group form-group">
+                      <label class="label">生日</label>
+                      <input name="birthday" type="text" class="input">
+                    </div>-->
+
+                    <div class="group form-group">
+                        <!--type="submit"-->
+                        <input name="loginUpButton" class="button" value="注 册 big">
+                    </div>
+                    <div class="hr"></div>
+                    <div class="foot-lnk">
+                        <label for="tab-1">已经有帐号了?</label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section id="fiel" class="content-header" style="width: 100%;height: 100%;padding-left: 20px;padding-right: 20px;">
+
+    <!--react界面 index.js -->
+    <div style="height: 24px"></div>
+    <div id="root"></div>
+
+</section>
+
+<script src="lib/plugs/suit/jquery.js"></script>
+<!--<script src="lib/plugs/suit/jquery-ui.js"></script>-->
+
+<script src="plugins/assets/js/bootstrap.min.js"></script>
+<script src="plugins/bootstrapValidator/bootstrapValidator.min.js"></script>
+<script src="plugins/bootbox/bootbox.min.js"></script>
+<script src="plugins/gVerify/gVerify.js"></script>
+
+<script src="lib/plugs/unity/utility.js"></script>
+<!--<script src="lib/js/login.js"></script>-->
+<script src="login.js"></script>
+
+</body>
+</html>
