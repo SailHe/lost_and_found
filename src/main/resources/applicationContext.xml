@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="methodTimeAdvice" class="com.nit.cs161.lost_and_found.utility.MethodTimeActive"/>
+    <!-- 日志记录某个类中方法花费时间aop -->
+    <aop:config>
+        <!--http://ljhzzyx.blog.163.com/blog/static/38380312200902952412604/-->
+        <!-- Spring 2.0 可以用 AspectJ 的语法定义 Pointcut，这里自定义要拦截方法的包所在 -->
+        <aop:advisor id="methodTimeLog" advice-ref="methodTimeAdvice"
+                     pointcut="execution(* com.nit.cs161.lost_and_found.service.ActivityGoodsService..*.*(..))"/>
+    </aop:config>
+
+
+    <!-- MethodInterceptor方法拦截器（拦截lost_and_found包中的所有方法 或是被 @MethodStatistics 注解的方法） -->
+    <!--.controller.GoodsCategoryController   org.springframework.web.bind.annotation.RequestMapping  execution(* com.nit.cs161.lost_and_found.service.ActivityGoodsService..*(..)) or -->
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="methodPointcut" expression=
+                "@annotation(com.nit.cs161.lost_and_found.annotation.MethodStatistics)"/>
+        <aop:advisor advice-ref="methodTimeAdvice" pointcut-ref="methodPointcut"/>
+    </aop:config>
+
+
+    <!--目标对象-->
+    <bean id="boy" class="com.aop.Boy"/>
+    <!--切面-->
+    <bean id="performHelper" class="com.aop.PerformHelper"/>
+    <!--配置切入点-->
+    <aop:config>
+        <aop:pointcut id="pointcut" expression="execution(public * *..Perform.sing(..))"/>
+        <aop:aspect ref="performHelper">
+            <aop:before method="beforePerform" pointcut-ref="pointcut"/>
+            <aop:after method="afterPerform" pointcut-ref="pointcut"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>
