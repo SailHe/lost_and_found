@@ -10,7 +10,7 @@ var $DataTableAPI = $('#example').DataTable({
         dataType: 'json',
         async: true,
         data: {
-            search: 'admin'
+            search: '%%'
         },
         url: "../user/fuzzyQuery"
     },
