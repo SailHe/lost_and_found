@@ -21,7 +21,7 @@ $('input[name=signInButton]').on('click', () => {
     $('#fiel').load("./home.html");
 });
 
-$('input[name=registerButton]').on('click', () => {
+$('input[name=signUpButton]').on('click', () => {
     $.messageBox("登录成功!");
     $.messageBox("你的生日: ", 'alert_');
     let birthday = $('input[name=idCard]').val().substring(6, 6 + 8);
@@ -74,7 +74,7 @@ $('form').on('onkeyup', function () {
                 }*/
             }
         },
-        registerPassword: {
+        signUpPassword: {
             validators: {
                 notEmpty: {
                     message: "请输入密码！！！"
@@ -94,7 +94,7 @@ $('form').on('onkeyup', function () {
                 },
                 //用来判断制定的字段和当前字段一致与否
                 identical: {
-                    field: 'registerPassword',
+                    field: 'signUpPassword',
                     message: "两次输入的密码不一致！！！"
                 }
             }

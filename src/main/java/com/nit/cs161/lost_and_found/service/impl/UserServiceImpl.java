@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
      * @Date: 2018/8/13 14:52
      */
     @Override
-    public int registerToApp(String userPhone) {
+    public int signUpSystem(String userPhone) {
         //判断用户是否已注册
         if (checkUserExist(userPhone) == false) {
             //向phoneMessage插入验证码短信

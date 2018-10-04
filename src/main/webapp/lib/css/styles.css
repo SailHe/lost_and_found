@@ -54,7 +54,7 @@ input, button {
 }
 
 .sign-html .sign-in-htm,
-.sign-html .register-htm {
+.sign-html .sign-up-htm {
   top: 0;
   left: 0;
   right: 0;
@@ -202,7 +202,7 @@ input, button {
   transform: rotate(0);
 }
 
-.sign-html .sign-up:checked + .tab + .sign-form .register-htm {
+.sign-html .sign-up:checked + .tab + .sign-form .sign-up-htm {
   -webkit-transform: rotate(0);
   -ms-transform: rotate(0);
   transform: rotate(0);

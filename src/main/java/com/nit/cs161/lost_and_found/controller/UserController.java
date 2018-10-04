@@ -67,11 +67,11 @@ public class UserController {
      * @author SailHe
      * @date 2018/10/1 15:46
      */
-    @RequestMapping(value = "/register")
-    public AjaxMsgDTO register(String userPhone) {
+    @RequestMapping(value = "/signUp")
+    public AjaxMsgDTO signUpSystem(String userPhone) {
         AjaxMsgDTO ajaxMsgDTO = new AjaxMsgDTO();
         try {
-            ajaxMsgDTO.setData(userService.registerToApp(userPhone));
+            ajaxMsgDTO.setData(userService.signUpSystem(userPhone));
             ajaxMsgDTO.setSuccess(ProjectConstants.SUCCESS);
         } catch (Exception e) {
             ajaxMsgDTO.setSuccess(ProjectConstants.FAILURE);

@@ -19,7 +19,7 @@ $('input[name=signInButton]').on('click', () => {
     $('#fiel').load("./home.html");
 });
 
-$('input[name=registerButton]').on('click', () => {
+$('input[name=signUpButton]').on('click', () => {
     $.messageBox("登录成功!");
     $.messageBox("你的生日: ", 'alert');
     let birthday = $('input[name=idCard]').val().substring(6, 6 + 8);

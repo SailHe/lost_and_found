@@ -33,8 +33,13 @@ public interface UserService extends CrudService<UserDTO, Integer> {
 
     UserDTO getRecord(String userName) throws Exception;
 
-    /** 用户注发送验证码*/
-    int registerToApp(String userPhone);
+    /**
+     * Descriptions: 注册<p>
+     *
+     * @author SailHe
+     * @date 2018/10/4 16:18
+     */
+    int signUpSystem(String userPhone);
 
     /**
      * Descriptions: 模糊查询用户<p>
@@ -44,7 +49,5 @@ public interface UserService extends CrudService<UserDTO, Integer> {
      */
     List<UserDTO> listFuzzyUser(String search);
 
-    /** 根据手机号检查用户是否存在 By CaiTieZhu*/
-    boolean checkUserExist(String userPhone);
 }
 
