@@ -43,7 +43,7 @@ public class UserController {
     public AjaxMsgDTO signInSystem(String username, String signInPassword) {
         AjaxMsgDTO ajaxMsgDto = new AjaxMsgDTO();
         try {
-            String token = userService.signIn(username, signInPassword);
+            String token = userService.signInSystem(username, signInPassword);
             ajaxMsgDto.setData(token);
             if (ajaxMsgDto.getData() != null) {
                 ajaxMsgDto.setData(userService.getTokenRecord(token));
@@ -68,14 +68,14 @@ public class UserController {
      * @date 2018/10/1 15:46
      */
     @RequestMapping(value = "/signUp")
-    public AjaxMsgDTO signUpSystem(String userPhone) {
+    public AjaxMsgDTO signUpSystem(String username, String signUpPassword) {
         AjaxMsgDTO ajaxMsgDTO = new AjaxMsgDTO();
         try {
-            ajaxMsgDTO.setData(userService.signUpSystem(userPhone));
+            ajaxMsgDTO.setMsg(userService.signUpSystem(username, signUpPassword));
             ajaxMsgDTO.setSuccess(ProjectConstants.SUCCESS);
         } catch (Exception e) {
             ajaxMsgDTO.setSuccess(ProjectConstants.FAILURE);
-            LOGGER.error("注册失败", e);
+            LOGGER.error("用户注册失败", e);
         }
         return ajaxMsgDTO;
     }

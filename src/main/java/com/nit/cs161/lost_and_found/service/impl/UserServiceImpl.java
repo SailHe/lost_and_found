@@ -1,5 +1,6 @@
 package com.nit.cs161.lost_and_found.service.impl;
 
+import com.nit.cs161.lost_and_found.constant.general.EnumIs;
 import com.nit.cs161.lost_and_found.dto.UserDTO;
 import com.nit.cs161.lost_and_found.entity.SysUser;
 import com.nit.cs161.lost_and_found.repository.UserRepository;
@@ -44,11 +45,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findByUserPhone(String userPhone) {
-        return null;
-    }
-
-    @Override
     public List<UserDTO> listFuzzyUser(String search) {
         List<UserDTO> userDTOList = new LinkedList<>();
 //        List<SysUser> userBeanList = userRepository.findAllByUserNameLikeOrUserNicknameLikeOrUserRealnameLikeOrUserEmailLike(search, search, search, search);
@@ -90,14 +86,29 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String signIn(String userName, String userPassword) throws Exception {
-        SysUser sysUser = getBeanByUserName(userName);
+    public String signInSystem(String userName, String userPassword) throws Exception {
+        SysUser userBean = getBeanByUserName(userName);
         String token  = null;
-        if (userPassword.equals(sysUser.getUserPassword())) {
+        if (userPassword.equals(userBean.getUserPassword())) {
             token = JWTUtil.signature(userName, userPassword);
-            sysUser.setUserToken(token + userName);
+            userBean.setUserToken(token + userName);
         }
         return token;
+    }
+
+    @Override
+    public String signUpSystem(String userName, String signUpPassword) throws Exception {
+        if (isUserExist(userName).equals(EnumIs.NO)) {
+            UserDTO userDTO = new UserDTO();
+            userDTO.setUserName(userName);
+            userDTO.setUserPassword(signUpPassword);
+            userRepository.save(userDTO.toBean());
+            //向phoneMessage 插入验证码短信
+            //phoneMessageRepository.sendMessageToApp(userName);
+            return "注册成功!";
+        } else {
+            return "用户名已存在!";
+        }
     }
 
     @Override
@@ -107,37 +118,15 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @Description: 用户注册（移动端接口）
-     * @author: CaiTieZhu
-     * @Date: 2018/8/13 14:52
-     */
-    @Override
-    public int signUpSystem(String userPhone) {
-        //判断用户是否已注册
-        if (checkUserExist(userPhone) == false) {
-            //向phoneMessage插入验证码短信
-            //phoneMessageRepository.sendMessageToApp(userName);
-            //未注册
-            return 0;
-        } else {
-            //已注册
-            return 1;
-        }
-    }
-
-    /**
      * Descriptions: 检查用户是否已被注册<p>
      *
      * @author SailHe
      * @date 2018/10/1 16:29
      */
-    @Override
-    public boolean checkUserExist(String userPhone) {
-        /*if ( userRepository.findAllByUserPhone(userName).isEmpty()){
-            //已注册
-            return false;
-        }*/
-        //可注册
-        return true;
+    private EnumIs isUserExist(String userName) {
+        if (userRepository.findAllByUserName(userName).isEmpty()){
+            return EnumIs.NO;
+        }
+        return EnumIs.YES;
     }
 }

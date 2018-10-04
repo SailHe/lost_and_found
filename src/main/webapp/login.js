@@ -63,6 +63,29 @@ $(function () {
                 $('#signInForm').bootstrapValidator('disableSubmitButtons', false).bootstrapValidator('resetForm', true);
             }
         });
+
+    $('#signUpForm').bootstrapValidator({})
+        .on('success.form.bv', function (e) {
+            e.preventDefault();
+            var $form = $(e.target);
+            $.ajax({
+                url: 'user/signUp',
+                type: 'post',
+                data: $form.serialize(),
+                dataType: 'json',
+                success: function (result) {
+                    if (result !== null && typeof (result) !== "undefined") {
+                        if (result.success === true && typeof (result.msg) !== 'undefined' ) {
+                            $.messageBox(result.msg);
+                        } else {
+                            $.messageBox("系统异常!");
+                        }
+                    } else {
+
+                    }
+                }
+            });
+        });
 });
 
 function display() {
