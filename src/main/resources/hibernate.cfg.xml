@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-configuration PUBLIC
-    "-//Hibernate/Hibernate Configuration DTD//EN"
-    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-  <session-factory>
-    <property name="connection.url">jdbc:mysql://localhost:3306/lost_and_found</property>
-    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-    <mapping class="com.nit.cs161.lost_and_found.entity.laf.LafItem"/>
-    <mapping class="com.nit.cs161.lost_and_found.entity.laf.LafMessage"/>
-    <mapping class="com.nit.cs161.lost_and_found.entity.laf.LafReturnLog"/>
-    <mapping class="com.nit.cs161.lost_and_found.entity.laf.SysUser"/>
+    <session-factory>
+        <property name="connection.url">jdbc:mysql://localhost:3306/lost_and_found</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <mapping class="com.nit.cs161.lost_and_found.entity.laf.LafItem"/>
+        <mapping class="com.nit.cs161.lost_and_found.entity.laf.LafMessage"/>
+        <mapping class="com.nit.cs161.lost_and_found.entity.laf.LafReturnLog"/>
+        <mapping class="com.nit.cs161.lost_and_found.entity.SysUser"/>
 
-  </session-factory>
+    </session-factory>
 </hibernate-configuration>
