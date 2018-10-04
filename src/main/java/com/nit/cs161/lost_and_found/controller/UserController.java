@@ -39,11 +39,11 @@ public class UserController {
      * @author SailHe
      * @date 2018/10/1 15:42
      */
-    @RequestMapping(value = "/loginIn")
-    public AjaxMsgDTO loginInToSystem(String username, String loginInPassword) {
+    @RequestMapping(value = "/signIn")
+    public AjaxMsgDTO signInSystem(String username, String signInPassword) {
         AjaxMsgDTO ajaxMsgDto = new AjaxMsgDTO();
         try {
-            String token = userService.loginIn(username, loginInPassword);
+            String token = userService.signIn(username, signInPassword);
             ajaxMsgDto.setData(token);
             if (ajaxMsgDto.getData() != null) {
                 ajaxMsgDto.setData(userService.getTokenRecord(token));

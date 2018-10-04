@@ -1,13 +1,13 @@
 $(function () {
     var verifyCode = new GVerify("v_container");
-    $('#login-in-form').bootstrapValidator({})
+    $('#signInForm').bootstrapValidator({})
         .on('success.form.bv', function (e) {
             e.preventDefault();
             var $form = $(e.target);
             var res = verifyCode.validate(document.getElementById("code").value);
             if (res) {
                 $.ajax({
-                    url: 'user/loginIn',
+                    url: 'user/signIn',
                     type: 'post',
                     data: $form.serialize(),
                     dataType: 'json',
@@ -31,7 +31,7 @@ $(function () {
                                         }
                                     }
                                 });
-                                $('#login-in-form').bootstrapValidator('disableSubmitButtons', false).bootstrapValidator('resetForm', true);2
+                                $('#signInForm').bootstrapValidator('disableSubmitButtons', false).bootstrapValidator('resetForm', true);2
                             }
                         } else {
                             bootbox.alert({
@@ -43,7 +43,7 @@ $(function () {
                                     }
                                 }
                             });
-                            $('#login-in-form').bootstrapValidator('disableSubmitButtons', false).bootstrapValidator('resetForm', true);
+                            $('#signInForm').bootstrapValidator('disableSubmitButtons', false).bootstrapValidator('resetForm', true);
                         }
                     }
                 });
@@ -60,7 +60,7 @@ $(function () {
                     }
                 });*/
                 $("#code").val("").focus();
-                $('#login-in-form').bootstrapValidator('disableSubmitButtons', false).bootstrapValidator('resetForm', true);
+                $('#signInForm').bootstrapValidator('disableSubmitButtons', false).bootstrapValidator('resetForm', true);
             }
         });
 });

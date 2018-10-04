@@ -15,13 +15,13 @@ const PATTERN_PASSWORD = /^[\w_-]{6,16}$/;
 const PATTERN_EMAIL_ADDRESS = /^[-\w.]{0,64}@([a-zA-Z0-9]{1,63}\.)*[-a-zA-Z0-9]{1,63}$/;
 let isValid = true;
 
-$('input[name=loginInButton]').on('click', () => {
+$('input[name=signInButton]').on('click', () => {
     $.messageBox("欢迎回来!");
     $.messageBox("用户" + $('.sign-in-htm input[name=username]').val());
     $('#fiel').load("./home.html");
 });
 
-$('input[name=loginUpButton]').on('click', () => {
+$('input[name=registerButton]').on('click', () => {
     $.messageBox("登录成功!");
     $.messageBox("你的生日: ", 'alert_');
     let birthday = $('input[name=idCard]').val().substring(6, 6 + 8);
@@ -61,7 +61,7 @@ $('form').on('onkeyup', function () {
                 }
             }
         },
-        loginInPassword: {
+        signInPassword: {
             validators: {
                 notEmpty: {
                     message: "请输入密码！！！"
@@ -74,7 +74,7 @@ $('form').on('onkeyup', function () {
                 }*/
             }
         },
-        loginUpPassword: {
+        registerPassword: {
             validators: {
                 notEmpty: {
                     message: "请输入密码！！！"
@@ -94,7 +94,7 @@ $('form').on('onkeyup', function () {
                 },
                 //用来判断制定的字段和当前字段一致与否
                 identical: {
-                    field: 'loginUpPassword',
+                    field: 'registerPassword',
                     message: "两次输入的密码不一致！！！"
                 }
             }

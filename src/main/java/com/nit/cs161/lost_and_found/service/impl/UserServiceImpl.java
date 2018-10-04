@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String loginIn(String userName, String userPassword) throws Exception {
+    public String signIn(String userName, String userPassword) throws Exception {
         SysUser sysUser = getBeanByUserName(userName);
         String token  = null;
         if (userPassword.equals(sysUser.getUserPassword())) {

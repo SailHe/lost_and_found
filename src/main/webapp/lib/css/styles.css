@@ -35,7 +35,7 @@ input, button {
   padding-bottom:50px;
 }
 
-.login-wrap {
+.sign-wrap {
   width: 100%;
   margin: auto;
   max-width: 525px;
@@ -45,7 +45,7 @@ input, button {
   box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19);
 }
 
-.login-html {
+.sign-html {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -53,8 +53,8 @@ input, button {
   background: rgba(40, 57, 101, .9);
 }
 
-.login-html .sign-in-htm,
-.login-html .sign-up-htm {
+.sign-html .sign-in-htm,
+.sign-html .register-htm {
   top: 0;
   left: 0;
   right: 0;
@@ -68,20 +68,20 @@ input, button {
   transition: all .4s linear;
 }
 
-.login-html .sign-in,
-.login-html .sign-up,
-.login-form .group .check {
+.sign-html .sign-in,
+.sign-html .sign-up,
+.sign-form .group .check {
   display: none;
 }
 
 /*注册登录页面下的tab, 以及注册登录表单下的.. 都是大写*/
-.login-html .tab,
-.login-form .group .label,
-.login-form .group .button {
+.sign-html .tab,
+.sign-form .group .label,
+.sign-form .group .button {
   text-transform: uppercase;
 }
 
-.login-html .tab {
+.sign-html .tab {
   font-size: 22px;
   margin-right: 15px;
   padding-bottom: 5px;
@@ -90,13 +90,13 @@ input, button {
   border-bottom: 2px solid transparent;
 }
 
-.login-html .sign-in:checked + .tab,
-.login-html .sign-up:checked + .tab {
+.sign-html .sign-in:checked + .tab,
+.sign-html .sign-up:checked + .tab {
   color: #fff;
   border-color: #1161ee;
 }
 
-.login-form {
+.sign-form {
   min-height: 345px;
   position: relative;
   -webkit-perspective: 1000px;
@@ -105,41 +105,41 @@ input, button {
   transform-style: preserve-3d;
 }
 
-.login-form .group {
+.sign-form .group {
   margin-bottom: 15px;
 }
 
-.login-form .group .label,
-.login-form .group .input,
-.login-form .group .button {
+.sign-form .group .label,
+.sign-form .group .input,
+.sign-form .group .button {
   width: 100%;
   color: #fff;
   display: block;
 }
 
-.login-form .group .input,
-.login-form .group .button {
+.sign-form .group .input,
+.sign-form .group .button {
   border: none;
   padding: 15px 20px;
   border-radius: 25px;
   background: rgba(255, 255, 255, .1);
 }
 
-.login-form .group input[data-type="password"] {
+.sign-form .group input[data-type="password"] {
   text-security: circle;
   -webkit-text-security: circle;
 }
 
-.login-form .group .label {
+.sign-form .group .label {
   color: #aaa;
   font-size: 12px;
 }
 
-.login-form .group .button {
+.sign-form .group .button {
   background: #1161ee;
 }
 
-.login-form .group label .icon {
+.sign-form .group label .icon {
   width: 15px;
   height: 15px;
   border-radius: 2px;
@@ -148,8 +148,8 @@ input, button {
   background: rgba(255, 255, 255, .1);
 }
 
-.login-form .group label .icon:before,
-.login-form .group label .icon:after {
+.sign-form .group label .icon:before,
+.sign-form .group label .icon:after {
   content: '';
   width: 10px;
   height: 2px;
@@ -159,7 +159,7 @@ input, button {
   transition: all .2s ease-in-out 0s;
 }
 
-.login-form .group label .icon:before {
+.sign-form .group label .icon:before {
   left: 3px;
   width: 5px;
   bottom: 6px;
@@ -168,7 +168,7 @@ input, button {
   transform: scale(0) rotate(0);
 }
 
-.login-form .group label .icon:after {
+.sign-form .group label .icon:after {
   top: 6px;
   right: 0;
   -webkit-transform: scale(0) rotate(0);
@@ -176,33 +176,33 @@ input, button {
   transform: scale(0) rotate(0);
 }
 
-.login-form .group .check:checked + label {
+.sign-form .group .check:checked + label {
   color: #fff;
 }
 
-.login-form .group .check:checked + label .icon {
+.sign-form .group .check:checked + label .icon {
   background: #1161ee;
 }
 
-.login-form .group .check:checked + label .icon:before {
+.sign-form .group .check:checked + label .icon:before {
   -webkit-transform: scale(1) rotate(45deg);
   -ms-transform: scale(1) rotate(45deg);
   transform: scale(1) rotate(45deg);
 }
 
-.login-form .group .check:checked + label .icon:after {
+.sign-form .group .check:checked + label .icon:after {
   -webkit-transform: scale(1) rotate(-45deg);
   -ms-transform: scale(1) rotate(-45deg);
   transform: scale(1) rotate(-45deg);
 }
 
-.login-html .sign-in:checked + .tab + .sign-up + .tab + .login-form .sign-in-htm {
+.sign-html .sign-in:checked + .tab + .sign-up + .tab + .sign-form .sign-in-htm {
   -webkit-transform: rotate(0);
   -ms-transform: rotate(0);
   transform: rotate(0);
 }
 
-.login-html .sign-up:checked + .tab + .login-form .sign-up-htm {
+.sign-html .sign-up:checked + .tab + .sign-form .register-htm {
   -webkit-transform: rotate(0);
   -ms-transform: rotate(0);
   transform: rotate(0);

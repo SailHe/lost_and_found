@@ -13,13 +13,13 @@ $(() => {
  */
 const PATTERN_PASSWORD = /^[\w_-]{6,16}$/;
 
-$('input[name=loginInButton]').on('click', () => {
+$('input[name=signInButton]').on('click', () => {
     $.messageBox("欢迎回来!");
     $.messageBox("用户" + $('.sign-in-htm input[name=username]').val());
     $('#fiel').load("./home.html");
 });
 
-$('input[name=loginUpButton]').on('click', () => {
+$('input[name=registerButton]').on('click', () => {
     $.messageBox("登录成功!");
     $.messageBox("你的生日: ", 'alert');
     let birthday = $('input[name=idCard]').val().substring(6, 6 + 8);

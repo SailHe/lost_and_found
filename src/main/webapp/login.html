@@ -15,32 +15,31 @@
 <body style="background: url(./plugins/assets/images/common/main-lostandfound.gif)">
 
 <div class="container">
-    <div class="login-wrap" style="left: 30%">
-        <div class="login-html">
-            <!--Sign In标签-->
+    <div class="sign-wrap" style="left: 30%">
+        <div class="sign-html">
+            <!--Sign In标签; Log In-->
             <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
             <label for="tab-1" class="tab clickable">登 录</label>
 
-            <!--Sign Up标签 register-->
+            <!--Sign Up标签; register-->
             <input id="tab-2" type="radio" name="tab" class="sign-up">
             <label for="tab-2" class="tab clickable">注 册</label>
 
-            <!--Login表单-->
-            <div class="login-form">
+            <!--注册登录的两个表单-->
+            <div class="sign-form">
                 <!--登录Html-->
-                <form id='login-in-form' class="sign-in-htm">
+                <form id='signInForm' class="sign-in-htm">
                     <div class="group form-group">
                         <label class="label">用户名</label>
                         <input name="username" type="text" class="input">
                     </div>
                     <div class="group form-group">
                         <label class="label">密码</label>
-                        <input name="loginInPassword" type="password" class="input" data-type="password">
+                        <input name="signInPassword" type="password" class="input" data-type="password">
                     </div>
                     <!--验证码-->
                     <div class="group form-group">
                         <label class="label">验证码</label>
-                        <!--<input name="loginInPassword" type="password" class="input" data-type="password">-->
                         <input autocomplete="off" type="text" name="code" id="code" class="input"/>
                         <div id="v_container" style="border-radius: 50px"></div>
                     </div>
@@ -51,7 +50,7 @@
                         <label for="check"><span class="icon"></span> 保持登录 </label>
                     </div>
                     <div class="group form-group">
-                        <input type="submit" name="loginInButton" class="button clickable" value="登 录 big">
+                        <input type="submit" name="signInButton" class="button clickable" value="登 录 big">
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
@@ -60,14 +59,14 @@
                 </form>
 
                 <!--注册Html-->
-                <form id='login-up-form' class="sign-up-htm">
+                <form id='registerForm' class="register-htm">
                     <div class="group form-group">
                         <label class="label">用户名</label>
                         <input name="username" type="text" class="input">
                     </div>
                     <div class="group form-group">
                         <label class="label">密码</label>
-                        <input name="loginUpPassword" type="password" class="input" data-type="password">
+                        <input name="registerPassword" type="password" class="input" data-type="password">
                     </div>
                     <div class="group form-group">
                         <label class="label">重复密码</label>
@@ -87,8 +86,7 @@
                     </div>-->
 
                     <div class="group form-group">
-                        <!--type="submit"-->
-                        <input name="loginUpButton" class="button" value="注 册 big">
+                        <input name="registerButton" type="submit" class="button" value="注 册 big">
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
