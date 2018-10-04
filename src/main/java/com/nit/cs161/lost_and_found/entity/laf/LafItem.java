@@ -8,15 +8,15 @@ import java.util.Objects;
  * Description: 无描述类<p>
  *
  * @Package: com.nit.cs161.lost_and_found.entity
- * @author: SailHe
- * @date: 2018/10/1 15:15
+ * @author: 何 帆
+ * @date: 2018/10/4 19:45
  */
 @Entity
 @Table(name = "laf_item", schema = "lost_and_found", catalog = "")
 public class LafItem {
     private Integer itemId;
-    private String messageDesc;
-    private Timestamp pickUpTime;
+    private String itemDesc;
+    private Timestamp itemPickUpTime;
     private Timestamp createTime;
     private Timestamp editTime;
 
@@ -32,23 +32,23 @@ public class LafItem {
     }
 
     @Basic
-    @Column(name = "message_desc", nullable = true, length = 500)
-    public String getMessageDesc() {
-        return messageDesc;
+    @Column(name = "item_desc", nullable = true, length = 500)
+    public String getItemDesc() {
+        return itemDesc;
     }
 
-    public void setMessageDesc(String messageDesc) {
-        this.messageDesc = messageDesc;
+    public void setItemDesc(String itemDesc) {
+        this.itemDesc = itemDesc;
     }
 
     @Basic
-    @Column(name = "pick_up_time", nullable = true)
-    public Timestamp getPickUpTime() {
-        return pickUpTime;
+    @Column(name = "item_pick_up_time", nullable = true)
+    public Timestamp getItemPickUpTime() {
+        return itemPickUpTime;
     }
 
-    public void setPickUpTime(Timestamp pickUpTime) {
-        this.pickUpTime = pickUpTime;
+    public void setItemPickUpTime(Timestamp itemPickUpTime) {
+        this.itemPickUpTime = itemPickUpTime;
     }
 
     @Basic
@@ -80,15 +80,15 @@ public class LafItem {
             return false;
         }
         LafItem lafItem = (LafItem) o;
-        return itemId.equals(lafItem.itemId) &&
-                Objects.equals(messageDesc, lafItem.messageDesc) &&
-                Objects.equals(pickUpTime, lafItem.pickUpTime) &&
+        return Objects.equals(itemId, lafItem.itemId) &&
+                Objects.equals(itemDesc, lafItem.itemDesc) &&
+                Objects.equals(itemPickUpTime, lafItem.itemPickUpTime) &&
                 Objects.equals(createTime, lafItem.createTime) &&
                 Objects.equals(editTime, lafItem.editTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(itemId, messageDesc, pickUpTime, createTime, editTime);
+        return Objects.hash(itemId, itemDesc, itemPickUpTime, createTime, editTime);
     }
 }

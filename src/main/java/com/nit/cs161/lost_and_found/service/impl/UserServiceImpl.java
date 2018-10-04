@@ -6,10 +6,12 @@ import com.nit.cs161.lost_and_found.entity.SysUser;
 import com.nit.cs161.lost_and_found.repository.UserRepository;
 import com.nit.cs161.lost_and_found.service.UserService;
 import com.nit.cs161.lost_and_found.shiroutils.JWTUtil;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.Predicate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     private SysUser getBeanByUserName(String userName) throws Exception {
-        List<SysUser> sysUsers = userRepository.findAllByUserName(userName);
+        List<SysUser> sysUsers = userRepository.findAllByUserUsername(userName);
         SysUser resultUser = null;
         if (sysUsers.size() > 1) {
             throw new Exception("用户名重复!");
@@ -47,8 +49,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> listFuzzyUser(String search) {
         List<UserDTO> userDTOList = new LinkedList<>();
-//        List<SysUser> userBeanList = userRepository.findAllByUserNameLikeOrUserNicknameLikeOrUserRealnameLikeOrUserEmailLike(search, search, search, search);
-        List<SysUser> userBeanList = userRepository.findAllByUserNameLike(search);
+        List<SysUser> userBeanList = userRepository.findAllByUserUsernameLike(search);
         userBeanList.forEach(bean -> userDTOList.add(new UserDTO(bean)));
         return userDTOList;
     }
@@ -86,29 +87,32 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String signInSystem(String userName, String userPassword) throws Exception {
-        SysUser userBean = getBeanByUserName(userName);
-        String token  = null;
+    public String signInSystem(String userUsername, String userPassword) throws Exception {
+        SysUser userBean = getBeanByUserName(userUsername);
+        String token = null;
         if (userPassword.equals(userBean.getUserPassword())) {
-            token = JWTUtil.signature(userName, userPassword);
-            userBean.setUserToken(token + userName);
+            token = JWTUtil.signature(userUsername, userPassword);
+            userBean.setUserToken(token + userUsername);
         }
         return token;
     }
 
     @Override
-    public String signUpSystem(String userName, String signUpPassword) throws Exception {
-        if (isUserExist(userName).equals(EnumIs.NO)) {
-            UserDTO userDTO = new UserDTO();
-            userDTO.setUserName(userName);
-            userDTO.setUserPassword(signUpPassword);
-            userRepository.save(userDTO.toBean());
-            //向phoneMessage 插入验证码短信
-            //phoneMessageRepository.sendMessageToApp(userName);
-            return "注册成功!";
+    public String signUpSystem(UserDTO userDTO) throws Exception {
+        String usernameFieldName = "userUsername";
+        String emailFieldName = "userEmailAddress";
+        String result;
+        if (isUserExist(usernameFieldName, userDTO.getUserUsername()).equals(EnumIs.NO)) {
+            if (isUserExist(emailFieldName, userDTO.getUserEmailAddress()).equals(EnumIs.NO)) {
+                userRepository.save(userDTO.toBean());
+                result = "注册成功!";
+            } else {
+                result = "该邮箱已注册!!";
+            }
         } else {
-            return "用户名已存在!";
+            result = "用户名已存在!";
         }
+        return result;
     }
 
     @Override
@@ -124,9 +128,25 @@ public class UserServiceImpl implements UserService {
      * @date 2018/10/1 16:29
      */
     private EnumIs isUserExist(String userName) {
-        if (userRepository.findAllByUserName(userName).isEmpty()){
+        if (userRepository.findAllByUserUsername(userName).isEmpty()) {
             return EnumIs.NO;
         }
         return EnumIs.YES;
+    }
+
+    /**
+     * Descriptions: 检查传入参数键值对 对应的用户是否已被注册<p>
+     *
+     * @author SailHe
+     * @date 2018/10/4 20:20
+     */
+    private EnumIs isUserExist(String fieldName, String fieldValue) {
+        Specification<SysUser> specification = (root, criteriaQuery, criteriaBuilder) -> {
+            //过滤条件
+            Predicate filter;
+            filter = criteriaBuilder.and(criteriaBuilder.equal(root.get(fieldName), fieldValue));
+            return filter;
+        };
+        return userRepository.findAll(specification).isEmpty() ? EnumIs.NO : EnumIs.YES;
     }
 }

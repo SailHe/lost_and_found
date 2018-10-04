@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>翻转式用户登录注册界面</title>
+    <title>登录</title>
     <link rel="stylesheet" type="text/css" href="lib/plugs/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="lib/plugs/suit/bootstrap.css">
 
@@ -31,11 +31,11 @@
                 <form id='signInForm' class="sign-in-htm">
                     <div class="group form-group">
                         <label class="label">用户名</label>
-                        <input name="username" type="text" class="input">
+                        <input name="userUsername" type="text" class="input">
                     </div>
                     <div class="group form-group">
                         <label class="label">密码</label>
-                        <input name="signInPassword" type="password" class="input" data-type="password">
+                        <input name="userPassword" type="password" class="input" data-type="password">
                     </div>
                     <!--验证码-->
                     <div class="group form-group">
@@ -62,11 +62,11 @@
                 <form id='signUpForm' class="sign-up-htm">
                     <div class="group form-group">
                         <label class="label">用户名</label>
-                        <input name="username" type="text" class="input">
+                        <input name="userUsername" type="text" class="input">
                     </div>
                     <div class="group form-group">
                         <label class="label">密码</label>
-                        <input name="signUpPassword" type="password" class="input" data-type="password">
+                        <input name="userPassword" type="password" class="input" data-type="password">
                     </div>
                     <div class="group form-group">
                         <label class="label">重复密码</label>
@@ -74,16 +74,16 @@
                     </div>
                     <div class="group form-group">
                         <label class="label">邮箱</label>
-                        <input name="emailAddress" type="text" class="input">
-                    </div>
-                    <div class="group form-group">
-                        <label class="label">身份证号</label>
-                        <input name="idCard" type="text" class="input">
+                        <input name="userEmailAddress" type="text" class="input">
                     </div>
                     <!--<div class="group form-group">
-                      <label class="label">生日</label>
-                      <input name="birthday" type="text" class="input">
+                        <label class="label">身份证号</label>
+                        <input name="idCard" type="text" class="input">
                     </div>-->
+                    <div class="group form-group">
+                      <label class="label">生日</label>
+                      <input name="userBirthday" type="text" class="input">
+                    </div>
 
                     <div class="group form-group">
                         <input name="signUpButton" type="submit" class="button" value="注 册 lost+fount">
@@ -110,7 +110,7 @@
 <script src="lib/plugs/suit/jquery.js"></script>
 <!--<script src="lib/plugs/suit/jquery-ui.js"></script>-->
 
-<script src="plugins/assets/js/bootstrap.min.js"></script>
+<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="plugins/bootstrapValidator/bootstrapValidator.min.js"></script>
 <script src="plugins/bootbox/bootbox.min.js"></script>
 <script src="plugins/gVerify/gVerify.js"></script>

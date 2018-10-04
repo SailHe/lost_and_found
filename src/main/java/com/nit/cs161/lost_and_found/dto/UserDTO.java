@@ -4,7 +4,9 @@ import com.nit.cs161.lost_and_found.entity.SysUser;
 import com.nit.cs161.lost_and_found.utility.BaseDTO;
 import org.springframework.beans.BeanUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Description: 用户传输类<p>
@@ -15,24 +17,25 @@ import java.sql.Timestamp;
  */
 public class UserDTO extends BaseDTO<SysUser> {
     private Integer userId;
-    private String userName;
+    private String userUsername;
+    private String userPassword;
     private String userRealname;
     private String userNickname;
-    private Integer userAge;
-    private String userPassword;
-    private String userSex;
-    private Byte userRole;
-    private String userEmail;
-    private String userContactWay;
     private String userAvatarUrl;
+    private String userEmailAddress;
+    private String userContactWay;
+    private String userSex;
+    private Long userBirthday;
+    private Byte userRole;
     private String userToken;
-    private String userLastLoginIp;
-    private Timestamp userLastLoginTime;
+    private String userSignInIp;
+    private Timestamp userSignInTime;
     private Timestamp createTime;
     private Timestamp editTime;
 
     public UserDTO() {
         super(SysUser.class);
+        setEditTime(new Timestamp(System.currentTimeMillis()));
     }
 
     public UserDTO(SysUser bean) {
@@ -48,12 +51,20 @@ public class UserDTO extends BaseDTO<SysUser> {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUserUsername() {
+        return userUsername;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserUsername(String userUsername) {
+        this.userUsername = userUsername;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 
     public String getUserRealname() {
@@ -72,44 +83,20 @@ public class UserDTO extends BaseDTO<SysUser> {
         this.userNickname = userNickname;
     }
 
-    public Integer getUserAge() {
-        return userAge;
+    public String getUserAvatarUrl() {
+        return userAvatarUrl;
     }
 
-    public void setUserAge(Integer userAge) {
-        this.userAge = userAge;
+    public void setUserAvatarUrl(String userAvatarUrl) {
+        this.userAvatarUrl = userAvatarUrl;
     }
 
-    public String getUserPassword() {
-        return userPassword;
+    public String getUserEmailAddress() {
+        return userEmailAddress;
     }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public String getUserSex() {
-        return userSex;
-    }
-
-    public void setUserSex(String userSex) {
-        this.userSex = userSex;
-    }
-
-    public Byte getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(Byte userRole) {
-        this.userRole = userRole;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setUserEmailAddress(String userEmailAddress) {
+        this.userEmailAddress = userEmailAddress;
     }
 
     public String getUserContactWay() {
@@ -120,12 +107,28 @@ public class UserDTO extends BaseDTO<SysUser> {
         this.userContactWay = userContactWay;
     }
 
-    public String getUserAvatarUrl() {
-        return userAvatarUrl;
+    public String getUserSex() {
+        return userSex;
     }
 
-    public void setUserAvatarUrl(String userAvatarUrl) {
-        this.userAvatarUrl = userAvatarUrl;
+    public void setUserSex(String userSex) {
+        this.userSex = userSex;
+    }
+
+    public Long getUserBirthday() {
+        return userBirthday;
+    }
+
+    public void setUserBirthday(Long userBirthday) {
+        this.userBirthday = userBirthday;
+    }
+
+    public Byte getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(Byte userRole) {
+        this.userRole = userRole;
     }
 
     public String getUserToken() {
@@ -136,20 +139,20 @@ public class UserDTO extends BaseDTO<SysUser> {
         this.userToken = userToken;
     }
 
-    public String getUserLastLoginIp() {
-        return userLastLoginIp;
+    public String getUserSignInIp() {
+        return userSignInIp;
     }
 
-    public void setUserLastLoginIp(String userLastLoginIp) {
-        this.userLastLoginIp = userLastLoginIp;
+    public void setUserSignInIp(String userSignInIp) {
+        this.userSignInIp = userSignInIp;
     }
 
-    public Timestamp getUserLastLoginTime() {
-        return userLastLoginTime;
+    public Timestamp getUserSignInTime() {
+        return userSignInTime;
     }
 
-    public void setUserLastLoginTime(Timestamp userLastLoginTime) {
-        this.userLastLoginTime = userLastLoginTime;
+    public void setUserSignInTime(Timestamp userSignInTime) {
+        this.userSignInTime = userSignInTime;
     }
 
     public Timestamp getCreateTime() {
@@ -169,22 +172,33 @@ public class UserDTO extends BaseDTO<SysUser> {
     }
 
     @Override
+    public SysUser toBean() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        SysUser bean = super.toBean();
+        // 由于前端貌似无法传入时间戳类型, 于是如果存在需要前端传参的时间类型的话
+        // 可考虑在DTO内使用Long, 然后重写父类方法, 将这些字段做手动转换
+        // editTime之类的系统字段就不必这么做, 它目的主要是方便生成编辑时间, 而且构造器内不建议做其余任何逻辑计算
+        // PS: 如果担心这种系统字段存在DTO内, 直接作为接口参数时会影响安全性, 可考虑从验证, 以及新建xxDataDTO类作为专属的参数数据类
+        bean.setUserBirthday(new Timestamp(this.getUserBirthday()));
+        return bean;
+    }
+
+    @Override
     public String toString() {
         return "UserDTO{" +
                 "userId=" + userId +
-                ", userName='" + userName + '\'' +
+                ", userUsername='" + userUsername + '\'' +
+                ", userPassword='" + userPassword + '\'' +
                 ", userRealname='" + userRealname + '\'' +
                 ", userNickname='" + userNickname + '\'' +
-                ", userAge=" + userAge +
-                ", userPassword='" + userPassword + '\'' +
-                ", userSex='" + userSex + '\'' +
-                ", userRole=" + userRole +
-                ", userEmail='" + userEmail + '\'' +
-                ", userContactWay='" + userContactWay + '\'' +
                 ", userAvatarUrl='" + userAvatarUrl + '\'' +
+                ", userEmailAddress='" + userEmailAddress + '\'' +
+                ", userContactWay='" + userContactWay + '\'' +
+                ", userSex='" + userSex + '\'' +
+                ", userBirthday=" + userBirthday +
+                ", userRole=" + userRole +
                 ", userToken='" + userToken + '\'' +
-                ", userLastLoginIp='" + userLastLoginIp + '\'' +
-                ", userLastLoginTime=" + userLastLoginTime +
+                ", userSignInIp='" + userSignInIp + '\'' +
+                ", userSignInTime=" + userSignInTime +
                 ", createTime=" + createTime +
                 ", editTime=" + editTime +
                 '}';

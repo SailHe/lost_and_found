@@ -1,33 +1,34 @@
 package com.nit.cs161.lost_and_found.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
- * Description: 用户实体<p>
+ * Description: 无描述类<p>
  *
  * @Package: com.nit.cs161.lost_and_found.entity
- * @author: SailHe
- * @date: 2018/10/1 17:00
+ * @author: 何 帆
+ * @date: 2018/10/4 19:45
  */
 @Entity
 @Table(name = "sys_user", schema = "lost_and_found", catalog = "")
 public class SysUser {
     private Integer userId;
-    private String userName;
+    private String userUsername;
+    private String userPassword;
     private String userRealname;
     private String userNickname;
-    private Integer userAge;
-    private String userPassword;
-    private String userSex;
-    private Byte userRole;
-    private String userEmail;
-    private String userContactWay;
     private String userAvatarUrl;
+    private String userEmailAddress;
+    private String userContactWay;
+    private String userSex;
+    private Date userBirthday;
+    private Byte userRole;
     private String userToken;
-    private String userLastLoginIp;
-    private Timestamp userLastLoginTime;
+    private String userSignInIp;
+    private Timestamp userSignInTime;
     private Timestamp createTime;
     private Timestamp editTime;
 
@@ -43,13 +44,23 @@ public class SysUser {
     }
 
     @Basic
-    @Column(name = "user_name", nullable = true, length = 50)
-    public String getUserName() {
-        return userName;
+    @Column(name = "user_username", nullable = true, length = 50)
+    public String getUserUsername() {
+        return userUsername;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserUsername(String userUsername) {
+        this.userUsername = userUsername;
+    }
+
+    @Basic
+    @Column(name = "user_password", nullable = true, length = 50)
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 
     @Basic
@@ -73,53 +84,23 @@ public class SysUser {
     }
 
     @Basic
-    @Column(name = "user_age", nullable = true)
-    public Integer getUserAge() {
-        return userAge;
+    @Column(name = "user_avatar_url", nullable = true, length = 128)
+    public String getUserAvatarUrl() {
+        return userAvatarUrl;
     }
 
-    public void setUserAge(Integer userAge) {
-        this.userAge = userAge;
-    }
-
-    @Basic
-    @Column(name = "user_password", nullable = true, length = 50)
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public void setUserAvatarUrl(String userAvatarUrl) {
+        this.userAvatarUrl = userAvatarUrl;
     }
 
     @Basic
-    @Column(name = "user_sex", nullable = true, length = 4)
-    public String getUserSex() {
-        return userSex;
+    @Column(name = "user_email_address", nullable = true, length = 50)
+    public String getUserEmailAddress() {
+        return userEmailAddress;
     }
 
-    public void setUserSex(String userSex) {
-        this.userSex = userSex;
-    }
-
-    @Basic
-    @Column(name = "user_role", nullable = true)
-    public Byte getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(Byte userRole) {
-        this.userRole = userRole;
-    }
-
-    @Basic
-    @Column(name = "user_email", nullable = true, length = 50)
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setUserEmailAddress(String userEmailAddress) {
+        this.userEmailAddress = userEmailAddress;
     }
 
     @Basic
@@ -133,13 +114,33 @@ public class SysUser {
     }
 
     @Basic
-    @Column(name = "user_avatar_url", nullable = true, length = 128)
-    public String getUserAvatarUrl() {
-        return userAvatarUrl;
+    @Column(name = "user_sex", nullable = true, length = 4)
+    public String getUserSex() {
+        return userSex;
     }
 
-    public void setUserAvatarUrl(String userAvatarUrl) {
-        this.userAvatarUrl = userAvatarUrl;
+    public void setUserSex(String userSex) {
+        this.userSex = userSex;
+    }
+
+    @Basic
+    @Column(name = "user_birthday", nullable = true)
+    public Date getUserBirthday() {
+        return userBirthday;
+    }
+
+    public void setUserBirthday(Date userBirthday) {
+        this.userBirthday = userBirthday;
+    }
+
+    @Basic
+    @Column(name = "user_role", nullable = true)
+    public Byte getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(Byte userRole) {
+        this.userRole = userRole;
     }
 
     @Basic
@@ -153,23 +154,23 @@ public class SysUser {
     }
 
     @Basic
-    @Column(name = "user_last_login_ip", nullable = true, length = 20)
-    public String getUserLastLoginIp() {
-        return userLastLoginIp;
+    @Column(name = "user_sign_in_ip", nullable = true, length = 20)
+    public String getUserSignInIp() {
+        return userSignInIp;
     }
 
-    public void setUserLastLoginIp(String userLastLoginIp) {
-        this.userLastLoginIp = userLastLoginIp;
+    public void setUserSignInIp(String userSignInIp) {
+        this.userSignInIp = userSignInIp;
     }
 
     @Basic
-    @Column(name = "user_last_login_time", nullable = true)
-    public Timestamp getUserLastLoginTime() {
-        return userLastLoginTime;
+    @Column(name = "user_sign_in_time", nullable = true)
+    public Timestamp getUserSignInTime() {
+        return userSignInTime;
     }
 
-    public void setUserLastLoginTime(Timestamp userLastLoginTime) {
-        this.userLastLoginTime = userLastLoginTime;
+    public void setUserSignInTime(Timestamp userSignInTime) {
+        this.userSignInTime = userSignInTime;
     }
 
     @Basic
@@ -201,26 +202,26 @@ public class SysUser {
             return false;
         }
         SysUser sysUser = (SysUser) o;
-        return userId.equals(sysUser.userId) &&
-                Objects.equals(userName, sysUser.userName) &&
+        return Objects.equals(userId, sysUser.userId) &&
+                Objects.equals(userUsername, sysUser.userUsername) &&
+                Objects.equals(userPassword, sysUser.userPassword) &&
                 Objects.equals(userRealname, sysUser.userRealname) &&
                 Objects.equals(userNickname, sysUser.userNickname) &&
-                Objects.equals(userAge, sysUser.userAge) &&
-                Objects.equals(userPassword, sysUser.userPassword) &&
-                Objects.equals(userSex, sysUser.userSex) &&
-                Objects.equals(userRole, sysUser.userRole) &&
-                Objects.equals(userEmail, sysUser.userEmail) &&
-                Objects.equals(userContactWay, sysUser.userContactWay) &&
                 Objects.equals(userAvatarUrl, sysUser.userAvatarUrl) &&
+                Objects.equals(userEmailAddress, sysUser.userEmailAddress) &&
+                Objects.equals(userContactWay, sysUser.userContactWay) &&
+                Objects.equals(userSex, sysUser.userSex) &&
+                Objects.equals(userBirthday, sysUser.userBirthday) &&
+                Objects.equals(userRole, sysUser.userRole) &&
                 Objects.equals(userToken, sysUser.userToken) &&
-                Objects.equals(userLastLoginIp, sysUser.userLastLoginIp) &&
-                Objects.equals(userLastLoginTime, sysUser.userLastLoginTime) &&
+                Objects.equals(userSignInIp, sysUser.userSignInIp) &&
+                Objects.equals(userSignInTime, sysUser.userSignInTime) &&
                 Objects.equals(createTime, sysUser.createTime) &&
                 Objects.equals(editTime, sysUser.editTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, userName, userRealname, userNickname, userAge, userPassword, userSex, userRole, userEmail, userContactWay, userAvatarUrl, userToken, userLastLoginIp, userLastLoginTime, createTime, editTime);
+        return Objects.hash(userId, userUsername, userPassword, userRealname, userNickname, userAvatarUrl, userEmailAddress, userContactWay, userSex, userBirthday, userRole, userToken, userSignInIp, userSignInTime, createTime, editTime);
     }
 }

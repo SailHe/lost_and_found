@@ -40,10 +40,10 @@ public class UserController {
      * @date 2018/10/1 15:42
      */
     @RequestMapping(value = "/signIn")
-    public AjaxMsgDTO signInSystem(String username, String signInPassword) {
+    public AjaxMsgDTO signInSystem(String userUsername, String userPassword) {
         AjaxMsgDTO ajaxMsgDto = new AjaxMsgDTO();
         try {
-            String token = userService.signInSystem(username, signInPassword);
+            String token = userService.signInSystem(userUsername, userPassword);
             ajaxMsgDto.setData(token);
             if (ajaxMsgDto.getData() != null) {
                 ajaxMsgDto.setData(userService.getTokenRecord(token));
@@ -68,10 +68,10 @@ public class UserController {
      * @date 2018/10/1 15:46
      */
     @RequestMapping(value = "/signUp")
-    public AjaxMsgDTO signUpSystem(String username, String signUpPassword) {
+    public AjaxMsgDTO signUpSystem(UserDTO userDTO) {
         AjaxMsgDTO ajaxMsgDTO = new AjaxMsgDTO();
         try {
-            ajaxMsgDTO.setMsg(userService.signUpSystem(username, signUpPassword));
+            ajaxMsgDTO.setMsg(userService.signUpSystem(userDTO));
             ajaxMsgDTO.setSuccess(ProjectConstants.SUCCESS);
         } catch (Exception e) {
             ajaxMsgDTO.setSuccess(ProjectConstants.FAILURE);

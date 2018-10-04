@@ -8,14 +8,17 @@ import java.util.Objects;
  * Description: 无描述类<p>
  *
  * @Package: com.nit.cs161.lost_and_found.entity
- * @author: SailHe
- * @date: 2018/10/1 15:15
+ * @author: 何 帆
+ * @date: 2018/10/4 19:45
  */
 @Entity
 @Table(name = "laf_return_log", schema = "lost_and_found", catalog = "")
 public class LafReturnLog {
     private Integer returnId;
-    private String evidenceImgUrl;
+    private Integer pikerUserId;
+    private Integer ownerUserId;
+    private Integer itemId;
+    private String returnImgUrl;
     private Timestamp createTime;
     private Timestamp editTime;
 
@@ -31,13 +34,43 @@ public class LafReturnLog {
     }
 
     @Basic
-    @Column(name = "evidence_img_url", nullable = true, length = 50)
-    public String getEvidenceImgUrl() {
-        return evidenceImgUrl;
+    @Column(name = "piker_user_id", nullable = true)
+    public Integer getPikerUserId() {
+        return pikerUserId;
     }
 
-    public void setEvidenceImgUrl(String evidenceImgUrl) {
-        this.evidenceImgUrl = evidenceImgUrl;
+    public void setPikerUserId(Integer pikerUserId) {
+        this.pikerUserId = pikerUserId;
+    }
+
+    @Basic
+    @Column(name = "owner_user_id", nullable = true)
+    public Integer getOwnerUserId() {
+        return ownerUserId;
+    }
+
+    public void setOwnerUserId(Integer ownerUserId) {
+        this.ownerUserId = ownerUserId;
+    }
+
+    @Basic
+    @Column(name = "item_id", nullable = true)
+    public Integer getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
+    }
+
+    @Basic
+    @Column(name = "return_img_url", nullable = true, length = 50)
+    public String getReturnImgUrl() {
+        return returnImgUrl;
+    }
+
+    public void setReturnImgUrl(String returnImgUrl) {
+        this.returnImgUrl = returnImgUrl;
     }
 
     @Basic
@@ -69,14 +102,17 @@ public class LafReturnLog {
             return false;
         }
         LafReturnLog that = (LafReturnLog) o;
-        return returnId.equals(that.returnId) &&
-                Objects.equals(evidenceImgUrl, that.evidenceImgUrl) &&
+        return Objects.equals(returnId, that.returnId) &&
+                Objects.equals(pikerUserId, that.pikerUserId) &&
+                Objects.equals(ownerUserId, that.ownerUserId) &&
+                Objects.equals(itemId, that.itemId) &&
+                Objects.equals(returnImgUrl, that.returnImgUrl) &&
                 Objects.equals(createTime, that.createTime) &&
                 Objects.equals(editTime, that.editTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(returnId, evidenceImgUrl, createTime, editTime);
+        return Objects.hash(returnId, pikerUserId, ownerUserId, itemId, returnImgUrl, createTime, editTime);
     }
 }

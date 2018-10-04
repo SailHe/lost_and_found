@@ -2,6 +2,7 @@ package com.nit.cs161.lost_and_found.repository;
 
 import com.nit.cs161.lost_and_found.entity.SysUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,10 +14,10 @@ import java.util.List;
  * @date 2018/10/1 15:57
  */
 @Repository
-public interface UserRepository extends JpaRepository<SysUser,Integer> {
+public interface UserRepository extends JpaRepository<SysUser,Integer>, JpaSpecificationExecutor<SysUser> {
 
     /*@Query(value = "SELECT userPassword FROM SysUser WHERE userPhone = ?1 ")
-    String getUserPassword(String userPhone) throws Exception;*/
+    String getPassword(String userPhone) throws Exception;*/
 
 //    List<SysUser> findAllByUserPhone(String userPhone);
 
@@ -26,7 +27,7 @@ public interface UserRepository extends JpaRepository<SysUser,Integer> {
      * @author SailHe
      * @date 2018/10/1 16:18
      */
-    List<SysUser> findAllByUserName(String userName);
+    List<SysUser> findAllByUserUsername(String userName);
 
     /**
      * Descriptions: 用于模糊查询<p>
@@ -34,7 +35,7 @@ public interface UserRepository extends JpaRepository<SysUser,Integer> {
      * @author SailHe
      * @date 2018/10/1 21:49
      */
-    List<SysUser> findAllByUserNameLikeOrUserNicknameLikeOrUserRealnameLikeOrUserEmailLike(String userUserName, String userRealName, String userNickName, String userEmail);
+    List<SysUser> findAllByUserUsernameLikeOrUserNicknameLikeOrUserRealnameLikeOrUserEmailAddressLike(String userUserName, String userRealName, String userNickName, String userEmail);
 
-    List<SysUser> findAllByUserNameLike(String userUserName);
+    List<SysUser> findAllByUserUsernameLike(String userUserName);
 }

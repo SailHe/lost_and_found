@@ -21,7 +21,7 @@ var $DataTableAPI = $('#example').DataTable({
             //此列不绑定数据源，用来显示序号
             data: null
         }, {
-            data: "userName"
+            data: "userUsername"
         }, {
             data: "userRealname"
         }, {

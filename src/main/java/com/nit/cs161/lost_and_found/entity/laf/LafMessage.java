@@ -8,15 +8,17 @@ import java.util.Objects;
  * Description: 无描述类<p>
  *
  * @Package: com.nit.cs161.lost_and_found.entity
- * @author: SailHe
- * @date: 2018/10/1 15:15
+ * @author: 何 帆
+ * @date: 2018/10/4 19:45
  */
 @Entity
 @Table(name = "laf_message", schema = "lost_and_found", catalog = "")
 public class LafMessage {
     private Integer messageId;
+    private Integer userId;
+    private Integer itemId;
     private String messageDesc;
-    private String descImgUrl;
+    private String msgImgUrls;
     private Timestamp createTime;
     private Timestamp editTime;
 
@@ -32,6 +34,26 @@ public class LafMessage {
     }
 
     @Basic
+    @Column(name = "user_id", nullable = true)
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    @Basic
+    @Column(name = "item_id", nullable = true)
+    public Integer getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
+    }
+
+    @Basic
     @Column(name = "message_desc", nullable = true, length = 500)
     public String getMessageDesc() {
         return messageDesc;
@@ -42,13 +64,13 @@ public class LafMessage {
     }
 
     @Basic
-    @Column(name = "desc_img_url", nullable = true, length = 50)
-    public String getDescImgUrl() {
-        return descImgUrl;
+    @Column(name = "msg_img_urls", nullable = true, length = 500)
+    public String getMsgImgUrls() {
+        return msgImgUrls;
     }
 
-    public void setDescImgUrl(String descImgUrl) {
-        this.descImgUrl = descImgUrl;
+    public void setMsgImgUrls(String msgImgUrls) {
+        this.msgImgUrls = msgImgUrls;
     }
 
     @Basic
@@ -80,15 +102,17 @@ public class LafMessage {
             return false;
         }
         LafMessage that = (LafMessage) o;
-        return messageId.equals(that.messageId) &&
+        return Objects.equals(messageId, that.messageId) &&
+                Objects.equals(userId, that.userId) &&
+                Objects.equals(itemId, that.itemId) &&
                 Objects.equals(messageDesc, that.messageDesc) &&
-                Objects.equals(descImgUrl, that.descImgUrl) &&
+                Objects.equals(msgImgUrls, that.msgImgUrls) &&
                 Objects.equals(createTime, that.createTime) &&
                 Objects.equals(editTime, that.editTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(messageId, messageDesc, descImgUrl, createTime, editTime);
+        return Objects.hash(messageId, userId, itemId, messageDesc, msgImgUrls, createTime, editTime);
     }
 }

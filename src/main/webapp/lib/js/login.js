@@ -61,7 +61,7 @@ $('form').on('onkeyup', function () {
                 }
             }
         },
-        signInPassword: {
+        userPassword: {
             validators: {
                 notEmpty: {
                     message: "请输入密码！！！"
@@ -74,7 +74,7 @@ $('form').on('onkeyup', function () {
                 }*/
             }
         },
-        signUpPassword: {
+        userPassword: {
             validators: {
                 notEmpty: {
                     message: "请输入密码！！！"
@@ -94,7 +94,7 @@ $('form').on('onkeyup', function () {
                 },
                 //用来判断制定的字段和当前字段一致与否
                 identical: {
-                    field: 'signUpPassword',
+                    field: 'userPassword',
                     message: "两次输入的密码不一致！！！"
                 }
             }

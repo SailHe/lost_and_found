@@ -19,7 +19,7 @@ public interface UserService extends CrudService<UserDTO, Integer> {
      * @author SailHe
      * @date 2018/10/1 16:23
      */
-    String signInSystem(String phone, String password) throws Exception;
+    String signInSystem(String userUsername, String userPassword) throws Exception;
 
     /**
      * Descriptions: 用户注册<p>
@@ -27,7 +27,7 @@ public interface UserService extends CrudService<UserDTO, Integer> {
      * @author SailHe
      * @date 2018/10/4 16:41
      */
-    String signUpSystem(String userName, String signUpPassword) throws Exception;
+    String signUpSystem(UserDTO userDTO) throws Exception;
 
     /**
      * Descriptions: 用token获取记录<p>

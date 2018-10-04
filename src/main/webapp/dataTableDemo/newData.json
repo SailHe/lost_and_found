@@ -1,22 +1,22 @@
 {
   "data": [
     {
-      "userName": "new01",
+      "userUsername": "new01",
       "userRealname": "010",
       "userSex": "中性"
     },
     {
-      "userName": "new02",
+      "userUsername": "new02",
       "userRealname": "020",
       "userSex": "中性"
     },
     {
-      "userName": "new03",
+      "userUsername": "new03",
       "userRealname": "030",
       "userSex": "中性"
     },
     {
-      "userName": "new04",
+      "userUsername": "new04",
       "userRealname": "040",
       "userSex": "中性"
     }
