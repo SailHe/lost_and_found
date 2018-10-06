@@ -1,12 +1,13 @@
 package com.nit.cs161.lost_and_found.dto;
 
+import com.nit.cs161.lost_and_found.constant.general.ProjectConstants;
 import com.nit.cs161.lost_and_found.entity.SysUser;
 import com.nit.cs161.lost_and_found.utility.BaseDTO;
+import com.nit.cs161.lost_and_found.utility.DateGenerator;
 import org.springframework.beans.BeanUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * Description: 用户传输类<p>
@@ -25,7 +26,7 @@ public class UserDTO extends BaseDTO<SysUser> {
     private String userEmailAddress;
     private String userContactWay;
     private String userSex;
-    private Long userBirthday;
+    private String userBirthday;
     private Byte userRole;
     private String userToken;
     private String userSignInIp;
@@ -115,11 +116,11 @@ public class UserDTO extends BaseDTO<SysUser> {
         this.userSex = userSex;
     }
 
-    public Long getUserBirthday() {
+    public String getUserBirthday() {
         return userBirthday;
     }
 
-    public void setUserBirthday(Long userBirthday) {
+    public void setUserBirthday(String userBirthday) {
         this.userBirthday = userBirthday;
     }
 
@@ -175,10 +176,10 @@ public class UserDTO extends BaseDTO<SysUser> {
     public SysUser toBean() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         SysUser bean = super.toBean();
         // 由于前端貌似无法传入时间戳类型, 于是如果存在需要前端传参的时间类型的话
-        // 可考虑在DTO内使用Long, 然后重写父类方法, 将这些字段做手动转换
+        // 可考虑在DTO内使用Long(对应时间戳) 或 String(对应Timestamp或Date), 然后重写父类方法, 将这些字段做手动转换
         // editTime之类的系统字段就不必这么做, 它目的主要是方便生成编辑时间, 而且构造器内不建议做其余任何逻辑计算
         // PS: 如果担心这种系统字段存在DTO内, 直接作为接口参数时会影响安全性, 可考虑从验证, 以及新建xxDataDTO类作为专属的参数数据类
-        bean.setUserBirthday(new Timestamp(this.getUserBirthday()));
+        bean.setUserBirthday(new DateGenerator(ProjectConstants.DATE_FORMAT, this.getUserBirthday()).toTimestamp());
         return bean;
     }
 

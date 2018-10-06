@@ -13,6 +13,6 @@ public final class ProjectConstants {
     public final static Boolean FAILURE = false;
     public final static long EXPIRE_TIME = 24 * 60 * 60 * 1000;
 
-    public final static SimpleDateFormat ORDER_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    public final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     public final static BigDecimal PRICE_EPS = new BigDecimal(0.001);
 }

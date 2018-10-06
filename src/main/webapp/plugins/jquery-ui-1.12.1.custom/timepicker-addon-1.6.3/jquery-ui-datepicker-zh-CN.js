@@ -1,7 +1,7 @@
 /**
  * Descriptions: 日期中文<p>
  *
- * @author 何帆
+ * @author SailHe
  * @date 2018/5/4 22:18
  */
 $(function () {

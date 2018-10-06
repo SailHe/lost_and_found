@@ -441,33 +441,38 @@ $.fn.getFirstCheckedInput = function () {
 }
 
 /**
- * Descriptions: 选择器选择的元素 显示并置为可编辑 PS 如果不知道在干嘛的话 最好用单个的方法<p>
- *
+ * Descriptions: Dom显示 + 子:input有效 (确保可提交)<p>
+ * 注意: display =  ''; 可能会引起一些错误, 此时建议手写已应对特定的情况 而不是直接调用此封装API
  * @author SailHe
  * @date 2018/5/8 16:05
  */
-$.fn.validDisplay = function () {
-    $(this).each(function () {
-        $(this).css('display', '');
-        //$(this).css('display', 'block'); //之前是作为块display
-        $(this).removeAttr('disabled');
-        $(this).removeAttr('readonly');
-    });
+$.fn.domDisplaySubValid = function () {
+    //块display .css('display', 'block');
+    return $(this).css('display', '').find(':input').removeAttr('disabled').removeAttr('readonly');
 }
 
 /**
- * Descriptions: 选择器选择的元素 隐藏并置为不可编辑<p>
- *
+ * Descriptions: Dom隐藏 + 子:input无效(无效=只读+不提交); 并不会移除其它潜在的冲突属性<p>
+ * 隐藏了选择器选择的元素在内的所有元素以及其子元素, 并将其子:input元素都置为无效
  * @author SailHe
  * @date 2018/5/8 16:05
  */
-$.fn.invalidHide = function () {
-    //隐藏
-    $(this).css('display', 'none');
-    //不可编辑 不被提交
-    $(this).attr('disabled', 'disabled');
-    //只读不可编辑
-    //$(this).removeAttr('readonly');
+$.fn.domHideSubInvalid = function () {
+    //隐藏 + 无效
+    return $(this).css('display', 'none').find(':input').attr('disabled', 'disabled');
+    //.removeAttr('readonly'); //只读不可编辑
+}
+
+/**
+ * Descriptions: Dom隐藏 + 子:input只读; 并不会移除其它冲突属性<p>
+ *
+ * @author SailHe
+ * @date 2018/9/30 19:06
+ */
+$.fn.domHideSubReadonly = function () {
+    //隐藏 + 只读(不可编辑)
+    return $(this).css('display', 'none').find(':input').attr('readonly');
+    //.removeAttr('disabled');//移除更强的disabled属性
 }
 
 /**
@@ -484,30 +489,6 @@ $.fn.deleteTableRow = function () {
     //currentDom.parentElement.parentElement.remove(); //不通用
     //$(currentDom).parent("tr").remove(); //invalid
     return row;
-}
-
-/**
- * Descriptions: 遍历指定table的指定列
- * 注意: 参数未经任何处理
- * @param colNum 列号
- * @param iteratorFun($cell, $row)
- * @author SailHe
- * @return $(this)
- * @date 2018/9/11 18:30
- */
-$.fn.iterateTableCol = function (colNum, iteratorFun) {
-    const currentTable = this.get(0);
-    if (!isValidVar(iteratorFun)) {
-        throw new Error("必须定义迭代方法!!!");
-    }
-    if (this.length > 1) {
-        throw new Error("暂不支持多元素操作!!!");
-    }
-    const len = currentTable.rows.length;
-    for (let i = 0; i < len; ++i) {
-        iteratorFun($(currentTable.rows[i].cells[colNum]), $(currentTable.rows[i]));
-    }
-    return this;
 }
 
 /**
@@ -580,17 +561,6 @@ $.fn.tableRowDeleteLineRemove = function () {
 }
 
 /**
- * Descriptions: 返回一个无意义的id字符串<p>
- *
- * @author SailHe
- * @date 2018/9/11 16:50
- */
-const identification = (tipStr = '__') => {
-    //1ms后将会调用执行remind()函数 (保证ID的差异性)
-    return tipStr + setTimeout(() => new Date().getTime(), 1);
-}
-
-/**
  * Descriptions: 自定义消息框(可显示多个 不会覆盖)
  * @param content: 内容
  * @param type: alert 警告, else 提示
@@ -598,7 +568,7 @@ const identification = (tipStr = '__') => {
  * @date 2018/4/8 21:56
  */
 $.messageBox = function (content, type) {
-    let messagePlot = $("#boxSpot");
+    var messagePlot = $("#boxSpot");
     if (messagePlot.length == 0) {
         $("body").append("<div id='boxSpot' style='position:fixed; top:1px; width:20%; margin-left:40%; z-index:1500; display:none;'></div>");
         //渐显: 使用淡入效果来显示被选元素
@@ -606,7 +576,7 @@ $.messageBox = function (content, type) {
     }
     messagePlot = $("#boxSpot");
     //1ms后将会调用执行remind()函数 (保证ID的差异性)
-    const strId = 'messageBoxDiv' + setTimeout(function remind() {
+    var strId = 'messageBoxDiv' + setTimeout(function remind() {
         return new Date().getTime();
     }, 1);
     //&times;<i class='ace-icon fa fa-times'>      x和icon
@@ -832,143 +802,162 @@ function integerMultiplication(lhs, rhs) {
 }
 
 /**
- * Descriptions: 缓存多级异步联动change绑定工厂<p>
+ * Descriptions: number作为字符串相加<p>
+ *
+ * mlj这种引入貌似每次切换页面时js下面的变量都会重新申明一遍
+ * @return number
+ * @author SailHe
+ * @date 2018/9/29 21:14
+ */
+function nStrPlush(lhs, rhs) {
+    return parseInt(lhs.toString() + rhs.toString());
+}
+
+/**
+ * Descriptions: 带缓存的异步多级联动事件绑定工厂<p>
  *
  * 会在上一步的异步请求成功返回后自动选择 联动选择列表 第一个的idValue 并根据是否还有下一级选择自动触发下一级联动
- * @param selectLinkList 绑定事件trigger时的 联动选择列表 [0]: 当前级的idValue; [1]这一级即将选择的idIndex(若不设置就会触发默认的下级联动); 以此类推可设置任意多个
- * @eg:
+ * @param selectLinkList 绑定事件trigger时的 联动选择列表
+ * [0]: 当前级的idValue; [1]这一级即将选择的idIndex(若不设置就会触发默认的下级联动); 以此类推可设置任意多个
+ * @eg: customLinkRequestFun = (triggerSelectIdParam, successCallback) => {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                async: true,
+                data: getLinkRequestParamDataFun(triggerSelectIdParam),
+                url: linkRequestUrl,
+                success: function (result) {
+                    if (result.success) {
+                        let dataList = result.data;
+                        successCallback(dataList);
+                    } else {
+                        console.error("数据请求失败!");
+                    }
+                },
+            });
+        }
  * @author SailHe
  * @date 2018/7/31 15:40
  */
-function AsyncLinkBufferChangeFactory(param) {
-    if (!isValidVar(param)) {
-        param = {
-            //联动触发点的jQuery选择器的字符串
-            currentLinkSelector: null
-            //下一个联动点的jQuery选择器的字符串
-            , nextLinkSelector: null
-            //这个请求的名字(可不设置)
-            , requestName: null
-            //辨识每条数据的属性名(Number或可以parseInt 且必须不同) 这是默认向后台请求数据时的回调字段
-            , idName: null
-            //索引字段(不同级下允许相同)
-            , indexName: null
-            //option中的value属性名(若不设置此属性将与idName等价) 定义送往服务器的选项值。
-            , valueName: null
-            , dataName: null
+function AsyncLinkBufferChangeFactory(
+    {
+        //触发点的jQuery选择器的字符串
+        triggerSelector = null
+        //自定义触发事件 默认'change'
+        , triggerEventName = 'change'
+        //自定义联动事件 默认'change'
+        , linkEventName = 'change'
+        //联动点的jQuery选择器的字符串
+        , linkerSelector = null
+        //联动点的请求名 (非必需)
+        , linkerRequestName = ""
 
-            //用于联动事件的自定义 默认'change'
-            , eventName: null
+        //允许使用外部定义的缓存Map 用于缓存 请求得到的数据
+        , linkerBufferMap = new Map()
+        //辨识每条数据的属性名(Number或可以parseInt 且必须不同) 这是默认向后台请求数据时的回调字段
+        , idName = null
+        //索引字段(不同联动级下允许相同)
+        , indexName = null
+        //option中的value属性名(默认与idName等价), 定义送往服务器的选项值
+        , valueName = idName
+        , dataName = null
 
-            //允许使用外部定义的缓存Map, 若不指定则自动new一个 目前阶段并未考虑销毁自动申请的buffer
-            , bufferMap: null
-
-            , getParamData: null
-            , nextLinkRequestUrl: null
-
-            //允许自定义数据但不能同时定义url和自定义请求方法 数据处理完毕必须回调给successCallback(dataList)
-            , customRequest: function (pastSelectLinkId, successCallback) {
-            }
-        }
+        //请求联动数据时获取请求参数的方法 默认参数为空
+        , getLinkRequestParamDataFun = () => {
+        return null
     }
-    var currentLinkSelector = param.currentLinkSelector;
-    var nextLinkSelector = param.nextLinkSelector;
-    var requestName = isValidVar(param.requestName) ? param.requestName : '';
-    var idName = param.idName;
-    var indexName = param.indexName;
-    var valueName = isValidVar(param.valueName) ? param.valueName : param.idName;
-    var dataName = param.dataName;
+        //请求联动数据的url
+        , linkRequestUrl = null
 
-    var getParamData = param.getParamData;
-    var nextLinkRequestUrl = param.nextLinkRequestUrl;
+        //获取自定义联动数据的方法(不能同时定义 linkRequestUrl 和 customLinkRequestFun
+        //数据处理完毕必须回调给successCallback(dataList)
+        , customLinkRequestFun = null
+    }) {
 
-    var customRequest = param.customRequest;
-
-    if (isValidVar(customRequest) && isValidVar(nextLinkRequestUrl)) {
-        throw new Error("不能同时使用: 自定义数据请求方法 和 联动请求url");
+    if (isValidVar(customLinkRequestFun) && isValidVar(linkRequestUrl)) {
+        throw new Error("不能同时定义nextLinkRequestUrl 和 customLinkRequestFun");
+    } else if (!isValidVar(customLinkRequestFun) && !isValidVar(linkRequestUrl)) {
+        throw new Error("linkRequestUrl 和 customRequest必须定义两者之一");
     }
+    let $triggerSelect = $(triggerSelector);
+    let $linkerSelect = $(linkerSelector);
 
-    var eventName = (isValidVar(param.eventName) ? param.eventName : 'change');
-    var nextBufferMap = (isValidVar(param.bufferMap) ? param.bufferMap : new Map());
-    var $currentLinkSelect = $(currentLinkSelector);
-    var $nextLinkSelect = $(nextLinkSelector);
-
-    $currentLinkSelect.on(eventName, function (event, selectLinkList) {
-        debugLog(requestName + '事件' + eventName + '触发');
-        $nextLinkSelect.empty();
+    $triggerSelect.on(triggerEventName, function (event, selectLinkList) {
+        debugLog(linkerRequestName + '事件' + triggerEventName + '触发');
+        $linkerSelect.empty();
         if (!isValidVar(selectLinkList)) {
             //没有传参时默认 自己已选中的值作为缓存索引 下一个选择第一项(id为空时或默认就是选择第一项)
             selectLinkList = {selectLinkList: new Array(undefined)}
         }
         selectLinkList = selectLinkList.selectLinkList;
         //当前值类型必须与使用的idName对应属性的类型相同
-        var currentSelectLinkId = selectLinkList.pop();
+        let triggerSelectId = selectLinkList.pop();
         //在未指定联动的下一次的index时每次必须得push一个undefined才能无限联动下去(此时会自动读取当前选择的name, 因此当前必须选择一个才能正确联动, 而且可以清除上一次的影响 还有缓存的目的)
-        var nextSelectIndex = (((selectLinkList.length - 1) < 0) ? (selectLinkList.push(undefined), 0) : selectLinkList.length - 1);
+        let linkerSelectIndex = (((selectLinkList.length - 1) < 0) ? (selectLinkList.push(undefined), 0) : selectLinkList.length - 1);
         //下一个的值允许首先为index类型 索引完毕后会自动转为idName对应属性的类型
-        var nextSelectLinkId = selectLinkList[nextSelectIndex];
-        if (isValidVar(currentSelectLinkId) === true) {
+        let linkerSelectId = selectLinkList[linkerSelectIndex];
+        if (isValidVar(triggerSelectId) === true) {
             //可以实现为在下一个选上一个 但貌似效率会略低 (用负数表示没有选择的选项会导致缓存错误)  因此第一个必须是外部触发选择
-            if (typeof currentSelectLinkId !== 'number') {
+            if (typeof triggerSelectId !== 'number') {
                 debugger;
                 throw new Error("当前选择的id值类型必须是number");
             }
         } else {
             //name处储存用于缓存的id, 这可能与value的值不同 另外由于此处获取的始终是个string 这会对缓存造成影响 因此规定idValue只能是number
-            var $selectedOption = $(currentLinkSelector + " option:selected");
+            let $selectedOption = $(triggerSelector + " option:selected");
             if ($selectedOption.length === 1) {
                 //@TODO 考虑把name换成其它的自定义属性
-                currentSelectLinkId = $selectedOption.attr("name");
+                triggerSelectId = $selectedOption.attr("name");
                 debugLog('从当前联动点选择的idValue: ');
-                debugLog(currentSelectLinkId);
-                if (!isValidVar(currentSelectLinkId)) {
+                debugLog(triggerSelectId);
+                if (!isValidVar(triggerSelectId)) {
                     debugger;
                     throw new Error("从当前联动点选择的idValue必须为有效值! 请检查是否使用了非select元素作为联动结点; 或是传入参数值错误");
                 }
-                currentSelectLinkId = parseInt(currentSelectLinkId);
+                triggerSelectId = parseInt(triggerSelectId);
             } else {
                 //当前选项为空(理论上来说如果有的话必定选择了一个) 但仍需触发连锁 否则可能引起后续的连锁无法触发 导致数据错误
             }
         }
-        debugLog('当前选择的idValue: ' + currentSelectLinkId + '(' + typeof currentSelectLinkId + ')' + '; 下一个选择时的indexValue: ' + nextSelectLinkId + '(' + typeof nextSelectLinkId + ')');
-        debugLog('联动列表: ');
+        debugLog('当前选择的idValue: ' + triggerSelectId + '(' + typeof triggerSelectId + ')' + '; 下一个选择时的indexValue: ' + linkerSelectId + '(' + typeof linkerSelectId + ')');
+        debugLog('联动选择列表: ');
         debugLog(selectLinkList);
-        debugLog(requestName + '缓存: ');
-        debugLog(nextBufferMap);
+        debugLog(linkerRequestName + '缓存: ');
+        debugLog(linkerBufferMap);
 
         function successCallback(data) {
-            var selected = null;
-            for (var i = 0; i < data.length; i++) {
-                if (nextSelectLinkId == data[i][indexName] || (i === 0 && !isValidObj(nextSelectLinkId))) {
-                    selectLinkList[nextSelectIndex] = nextSelectLinkId = data[i][idName];
+            let selected = null;
+            for (let i = 0; i < data.length; i++) {
+                if (linkerSelectId == data[i][indexName] || (i === 0 && !isValidObj(linkerSelectId))) {
+                    selectLinkList[linkerSelectIndex] = linkerSelectId = data[i][idName];
                     selected = "selected";
                 } else {
                     selected = "";
                 }
                 //@TODO 可以不要显式地将value存在html上
-                var options = "<option name='" + data[i][idName] + "' value='" + data[i][valueName] + "'" + selected + ">" + data[i][dataName] + "</option>";
-                $nextLinkSelect.append(options);
+                const options = "<option name='" + data[i][idName] + "' value='" + data[i][valueName] + "'" + selected + ">" + data[i][dataName] + "</option>";
+                $linkerSelect.append(options);
             }
-            bufferUpdate(nextBufferMap, currentSelectLinkId, data);
+            bufferUpdate(linkerBufferMap, triggerSelectId, data);
             /*if (isValidObj(selectLinkList[0]) === true)*/
             //加载联动选择用的数据
-            $nextLinkSelect.trigger('change', {selectLinkList: selectLinkList});
+            $linkerSelect.trigger(linkEventName, {selectLinkList: selectLinkList});
         }
 
-        var bufferData = nextBufferMap.get(currentSelectLinkId);
+        let bufferData = linkerBufferMap.get(triggerSelectId);
         if (isValidObj(bufferData)) {
-            debugLog("使用了缓存的" + requestName + "请求数据");
+            debugLog("使用了缓存的" + linkerRequestName + "请求数据");
             successCallback(bufferData);
-        } else if (isValidObj(currentSelectLinkId) === true) {
-            if (isValidVar(customRequest)) {
-                customRequest(currentSelectLinkId, successCallback)
+        } else if (isValidObj(triggerSelectId) === true) {
+            if (isValidVar(customLinkRequestFun)) {
+                customLinkRequestFun(triggerSelectId, successCallback)
             } else {
                 $.ajax({
                     type: 'post',
                     dataType: 'json',
                     async: true,
-                    data: getParamData(currentSelectLinkId),
-                    url: nextLinkRequestUrl,
+                    data: getLinkRequestParamDataFun(triggerSelectId),
+                    url: linkRequestUrl,
                     success: function (result) {
                         if (result.success) {
                             successCallback(result.data);
@@ -993,6 +982,31 @@ function calcDiffDay(startDate, endDate) {
     return diffDay;
 }
 
+
+/**
+ * Descriptions: 遍历指定table的指定列
+ * 注意: 参数未经任何处理
+ * @param colNum 列号
+ * @param iteratorFun($cell, $row)
+ * @author SailHe
+ * @return $(this)
+ * @date 2018/9/11 18:30
+ */
+$.fn.iterateTableCol = function (colNum, iteratorFun) {
+    const currentTable = this.get(0);
+    if (!isValidVar(iteratorFun)) {
+        throw new Error("必须定义迭代方法!!!");
+    }
+    if (this.length > 1) {
+        throw new Error("暂不支持多元素操作!!!");
+    }
+    const len = currentTable.rows.length;
+    for (let i = 0; i < len; ++i) {
+        iteratorFun($(currentTable.rows[i].cells[colNum]), $(currentTable.rows[i]));
+    }
+    return this;
+}
+
 /**
  * Descriptions: 左开右闭<p>
  * Left open and right closed
@@ -1000,8 +1014,25 @@ function calcDiffDay(startDate, endDate) {
  * @author SailHe
  * @date 2018/9/12 12:44
  */
-const betweenNumLORC = (min, num, max) =>{
+function betweenNumLORC(min, num, max){
     return min <= num && num < max;
+}
+
+/**
+ * Descriptions: 绑定回车提交事件<p>
+ * trigger是对应Dom下面的按键事件, linker是自定义jQuery选择器所选择的元素, 动作是对其触发指定的事件
+ * @author SailHe
+ * @date 2018/9/30 21:39
+ */
+$.fn.keyPressEventBinding = function(linkerSelector, keyCode = 13, linkerEventName = 'click'){
+    return this.on('keypress', function (event) {
+        //@see: 更多keyCode https://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
+        if (event.keyCode == keyCode) {
+            //提交搜索时使用ajax->阻止表单的默认行为
+            event.preventDefault();
+            $(linkerSelector).trigger(linkerEventName);
+        }
+    });
 }
 
 /*
@@ -1021,22 +1052,5 @@ $('.navigation').click(function () {
     $($('.navigation')).closest('li').removeClass('active');
     $($(this).closest('li')).addClass('active');
 });
-//键盘事件监听
-$('input[id=searchText]').on('keypress', function (event) {
-    //enter事件
-    if (event.keyCode == "13") {
-        //提交搜索时使用ajax->阻止表单的默认行为
-        event.preventDefault();
-        $('button[id=searchButton]').trigger('click');
-    }
-});
-
-//键盘事件监听
-$('.searcher').on('keypress', function (event) {
-    //enter事件
-    if (event.keyCode == "13") {
-        //提交搜索时使用ajax->阻止表单的默认行为
-        event.preventDefault();
-        $(this).trigger('searchUtility');
-    }
-});
+// 默认的搜索框的enter事件(keyCode=13)
+$('input[id=searchText]').keyPressEventBinding('button[id=searchButton]');
