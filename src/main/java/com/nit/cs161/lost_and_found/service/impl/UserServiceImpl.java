@@ -41,6 +41,32 @@ public class UserServiceImpl implements UserService {
         return resultUser;
     }
 
+    private SysUser getBeanByUserEmailAddress(String userEmailAddress) throws Exception {
+        List<SysUser> sysUsers = userRepository.findAllByUserEmailAddress(userEmailAddress);
+        SysUser resultUser = null;
+        if (sysUsers.size() > 1) {
+            throw new Exception("用户邮箱地址重复!");
+        } else if (sysUsers.isEmpty()) {
+            // do nothing
+        } else {
+            resultUser = sysUsers.get(0);
+        }
+        return resultUser;
+    }
+
+    private SysUser getBeanByIdentityField(String identityField) throws Exception {
+        List<SysUser> sysUsers = userRepository.findAllByUserUsernameOrUserEmailAddress(identityField, identityField);
+        SysUser resultUser = null;
+        if (sysUsers.size() > 1) {
+            throw new Exception("标识域重复!");
+        } else if (sysUsers.isEmpty()) {
+            // do nothing
+        } else {
+            resultUser = sysUsers.get(0);
+        }
+        return resultUser;
+    }
+
     @Override
     public UserDTO getRecord(String userName) throws Exception {
         SysUser bean = getBeanByUserName(userName);
@@ -88,9 +114,10 @@ public class UserServiceImpl implements UserService {
         if (unSignedUserDTO.getUserUsername() != null) {
             userBean = getBeanByUserName(unSignedUserDTO.getUserUsername());
         } else if (userBean.getUserEmailAddress() != null) {
-            userBean = null;//getBeanByUserEmailAddress(unSignedUserDTO.getUserEmailAddress());
+            userBean = getBeanByUserEmailAddress(unSignedUserDTO.getUserEmailAddress());
         } else {
-            result = "仅支持用户名或邮箱地址登录!";
+            //identityField
+            throw new Exception("支持且仅支持[用户名 或 邮箱地址]登录!");
         }
 
         if (userBean == null) {

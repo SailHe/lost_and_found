@@ -14,7 +14,7 @@ import java.util.List;
  * @date 2018/10/1 15:57
  */
 @Repository
-public interface UserRepository extends JpaRepository<SysUser,Integer>, JpaSpecificationExecutor<SysUser> {
+public interface UserRepository extends JpaRepository<SysUser, Integer>, JpaSpecificationExecutor<SysUser> {
 
     /*@Query(value = "SELECT userPassword FROM SysUser WHERE userPhone = ?1 ")
     String getPassword(String userPhone) throws Exception;*/
@@ -27,7 +27,11 @@ public interface UserRepository extends JpaRepository<SysUser,Integer>, JpaSpeci
      * @author SailHe
      * @date 2018/10/1 16:18
      */
-    List<SysUser> findAllByUserUsername(String userName);
+    List<SysUser> findAllByUserUsername(String userUserName);
+
+    List<SysUser> findAllByUserEmailAddress(String userEmailAddress);
+
+    List<SysUser> findAllByUserUsernameOrUserEmailAddress(String userUserName, String userEmailAddress);
 
     /**
      * Descriptions: 用于模糊查询<p>
