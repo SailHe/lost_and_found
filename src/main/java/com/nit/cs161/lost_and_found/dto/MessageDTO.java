@@ -1,0 +1,111 @@
+package com.nit.cs161.lost_and_found.dto;
+
+import com.nit.cs161.lost_and_found.entity.laf.LafMessage;
+import com.nit.cs161.lost_and_found.utility.BaseDTO;
+import org.springframework.beans.BeanUtils;
+
+import java.sql.Timestamp;
+
+/**
+ * Descriptions: 消息传输类<p>
+ *
+ * @author SailHe
+ * @date 2018/10/6 22:46
+ */
+public class MessageDTO extends BaseDTO<LafMessage> {
+    private Integer messageId;
+    private Integer userId;
+    private Integer itemId;
+    private String messageDesc;
+    private String msgImgUrls;
+    private Byte messageType;
+    private Timestamp createTime;
+    private Timestamp editTime;
+
+    public MessageDTO() {
+        super(LafMessage.class);
+        setEditTime(new Timestamp(System.currentTimeMillis()));
+    }
+
+    public MessageDTO(LafMessage bean) {
+        super(LafMessage.class);
+        BeanUtils.copyProperties(bean, this);
+    }
+
+    public Integer getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(Integer messageId) {
+        this.messageId = messageId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
+    }
+
+    public String getMessageDesc() {
+        return messageDesc;
+    }
+
+    public void setMessageDesc(String messageDesc) {
+        this.messageDesc = messageDesc;
+    }
+
+    public String getMsgImgUrls() {
+        return msgImgUrls;
+    }
+
+    public void setMsgImgUrls(String msgImgUrls) {
+        this.msgImgUrls = msgImgUrls;
+    }
+
+    public Byte getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(Byte messageType) {
+        this.messageType = messageType;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getEditTime() {
+        return editTime;
+    }
+
+    public void setEditTime(Timestamp editTime) {
+        this.editTime = editTime;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageDTO{" +
+                "messageId=" + messageId +
+                ", userId=" + userId +
+                ", itemId=" + itemId +
+                ", messageDesc='" + messageDesc + '\'' +
+                ", msgImgUrls='" + msgImgUrls + '\'' +
+                ", createTime=" + createTime +
+                ", editTime=" + editTime +
+                '}';
+    }
+}

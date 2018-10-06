@@ -21,6 +21,6 @@ public interface PageService<DTO, PrimaryKey> extends CrudService<DTO, PrimaryKe
      * @author SailHe
      * @date 2018/1/27 15:05
      */
-    DtResponseDTO getPage(DtRequestDTO dtRequestDTO) throws Exception;
+    DtResponseDTO getPageResponse(DtRequestDTO dtRequestDTO) throws Exception;
 
 }

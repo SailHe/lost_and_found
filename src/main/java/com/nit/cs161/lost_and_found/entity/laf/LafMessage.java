@@ -19,6 +19,7 @@ public class LafMessage {
     private Integer itemId;
     private String messageDesc;
     private String msgImgUrls;
+    private Byte messageType;
     private Timestamp createTime;
     private Timestamp editTime;
 
@@ -71,6 +72,16 @@ public class LafMessage {
 
     public void setMsgImgUrls(String msgImgUrls) {
         this.msgImgUrls = msgImgUrls;
+    }
+
+    @Basic
+    @Column(name = "message_type", nullable = true)
+    public Byte getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(Byte messageType) {
+        this.messageType = messageType;
     }
 
     @Basic

@@ -15,6 +15,7 @@ import java.util.Objects;
 @Table(name = "laf_item", schema = "lost_and_found", catalog = "")
 public class LafItem {
     private Integer itemId;
+    private String itemName;
     private String itemDesc;
     private Timestamp itemPickUpTime;
     private Timestamp createTime;
@@ -29,6 +30,16 @@ public class LafItem {
 
     public void setItemId(Integer itemId) {
         this.itemId = itemId;
+    }
+
+    @Basic
+    @Column(name = "item_name", nullable = true, length = 25)
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     @Basic
