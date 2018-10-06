@@ -43,20 +43,20 @@ public class UserController {
     public AjaxMsgDTO signInSystem(String userUsername, String userPassword) {
         AjaxMsgDTO ajaxMsgDto = new AjaxMsgDTO();
         try {
-            String token = userService.signInSystem(userUsername, userPassword);
-            ajaxMsgDto.setData(token);
-            if (ajaxMsgDto.getData() != null) {
-                ajaxMsgDto.setData(userService.getTokenRecord(token));
+            UserDTO unSignedUserDTO = new UserDTO();
+            unSignedUserDTO.setUserUsername(userUsername);
+            unSignedUserDTO.setUserPassword(userPassword);
+            ajaxMsgDto.setMsg(userService.signInSystem(unSignedUserDTO));
+            if (unSignedUserDTO.getUserToken() != null) {
+                ajaxMsgDto.setData(userService.getTokenRecord(unSignedUserDTO.getUserToken()));
                 ajaxMsgDto.setSuccess(ProjectConstants.SUCCESS);
-                ajaxMsgDto.setMsg("登录成功");
             } else {
                 ajaxMsgDto.setSuccess(ProjectConstants.FAILURE);
-                ajaxMsgDto.setMsg("登录失败");
             }
         } catch (Exception e) {
             ajaxMsgDto.setSuccess(ProjectConstants.FAILURE);
-            ajaxMsgDto.setMsg("Token生成失败");
-            LOGGER.error("Token生成失败", e);
+            ajaxMsgDto.setMsg("用户登录失败!");
+            LOGGER.error("用户登录失败!", e);
         }
         return ajaxMsgDto;
     }

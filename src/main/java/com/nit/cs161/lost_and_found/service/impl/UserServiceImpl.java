@@ -43,7 +43,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getRecord(String userName) throws Exception {
-        return new UserDTO(getBeanByUserName(userName));
+        SysUser bean = getBeanByUserName(userName);
+        return bean == null ? null : new UserDTO(bean);
     }
 
     @Override
@@ -79,22 +80,33 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    /**
-     * Descriptions: 登录<p>
-     *
-     * @author SailHe
-     * @date 2018/10/1 17:14
-     */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String signInSystem(String userUsername, String userPassword) throws Exception {
-        SysUser userBean = getBeanByUserName(userUsername);
-        String token = null;
-        if (userPassword.equals(userBean.getUserPassword())) {
-            token = JWTUtil.signature(userUsername, userPassword);
-            userBean.setUserToken(token + userUsername);
+    public String signInSystem(UserDTO unSignedUserDTO) throws Exception {
+        String result;
+        SysUser userBean = null;
+        if (unSignedUserDTO.getUserUsername() != null) {
+            userBean = getBeanByUserName(unSignedUserDTO.getUserUsername());
+        } else if (userBean.getUserEmailAddress() != null) {
+            userBean = null;//getBeanByUserEmailAddress(unSignedUserDTO.getUserEmailAddress());
+        } else {
+            result = "仅支持用户名或邮箱地址登录!";
         }
-        return token;
+
+        if (userBean == null) {
+            result = "用户不存在!";
+        } else {
+            String token, userUsername = userBean.getUserUsername();
+            if (unSignedUserDTO.getUserPassword().equals(userBean.getUserPassword())) {
+                token = JWTUtil.signature(userUsername, unSignedUserDTO.getUserPassword());
+                userBean.setUserToken(token + userUsername);
+                unSignedUserDTO.setUserToken(token);
+                result = "登录成功!";
+            } else {
+                result = "密码错误!";
+            }
+        }
+        return result;
     }
 
     @Override

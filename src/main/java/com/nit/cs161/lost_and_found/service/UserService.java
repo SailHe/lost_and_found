@@ -14,12 +14,12 @@ import java.util.List;
 public interface UserService extends CrudService<UserDTO, Integer> {
 
     /**
-     * Descriptions: 使用手机号登录<p>
+     * Descriptions: 登录<p>
      *
      * @author SailHe
-     * @date 2018/10/1 16:23
+     * @date 2018/10/1 17:14
      */
-    String signInSystem(String userUsername, String userPassword) throws Exception;
+    String signInSystem(UserDTO unSignedUserDTO) throws Exception;
 
     /**
      * Descriptions: 用户注册<p>
