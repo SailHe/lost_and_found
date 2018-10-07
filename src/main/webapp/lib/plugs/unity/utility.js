@@ -561,6 +561,17 @@ $.fn.tableRowDeleteLineRemove = function () {
 }
 
 /**
+ * Descriptions: 返回一个无意义的id字符串<p>
+ *
+ * @author SailHe
+ * @date 2018/9/11 16:50
+ */
+function identification(tipStr = '__') {
+    //1ms后将会调用执行remind()函数 (保证ID的差异性)
+    return tipStr + setTimeout(() => new Date().getTime(), 1);
+}
+
+/**
  * Descriptions: 自定义消息框(可显示多个 不会覆盖)
  * @param content: 内容
  * @param type: alert 警告, else 提示
@@ -568,7 +579,7 @@ $.fn.tableRowDeleteLineRemove = function () {
  * @date 2018/4/8 21:56
  */
 $.messageBox = function (content, type) {
-    var messagePlot = $("#boxSpot");
+    let messagePlot = $("#boxSpot");
     if (messagePlot.length == 0) {
         $("body").append("<div id='boxSpot' style='position:fixed; top:1px; width:20%; margin-left:40%; z-index:1500; display:none;'></div>");
         //渐显: 使用淡入效果来显示被选元素
@@ -576,7 +587,7 @@ $.messageBox = function (content, type) {
     }
     messagePlot = $("#boxSpot");
     //1ms后将会调用执行remind()函数 (保证ID的差异性)
-    var strId = 'messageBoxDiv' + setTimeout(function remind() {
+    const strId = 'messageBoxDiv' + setTimeout(function remind() {
         return new Date().getTime();
     }, 1);
     //&times;<i class='ace-icon fa fa-times'>      x和icon
@@ -890,10 +901,10 @@ function AsyncLinkBufferChangeFactory(
         throw new Error("当确保传入的联动选择器至少可以选中一个Dom, 请求返回的数据将append在这上面");
     }
     //环路验证 @TODO 使用find
-    for(let triggerIndex = 0; triggerIndex < triggerLen; ++triggerIndex){
-        for(let linkerIndex = 0; linkerIndex < linkerLen; ++linkerIndex){
+    for (let triggerIndex = 0; triggerIndex < triggerLen; ++triggerIndex) {
+        for (let linkerIndex = 0; linkerIndex < linkerLen; ++linkerIndex) {
             let triggerDom = $triggerSelect.get(triggerIndex), linkerDom = $linkerSelect.get(linkerIndex);
-            if(triggerDom === linkerDom){
+            if (triggerDom === linkerDom) {
                 throw new Error("触发选择器和联动选择器 选择的Dom任意dom不能是同一个dom 否则会构成联动环路!");
             }
         }
