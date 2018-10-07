@@ -307,34 +307,42 @@
                     <div class="container" style="width: 750px;">
                         <!--<section class="col-md-12">-->
                         <div class="form-group" style="text-align: left">
-                            <label class="col-md-2 control-label">商品全称</label>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control focus-prompts" name="goodsName">
-                            </div>
-
-                            <label class="col-md-2 control-label">商品简称</label>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control focus-prompts" name="goodsShortName">
-                            </div>
-                        </div>
-
-                        <div class="form-group" style="text-align: left">
-                            <label class="col-md-2 control-label">商品编码</label>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control focus-prompts" name="goodsCode">
-                            </div>
-
-                            <label class="col-md-2 control-label">商品助记码</label>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control focus-prompts" name="goodsMnemonicCode">
-                            </div>
-                        </div>
-
-                        <div class="form-group" style="text-align: left">
                             <label class="col-md-2 control-label">主题类型</label>
                             <div class="col-md-3">
                                 <select class="form-control hidden" id="onlyToTrigger"></select>
                                 <select class="form-control" name="subjectType"></select>
+                            </div>
+
+                            <label class="col-md-1 control-label"></label>
+                            <label class="col-md-2 control-label">消息图片</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="goodsMnemonicCode">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="text-align: left">
+                            <label class="col-md-2 control-label">消息内容</label>
+                            <div class="col-md-10">
+                                <textarea type="text" class="form-control" name="goodsShortName"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="text-align: left">
+                            <label class="col-md-2 control-label">物品描述</label>
+                            <div class="col-md-10">
+                                <textarea type="text" class="form-control" name="goodsName"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="text-align: left">
+                            <label class="col-md-2 control-label">拾取时间</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control time date-time-picker" name="itemPickUpTime">
+                            </div>
+
+                            <label class="col-md-2 control-label">物品名称</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control " name="goodsName">
                             </div>
                         </div>
 

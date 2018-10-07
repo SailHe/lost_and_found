@@ -85,6 +85,16 @@ $(document).ready(function () {
         lengthMenu: [[5, 10, 15, 20, 50, 100, 150, -1], [5, 10, 15, 20, 50, 100, 150, "All"]],
         language: {url: "./datatable_zh_cn.json"}
     });
+
+    AsyncLinkBufferChangeFactory({
+        triggerSelector: 'select[id=onlyToTrigger]'
+        , linkerSelector: 'select[name=subjectType]'
+        , linkRequestUrl: '../subject/listSubjectType'
+        , idName: 'value'
+        , dataName:'name'
+    }).trigger('change', {selectLinkList: [0, -1]});
+
+    //itemPickUpTime
 });
 
 $(function () {
@@ -147,10 +157,5 @@ $(function () {
     initDraggableModal($($('.btn-modal-show').get(0)), $('#exampleModal2'));
 });
 
-AsyncLinkBufferChangeFactory({
-    triggerSelector: 'select[id=onlyToTrigger]'
-    , linkerSelector: 'select[name=subjectType]'
-    , linkRequestUrl: '../subject/listSubjectType'
-    , idName: 'value'
-    , dataName:'name'
-}).trigger('change', {selectLinkList: [0, -1]});
+
+
