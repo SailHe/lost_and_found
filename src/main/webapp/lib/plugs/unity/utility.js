@@ -818,7 +818,8 @@ function nStrPlush(lhs, rhs) {
  *
  * 会在上一步的异步请求成功返回后自动选择 联动选择列表 第一个的idValue 并根据是否还有下一级选择自动触发下一级联动
  * @param selectLinkList 绑定事件trigger时的 联动选择列表
- * [0]: 当前级的idValue; [1]这一级即将选择的idIndex(若不设置就会触发默认的下级联动); 以此类推可设置任意多个
+ * [0~end): linker的idValue; [end]: trigger的idIndex(若不设置就会触发默认的下级联动); 以此类推可设置任意多个(最后一个总表示trigger, 若无效请置为-1之类的值, 不要置为null, ''等无效值)
+ * 注意 时apend在linker上而不是trigger上
  * @eg: customLinkRequestFun = (triggerSelectIdParam, successCallback) => {
             $.ajax({
                 type: 'post',
@@ -856,9 +857,9 @@ function AsyncLinkBufferChangeFactory(
         , linkerBufferMap = new Map()
         //辨识每条数据的属性名(Number或可以parseInt 且必须不同) 这是默认向后台请求数据时的回调字段
         , idName = null
-        //索引字段(不同联动级下允许相同)
-        , indexName = null
-        //option中的value属性名(默认与idName等价), 定义送往服务器的选项值
+        //索引字段(不同联动级下允许相同; 默认与idName等价)
+        , indexName = idName
+        //option中的value属性名(定义送往服务器的选项值; 默认与idName等价)
         , valueName = idName
         , dataName = null
 
@@ -881,8 +882,24 @@ function AsyncLinkBufferChangeFactory(
     }
     let $triggerSelect = $(triggerSelector);
     let $linkerSelect = $(linkerSelector);
+    const triggerLen = $triggerSelect.length, linkerLen = $linkerSelect.length;
+    if (triggerLen === 0) {
+        throw new Error("当确保传入的触发选择器至少可以选中一个Dom");
+    }
+    if (linkerLen === 0) {
+        throw new Error("当确保传入的联动选择器至少可以选中一个Dom, 请求返回的数据将append在这上面");
+    }
+    //环路验证 @TODO 使用find
+    for(let triggerIndex = 0; triggerIndex < triggerLen; ++triggerIndex){
+        for(let linkerIndex = 0; linkerIndex < linkerLen; ++linkerIndex){
+            let triggerDom = $triggerSelect.get(triggerIndex), linkerDom = $linkerSelect.get(linkerIndex);
+            if(triggerDom === linkerDom){
+                throw new Error("触发选择器和联动选择器 选择的Dom任意dom不能是同一个dom 否则会构成联动环路!");
+            }
+        }
+    }
 
-    $triggerSelect.on(triggerEventName, function (event, selectLinkList) {
+    return $triggerSelect.on(triggerEventName, function (event, selectLinkList) {
         debugLog(linkerRequestName + '事件' + triggerEventName + '触发');
         $linkerSelect.empty();
         if (!isValidVar(selectLinkList)) {
@@ -927,7 +944,8 @@ function AsyncLinkBufferChangeFactory(
 
         function successCallback(data) {
             let selected = null;
-            for (let i = 0; i < data.length; i++) {
+            const dataLen = data.length;
+            for (let i = 0; i < dataLen; i++) {
                 if (linkerSelectId == data[i][indexName] || (i === 0 && !isValidObj(linkerSelectId))) {
                     selectLinkList[linkerSelectIndex] = linkerSelectId = data[i][idName];
                     selected = "selected";
@@ -948,24 +966,28 @@ function AsyncLinkBufferChangeFactory(
         if (isValidObj(bufferData)) {
             debugLog("使用了缓存的" + linkerRequestName + "请求数据");
             successCallback(bufferData);
-        } else if (isValidObj(triggerSelectId) === true) {
-            if (isValidVar(customLinkRequestFun)) {
-                customLinkRequestFun(triggerSelectId, successCallback)
+        } else {
+            if (isValidObj(triggerSelectId) === true) {
+                if (isValidVar(customLinkRequestFun)) {
+                    customLinkRequestFun(triggerSelectId, successCallback)
+                } else {
+                    $.ajax({
+                        type: 'post',
+                        dataType: 'json',
+                        async: true,
+                        data: getLinkRequestParamDataFun(triggerSelectId),
+                        url: linkRequestUrl,
+                        success: function (result) {
+                            if (result.success) {
+                                successCallback(result.data);
+                            } else {
+                                console.error("数据请求失败!");
+                            }
+                        },
+                    });
+                }
             } else {
-                $.ajax({
-                    type: 'post',
-                    dataType: 'json',
-                    async: true,
-                    data: getLinkRequestParamDataFun(triggerSelectId),
-                    url: linkRequestUrl,
-                    success: function (result) {
-                        if (result.success) {
-                            successCallback(result.data);
-                        } else {
-                            console.error("数据请求失败!");
-                        }
-                    },
-                });
+                throw new Error("传入的triggerSelectId无效!");
             }
         }
     });
@@ -1014,7 +1036,7 @@ $.fn.iterateTableCol = function (colNum, iteratorFun) {
  * @author SailHe
  * @date 2018/9/12 12:44
  */
-function betweenNumLORC(min, num, max){
+function betweenNumLORC(min, num, max) {
     return min <= num && num < max;
 }
 
@@ -1024,7 +1046,7 @@ function betweenNumLORC(min, num, max){
  * @author SailHe
  * @date 2018/9/30 21:39
  */
-$.fn.keyPressEventBinding = function(linkerSelector, keyCode = 13, linkerEventName = 'click'){
+$.fn.keyPressEventBinding = function (linkerSelector, keyCode = 13, linkerEventName = 'click') {
     return this.on('keypress', function (event) {
         //@see: 更多keyCode https://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
         if (event.keyCode == keyCode) {

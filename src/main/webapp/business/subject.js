@@ -3,6 +3,7 @@ $(document).ready(function () {
     function divWrap(data) {
         return "<div style='text-align: center' class='flex-box-div'> " + data + "</div>";
     }
+
     const noPicUrl = 'plugins/assets/images/common/nopic.jpg';
     if ($DataTableAPI != null) {
         $DataTableAPI.destroy();
@@ -85,3 +86,71 @@ $(document).ready(function () {
         language: {url: "./datatable_zh_cn.json"}
     });
 });
+
+$(function () {
+    /**
+     * Descriptions: 初始化一个可拖拽的Bootstrap Modal<p>
+     *
+     * @author SailHe
+     * @date 2018/9/12 11:21
+     */
+    const initDraggableModal = ($button, $modal) => {
+        //设置初始化
+        $modal.modal({
+            //点击空白处关闭
+            backdrop: 'static',
+            //escape 键退出
+            keyboard: false,
+            focus: true,
+            //初始化后显示与否
+            show: false,
+        }).on('show.bs.modal', function (e) {
+            console.log('显示事件触发');
+        })
+            .on('shown.bs.modal', function () {
+                $('#goodsSearchText').trigger('focus');
+                console.log("显示完成");
+            })
+            //显示
+            //.modal('aop')
+            //触发一下就关闭
+            //.modal('toggle')
+            //.modal('hide')
+            /*.modal('handleUpdate')
+            .modal('dispose')*/
+            .on('hide.bs.modal', function () {
+                console.log('关闭事件触发');
+            })
+            .on('hidden.bs.modal', function () {
+                console.log('已关闭');
+            })
+        ;//处理点击事件
+        $button.on('click', function (event) {
+            event.preventDefault();
+            $modal.show(
+                '500',
+                function () {
+                    const modal = $(this);
+                    modal.find('.modal-title').text('可拖拽Modal');
+                    $.ajax({});
+                }
+            );
+            //完成拖拽 基于jQ-UI
+            $modal.draggable({
+                cursor: "move",
+                handle: '.modal-header'
+            });
+            //显示
+            $modal.modal('show');
+        });
+    }
+    initDraggableModal($($('.btn-modal-show').get(0)), $('#exampleModal2'));
+});
+
+AsyncLinkBufferChangeFactory({
+    triggerSelector: 'select[id=onlyToTrigger]'
+    , linkerSelector: 'select[name=subjectType]'
+    , linkRequestUrl: '../subject/listSubjectType'
+    , idName: 'value'
+    , dataName:'name'
+}).trigger('change', {selectLinkList: [0, -1]});

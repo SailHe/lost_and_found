@@ -49,14 +49,14 @@ public class SubjectController {
      */
     @RequestMapping(value = "query")
     @ResponseBody
-    public AjaxMsgDTO queryUser(Integer primaryKey) {
+    public AjaxMsgDTO querySubject(Integer primaryKey) {
         AjaxMsgDTO msgDTO = new AjaxMsgDTO();
         try {
             msgDTO.setData(subjectService.getRecord(primaryKey));
             msgDTO.setSuccess(ProjectConstants.SUCCESS);
         } catch (Exception e) {
             msgDTO.setSuccess(ProjectConstants.FAILURE);
-            LOGGER.error("获取消息失败", e);
+            LOGGER.error("获取主题失败", e);
         }
         return msgDTO;
     }
@@ -69,14 +69,14 @@ public class SubjectController {
      */
     @RequestMapping(value = "delete")
     @ResponseBody
-    public AjaxMsgDTO deleteUser(Integer primaryKey) {
+    public AjaxMsgDTO deleteSubject(Integer primaryKey) {
         AjaxMsgDTO msgDTO = new AjaxMsgDTO();
         try {
             msgDTO.setData(subjectService.deleteRecord(primaryKey));
             msgDTO.setSuccess(ProjectConstants.SUCCESS);
         } catch (Exception e) {
             msgDTO.setSuccess(ProjectConstants.FAILURE);
-            LOGGER.error("删除消息失败", e);
+            LOGGER.error("删除主题失败", e);
         }
         return msgDTO;
     }
@@ -89,14 +89,14 @@ public class SubjectController {
      */
     @RequestMapping(value = "update")
     @ResponseBody
-    public AjaxMsgDTO updateUser(MessageDTO record) {
+    public AjaxMsgDTO updateSubject(MessageDTO record) {
         AjaxMsgDTO msgDTO = new AjaxMsgDTO();
         try {
             msgDTO.setData(subjectService.updateRecord(record));
             msgDTO.setSuccess(ProjectConstants.SUCCESS);
         } catch (Exception e) {
             msgDTO.setSuccess(ProjectConstants.FAILURE);
-            LOGGER.error("更新消息失败", e);
+            LOGGER.error("更新主题失败", e);
         }
         return msgDTO;
     }
@@ -109,14 +109,14 @@ public class SubjectController {
      */
     @RequestMapping(value = "save")
     @ResponseBody
-    public AjaxMsgDTO saveUser(MessageDTO record) {
+    public AjaxMsgDTO saveSubject(MessageDTO record) {
         AjaxMsgDTO jsonMsgDTO = new AjaxMsgDTO();
         try {
             jsonMsgDTO.setData(subjectService.saveRecord(record));
             jsonMsgDTO.setSuccess(ProjectConstants.SUCCESS);
         } catch (Exception e) {
             jsonMsgDTO.setSuccess(ProjectConstants.FAILURE);
-            LOGGER.error("保存消息失败", e);
+            LOGGER.error("保存主题失败", e);
         }
         return jsonMsgDTO;
     }
@@ -129,16 +129,30 @@ public class SubjectController {
      */
     @RequestMapping(value = "insert")
     @ResponseBody
-    public AjaxMsgDTO insertUser(MessageDTO record) {
+    public AjaxMsgDTO insertSubject(MessageDTO record) {
         AjaxMsgDTO jsonMsgDTO = new AjaxMsgDTO();
         try {
             jsonMsgDTO.setData(subjectService.insertRecord(record));
             jsonMsgDTO.setSuccess(ProjectConstants.SUCCESS);
         } catch (Exception e) {
             jsonMsgDTO.setSuccess(ProjectConstants.FAILURE);
-            LOGGER.error("插入消息失败", e);
+            LOGGER.error("插入主题失败", e);
         }
         return jsonMsgDTO;
+    }
+
+    @RequestMapping(value = "listSubjectType")
+    @ResponseBody
+    public AjaxMsgDTO listSubjectType() {
+        AjaxMsgDTO msgDTO = new AjaxMsgDTO();
+        try {
+            msgDTO.setData(subjectService.listSubjectType());
+            msgDTO.setSuccess(ProjectConstants.SUCCESS);
+        } catch (Exception e) {
+            msgDTO.setSuccess(ProjectConstants.FAILURE);
+            LOGGER.error("获取主题类型列表失败", e);
+        }
+        return msgDTO;
     }
 }
 

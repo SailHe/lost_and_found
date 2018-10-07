@@ -115,4 +115,14 @@ public class SubjectServiceImpl implements SubjectService {
     public Integer insertRecord(MessageDTO record) throws Exception {
         return null;
     }
+
+    @Override
+    public List<SubjectType> listSubjectType() {
+        List<SubjectType> subjectTypeList = new LinkedList<>();
+        for (EnumMessageType e : EnumMessageType.values()) {
+            subjectTypeList.add(new SubjectType(e.getValue(), e.getName()));
+        }
+        //EnumMessageType temp = EnumMessageType.valueOf(EnumMessageType.class, "123");
+        return subjectTypeList;
+    }
 }

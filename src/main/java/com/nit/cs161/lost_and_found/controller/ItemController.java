@@ -41,6 +41,7 @@ public class ItemController {
         }
         return dtResponseDTO;
     }
+
     /**
      * Descriptions: 获取primaryKey对应的那条记录<p>
      *
@@ -49,7 +50,7 @@ public class ItemController {
      */
     @RequestMapping(value = "query")
     @ResponseBody
-    public AjaxMsgDTO queryUser(Integer primaryKey) {
+    public AjaxMsgDTO queryItem(Integer primaryKey) {
         AjaxMsgDTO msgDTO = new AjaxMsgDTO();
         try {
             msgDTO.setData(itemService.getRecord(primaryKey));
@@ -69,7 +70,7 @@ public class ItemController {
      */
     @RequestMapping(value = "delete")
     @ResponseBody
-    public AjaxMsgDTO deleteUser(Integer primaryKey) {
+    public AjaxMsgDTO deleteItem(Integer primaryKey) {
         AjaxMsgDTO msgDTO = new AjaxMsgDTO();
         try {
             msgDTO.setData(itemService.deleteRecord(primaryKey));
@@ -89,7 +90,7 @@ public class ItemController {
      */
     @RequestMapping(value = "update")
     @ResponseBody
-    public AjaxMsgDTO updateUser(ItemDTO record) {
+    public AjaxMsgDTO updateItem(ItemDTO record) {
         AjaxMsgDTO msgDTO = new AjaxMsgDTO();
         try {
             msgDTO.setData(itemService.updateRecord(record));
@@ -109,7 +110,7 @@ public class ItemController {
      */
     @RequestMapping(value = "save")
     @ResponseBody
-    public AjaxMsgDTO saveUser(ItemDTO record) {
+    public AjaxMsgDTO saveItem(ItemDTO record) {
         AjaxMsgDTO jsonMsgDTO = new AjaxMsgDTO();
         try {
             jsonMsgDTO.setData(itemService.saveRecord(record));
@@ -129,7 +130,7 @@ public class ItemController {
      */
     @RequestMapping(value = "insert")
     @ResponseBody
-    public AjaxMsgDTO insertUser(ItemDTO record) {
+    public AjaxMsgDTO insertItem(ItemDTO record) {
         AjaxMsgDTO jsonMsgDTO = new AjaxMsgDTO();
         try {
             jsonMsgDTO.setData(itemService.insertRecord(record));
@@ -140,7 +141,6 @@ public class ItemController {
         }
         return jsonMsgDTO;
     }
-
 
     /**
      * Descriptions: 物品模糊查询接口<p>

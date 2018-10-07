@@ -232,7 +232,7 @@
                         &nbsp;&nbsp;&nbsp;
                         <a href="../login.html" class="top">注册 / 登录</a>
                         &nbsp;&nbsp;&nbsp;
-                        <span class="clickable">添加</span>
+                        <span class="clickable btn-modal-show">添加</span>
                     </td>
                 </tr>
                 </tbody>
@@ -290,6 +290,81 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="exampleModal2">
+    <div class="modal-dialog" style="width: 850px;">
+        <div class="modal-content">
+            <div class="modal-header" style="min-height: 55px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+
+            <!--Form里面取元素都是通过name属性去取值的-->
+            <form class="form-horizontal" id="dataTableForm" method="post">
+                <div class="modal-body">
+                    <div class="container" style="width: 750px;">
+                        <!--<section class="col-md-12">-->
+                        <div class="form-group" style="text-align: left">
+                            <label class="col-md-2 control-label">商品全称</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control focus-prompts" name="goodsName">
+                            </div>
+
+                            <label class="col-md-2 control-label">商品简称</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control focus-prompts" name="goodsShortName">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="text-align: left">
+                            <label class="col-md-2 control-label">商品编码</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control focus-prompts" name="goodsCode">
+                            </div>
+
+                            <label class="col-md-2 control-label">商品助记码</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control focus-prompts" name="goodsMnemonicCode">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="text-align: left">
+                            <label class="col-md-2 control-label">主题类型</label>
+                            <div class="col-md-3">
+                                <select class="form-control hidden" id="onlyToTrigger"></select>
+                                <select class="form-control" name="subjectType"></select>
+                            </div>
+                        </div>
+
+                        <!--隐藏-->
+                        <!--<div class="form-group">
+                            <label class="col-md-2 control-label"></label>
+                            <div class="col-md-3">
+                                <input type="text" readonly="readonly" class="form-control" name="goodsId" value="" style="display:none;">
+                            </div>
+                        </div>-->
+                        <!--</section>--><!--左半部份-->
+
+                        <!--<section class="col-md-0">
+
+                        </section>--><!--右半部份-->
+
+                    </div> <!-- /container -->
+                </div>
+            </form>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 </body>
 
 
@@ -297,6 +372,9 @@
 <script src="../plugins/jQuery/jquery.min.js"></script>
 <script src="../plugins/DataTables/DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
 <script src="../plugins/DataTables/DataTables-1.10.16/js/dataTables.bootstrap.min.js"></script>
+<!--可拖拽模态框-->
+<script src="../lib/plugs/suit/jquery-ui.js"></script>
+<script src="../lib/plugs/suit/bootstrap.js"></script>
 
 <script src="../lib/plugs/unity/utility.js"></script>
 <script src="subject.js"></script>

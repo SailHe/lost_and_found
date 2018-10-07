@@ -8,12 +8,12 @@ package com.nit.cs161.lost_and_found.constant;
  */
 public enum EnumMessageType {
     /**
-     * Descriptions: 其余用户都可以自由发布消息<p>
+     * Descriptions: DEFAULT-其余用户都可以自由发布消息<p>
      *
      * @author SailHe
      * @date 2018/10/6 23:27
      */
-    ORDINARY(new Byte("0"), "DEFAULT 普通的消息")
+    ORDINARY(new Byte("0"), "普通消息")
     /**
      * Descriptions: 由拾取者发布的拾取消息 此类型的消息会作为一个主题(类似于帖子)显示在主页供用户查阅<p>
      *
