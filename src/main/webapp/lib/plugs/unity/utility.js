@@ -1016,6 +1016,78 @@ function calcDiffDay(startDate, endDate) {
 }
 
 
+var DATE_FORMAT_DATEPICKER = "yy-mm-dd";
+var DATE_FORMAT = "yyyy-MM-dd";
+
+//原生日期类新增
+Date.prototype.format = function (fmt) {
+    var o = {
+        "M+": this.getMonth() + 1,                 //月份
+        "d+": this.getDate(),                    //日
+        "H+": this.getHours(),                   //小时
+        "m+": this.getMinutes(),                 //分
+        "s+": this.getSeconds(),                 //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds()             //毫秒
+    };
+    if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    }
+    for (var k in o) {
+        if (new RegExp("(" + k + ")").test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        }
+    }
+    return fmt;
+}
+
+/**
+ * Descriptions: 初始化一个固定格式化的jQUI时间选择输入框<p>
+ *
+ * @author SailHe
+ * @date 2018/10/6 10:00
+ */
+$.fn.initDatePicker = function () {
+    return this.prop("readonly", true).datepicker({
+        changeMonth: true,
+        dateFormat: DATE_FORMAT_DATEPICKER,
+    });
+}
+/**
+ * Descriptions: 范围日期<p>
+ *
+ * @author SailHe
+ * @date 2018/10/7 18:04
+ */
+$.fn.rangeDatePicker = function ($endDatePickerInput) {
+
+    function initRangeDatePicker($start, $end) {
+        //设置默认时间
+        // $start.val(new Date().format(DATE_FORMAT));
+        // $end.val(new Date().format(DATE_FORMAT));
+        $start.prop("readonly", true).datepicker({
+            changeMonth: true,
+            dateFormat: DATE_FORMAT_DATEPICKER,
+            onClose: function (selectedDate) {
+                $end.datepicker("option", "minDate", selectedDate);
+            }
+        });
+        $end.prop("readonly", true).datepicker({
+            changeMonth: true,
+            dateFormat: DATE_FORMAT_DATEPICKER,
+            onClose: function (selectedDate) {
+                $start.datepicker("option", "maxDate", selectedDate);
+                $end.val($(this).val());
+            }
+        });
+    }
+
+    initRangeDatePicker(this, $endDatePickerInput);
+    //批量设置默认时间
+    $('.date-time-picker').val(new Date().format(DATE_FORMAT));
+}
+
+
 /**
  * Descriptions: 遍历指定table的指定列
  * 注意: 参数未经任何处理

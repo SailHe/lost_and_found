@@ -94,7 +94,7 @@ $(document).ready(function () {
         , dataName:'name'
     }).trigger('change', {selectLinkList: [0, -1]});
 
-    //itemPickUpTime
+    $('input[name=itemPickUpTime]').initDatePicker().val(new Date().format(DATE_FORMAT));
 });
 
 $(function () {
