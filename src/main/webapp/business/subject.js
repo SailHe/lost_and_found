@@ -1,5 +1,9 @@
 var $DataTable = $('#exampleTable'), $DataTableAPI = null;
 $(document).ready(function () {
+    function divWrap(data) {
+        return "<div style='text-align: center' class='flex-box-div'> " + data + "</div>";
+    }
+    const noPicUrl = 'plugins/assets/images/common/nopic.jpg';
     if ($DataTableAPI != null) {
         $DataTableAPI.destroy();
     }
@@ -16,21 +20,34 @@ $(document).ready(function () {
         },
         columns: [
             {
-                data: null
+                /*data: null*/
+                data: "msgImgUrls",
+                render: (data, type, row) => {
+                    return divWrap('<img src="' + (isValidVar(data) ? data : noPicUrl) + '" style="width: 50%;">');
+                }
             }, {
-                data: "itemName"
+                data: "itemName",
+                render: (data, type, row) => {
+                    return divWrap(data);
+                }
             }, {
                 data: "messageDesc",
-                render: function (data, type, row) {
-                    return '<a href="' + row.messageId + '">' + data + '</a>';
+                render: (data, type, row) => {
+                    return divWrap('<a href="' + row.messageId + '">' + data + '</a>');
                 }
             }/*, {
             //详情里面加载
                 data: "msgImgUrls"
             }*/, {
-                data: "messageType"
+                data: "messageType",
+                render: (data, type, row) => {
+                    return divWrap(data);
+                }
             }, {
-                data: "publishTime"
+                data: "publishTime",
+                render: (data, type, row) => {
+                    return divWrap(data);
+                }
             }
         ],
         "columnDefs": [
@@ -46,12 +63,12 @@ $(document).ready(function () {
         ],
         drawCallback: function (settings) {
             //前台添加序号
-            $DataTableAPI.column(0, {
+            /*$DataTableAPI.column(0, {
                 "search": 'applied',
                 "order": 'applied'
             }).nodes().each(function (cell, i) {
                 cell.innerHTML = i + 1;
-            });
+            });*/
         },
         // dom: "<'row'<'col-md-5'B>r>t<'row'<'col-md-5'l><'col-md-3'i><'col-md-4'p>>",
         processing: true,
