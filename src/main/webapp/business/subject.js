@@ -1,5 +1,7 @@
-var $DataTable = $('#exampleTable'), $DataTableAPI = null;
-$(document).ready(function () {
+var $DataTable = $('#informationTable'), $DataTableAPI = null;
+var $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableForm"), editPrimaryKey = '';
+//$(document).ready(function ()
+$(function () {
     function divWrap(data) {
         return "<div style='text-align: center' class='flex-box-div'> " + data + "</div>";
     }
@@ -88,74 +90,91 @@ $(document).ready(function () {
 
     AsyncLinkBufferChangeFactory({
         triggerSelector: 'select[id=onlyToTrigger]'
-        , linkerSelector: 'select[name=subjectType]'
+        , linkerSelector: 'select[name=messageType]'
         , linkRequestUrl: '../subject/listSubjectType'
         , idName: 'value'
         , dataName:'name'
     }).trigger('change', {selectLinkList: [0, -1]});
 
     $('input[name=itemPickUpTime]').initDatePicker().val(new Date().format(DATE_FORMAT));
-});
 
-$(function () {
-    /**
-     * Descriptions: 初始化一个可拖拽的Bootstrap Modal<p>
-     *
-     * @author SailHe
-     * @date 2018/9/12 11:21
-     */
-    const initDraggableModal = ($button, $modal) => {
-        //设置初始化
-        $modal.modal({
-            //点击空白处关闭
-            backdrop: 'static',
-            //escape 键退出
-            keyboard: false,
-            focus: true,
-            //初始化后显示与否
-            show: false,
-        }).on('show.bs.modal', function (e) {
-            console.log('显示事件触发');
-        })
-            .on('shown.bs.modal', function () {
-                $('#goodsSearchText').trigger('focus');
-                console.log("显示完成");
-            })
-            //显示
-            //.modal('aop')
-            //触发一下就关闭
-            //.modal('toggle')
-            //.modal('hide')
-            /*.modal('handleUpdate')
-            .modal('dispose')*/
-            .on('hide.bs.modal', function () {
-                console.log('关闭事件触发');
-            })
-            .on('hidden.bs.modal', function () {
-                console.log('已关闭');
-            })
-        ;//处理点击事件
-        $button.on('click', function (event) {
-            event.preventDefault();
-            $modal.show(
-                '500',
-                function () {
-                    const modal = $(this);
-                    modal.find('.modal-title').text('可拖拽Modal');
-                    $.ajax({});
+    initDraggableModal($($('.btn-modal-show').get(0)), $addAndEditModal);
+
+
+    $dataTableForm.bootstrapValidator({
+        feedbackIcons: {
+            valid: 'fa fa-ok',
+            invalid: 'fa fa-remove',
+            validating: 'fa fa-refresh'
+        },
+        fields: {
+            goodsCode: {
+                validators: {
+                    notEmpty: {
+                        message: '非空！'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9_]+$/,
+                        message: '只能包含大写,小写,数字和下划线'
+                    },
+                },
+                stringLength: {
+                    min: 1,
+                    max: 50,
+                    message: '长度必须在1到20位之间'
+                },
+            },
+            goodsName: {
+                validators: {
+                    notEmpty: {
+                        message: '非空！'
+                    },
+                    /*regexp: {
+                        regexp: /^[a-zA-Z0-9_]+$/,
+                        message: '只能包含大写、小写、数字和下划线'
+                    },
+                    emailAddress: {
+                        message: '邮箱地址格式有误'
+                    }*/
+                },
+                stringLength: {
+                    min: 1,
+                    max: 50,
+                    message: '长度必须在1到50位之间'
+                },
+            },
+            goodsCategory1Id: {
+                validators: {
+                    notEmpty: {
+                        message: '非空！'
+                    }
                 }
-            );
-            //完成拖拽 基于jQ-UI
-            $modal.draggable({
-                cursor: "move",
-                handle: '.modal-header'
-            });
-            //显示
-            $modal.modal('show');
+            },
+            goodsCategory2Id: {
+                validators: {
+                    notEmpty: {
+                        message: '非空！'
+                    }
+                }
+            },
+            goodsCategory3Id: {
+                validators: {
+                    notEmpty: {
+                        message: '非空！'
+                    }
+                }
+            },
+        }
+    }).on('success.form.bv', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            data: $dataTableForm.serialize() + editPrimaryKey,
+            url: (editPrimaryKey == "") ? "../subject/save" : "../subject/update",
+            success: tipsCallbackClosure($DataTableAPI, (editPrimaryKey == "" ? '添加' : '编辑'), $addAndEditModal),
         });
-    }
-    initDraggableModal($($('.btn-modal-show').get(0)), $('#exampleModal2'));
+        $dataTableForm.resetFormValidCheck();
+    });
 });
-
-
 

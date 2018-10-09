@@ -3,9 +3,10 @@ package com.nit.cs161.lost_and_found.utility;
 import org.springframework.beans.BeanUtils;
 
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Timestamp;
 
 /**
- * Description: 基础DTO类 继承此类后不用实现toBean 并且兼容EntityExistent接口<p>
+ * Description: 基础DTO类 继承此类后不用实现没有时间参数的toBean; 兼容EntityExistent接口; 自带创建时间和编辑时间属性<p>
  *
  * @Package: com.nit.cs161.lost_and_found.utility
  * @author: SailHe
@@ -14,6 +15,8 @@ import java.lang.reflect.InvocationTargetException;
 public abstract class BaseDTO<EntityBeanType> implements EntityExistent {
 
     private Class beanClass;
+    private Timestamp createTime;
+    private Timestamp editTime;
 
     private EntityBeanType newBean() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         return (EntityBeanType) beanClass.getConstructor().newInstance();
@@ -22,6 +25,24 @@ public abstract class BaseDTO<EntityBeanType> implements EntityExistent {
 
     public BaseDTO(Class beanClass) {
         this.beanClass = beanClass;
+        setCreateTime(new Timestamp(System.currentTimeMillis()));
+        setEditTime(new Timestamp(System.currentTimeMillis()));
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getEditTime() {
+        return editTime;
+    }
+
+    public void setEditTime(Timestamp editTime) {
+        this.editTime = editTime;
     }
 
     @Override
@@ -78,6 +99,5 @@ public abstract class BaseDTO<EntityBeanType> implements EntityExistent {
             return value.toString();
         }
     }
-
 
 }

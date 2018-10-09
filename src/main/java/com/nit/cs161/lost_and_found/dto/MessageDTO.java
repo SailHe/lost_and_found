@@ -19,12 +19,9 @@ public class MessageDTO extends BaseDTO<LafMessage> {
     private String messageDesc;
     private String msgImgUrls;
     private Byte messageType;
-    private Timestamp createTime;
-    private Timestamp editTime;
 
     public MessageDTO() {
         super(LafMessage.class);
-        setEditTime(new Timestamp(System.currentTimeMillis()));
     }
 
     public MessageDTO(LafMessage bean) {
@@ -80,22 +77,6 @@ public class MessageDTO extends BaseDTO<LafMessage> {
         this.messageType = messageType;
     }
 
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-    public Timestamp getEditTime() {
-        return editTime;
-    }
-
-    public void setEditTime(Timestamp editTime) {
-        this.editTime = editTime;
-    }
-
     @Override
     public String toString() {
         return "MessageDTO{" +
@@ -104,8 +85,6 @@ public class MessageDTO extends BaseDTO<LafMessage> {
                 ", itemId=" + itemId +
                 ", messageDesc='" + messageDesc + '\'' +
                 ", msgImgUrls='" + msgImgUrls + '\'' +
-                ", createTime=" + createTime +
-                ", editTime=" + editTime +
                 '}';
     }
 }

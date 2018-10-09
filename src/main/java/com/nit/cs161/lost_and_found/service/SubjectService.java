@@ -1,6 +1,8 @@
 package com.nit.cs161.lost_and_found.service;
 
+import com.nit.cs161.lost_and_found.dto.ItemDTO;
 import com.nit.cs161.lost_and_found.dto.MessageDTO;
+import com.nit.cs161.lost_and_found.dto.UserDTO;
 import com.nit.cs161.lost_and_found.service.general.PageService;
 
 import java.util.List;
@@ -37,6 +39,22 @@ public interface SubjectService extends PageService<MessageDTO, Integer> {
             this.name = name;
         }
     }
+
+    /**
+     * Descriptions: 列举所有的主题类型<p>
+     *
+     * @author SailHe
+     * @date 2018/10/9 20:55
+     */
     List<SubjectType> listSubjectType();
+
+    /**
+     * Descriptions: 保存一个主题<p>
+     *
+     * @author SailHe
+     * @date 2018/10/9 21:04
+     */
+    Integer saveRecord(MessageDTO record, ItemDTO itemRecord, Integer userId) throws Exception;
+
 }
 

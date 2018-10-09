@@ -183,18 +183,16 @@ function loadDropSelect($select, gradeName, selectedValue) {
  * @author SailHe
  * @date 2018/4/22 10:32
  */
-/*function tipsCallbackClosure(reloadTable, tipsMessagePrefix, $informationModal) {
+function tipsCallbackClosure(reloadTable, tipsMessagePrefix, $informationModal) {
     tipsMessagePrefix == undefined ? tipsMessagePrefix = "操作" : '';
     return function tipsCallBack(result) {
         if (result.success) {
-            //$.messageBox(message + "成功！");
-            $.alert(tipsMessagePrefix + "成功！", 1);
+            $.messageBox(tipsMessagePrefix + "成功！");
             //initDataTable();
             reloadTable.ajax.reload(null, false);
         }
         else {
-            $.alert(tipsMessagePrefix + "失败！", 0);
-            //$.messageBox(message + "失败！", "alert");
+            $.messageBox(tipsMessagePrefix + "失败！", "alert");
         }
 
         if (typeof  $informationModal == "undefined") {
@@ -204,7 +202,7 @@ function loadDropSelect($select, gradeName, selectedValue) {
             $informationModal.modal('hide');
         }
     }
-}*/
+}
 
 /**
  * Descriptions: 重置表格的有效性验证结果(使用时机貌似只能是在modal显示之后)<p>
@@ -1124,6 +1122,63 @@ function betweenNumLORC(min, num, max) {
 }
 
 /**
+ * Descriptions: 初始化一个可拖拽的Bootstrap Modal 许引入jQ-ui<p>
+ *
+ * @author SailHe
+ * @date 2018/9/12 11:21
+ */
+const initDraggableModal = ($button, $modal) => {
+    //设置初始化
+    $modal.modal({
+        //点击空白处关闭
+        backdrop: 'static',
+        //escape 键退出
+        keyboard: false,
+        focus: true,
+        //初始化后显示与否
+        show: false,
+    }).on('show.bs.modal', function (e) {
+        // console.log('显示事件触发');
+    })
+        .on('shown.bs.modal', function () {
+            $('textarea[name=messageDesc]').trigger('focus');
+            // console.log("显示完成");
+        })
+        //显示
+        //.modal('aop')
+        //触发一下就关闭
+        //.modal('toggle')
+        //.modal('hide')
+        /*.modal('handleUpdate')
+        .modal('dispose')*/
+        .on('hide.bs.modal', function () {
+            // console.log('关闭事件触发');
+        })
+        .on('hidden.bs.modal', function () {
+            // console.log('已关闭');
+        })
+    ;//处理点击事件
+    $button.on('click', function (event) {
+        event.preventDefault();
+        $modal.show(
+            '500',
+            function () {
+                const modal = $(this);
+                modal.find('.modal-title').text('可拖拽Modal');
+                $.ajax({});
+            }
+        );
+        //完成拖拽 基于jQ-UI
+        $modal.draggable({
+            cursor: "move",
+            handle: '.modal-header'
+        });
+        //显示
+        $modal.modal('show');
+    });
+}
+
+/**
  * Descriptions: 绑定回车提交事件<p>
  * trigger是对应Dom下面的按键事件, linker是自定义jQuery选择器所选择的元素, 动作是对其触发指定的事件
  * @author SailHe
@@ -1159,3 +1214,5 @@ $('.navigation').click(function () {
 });
 // 默认的搜索框的enter事件(keyCode=13)
 $('input[id=searchText]').keyPressEventBinding('button[id=searchButton]');
+
+

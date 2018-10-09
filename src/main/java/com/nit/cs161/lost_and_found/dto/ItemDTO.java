@@ -7,7 +7,6 @@ import com.nit.cs161.lost_and_found.utility.DateGenerator;
 import org.springframework.beans.BeanUtils;
 
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Timestamp;
 
 /**
  * Descriptions: 物品传输类<p>
@@ -20,12 +19,9 @@ public class ItemDTO extends BaseDTO<LafItem> {
     private String itemName;
     private String itemDesc;
     private String itemPickUpTime;
-    private Timestamp createTime;
-    private Timestamp editTime;
 
     public ItemDTO() {
         super(LafItem.class);
-        setEditTime(new Timestamp(System.currentTimeMillis()));
     }
 
     public ItemDTO(LafItem bean) {
@@ -66,22 +62,6 @@ public class ItemDTO extends BaseDTO<LafItem> {
         this.itemPickUpTime = itemPickUpTime;
     }
 
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-    public Timestamp getEditTime() {
-        return editTime;
-    }
-
-    public void setEditTime(Timestamp editTime) {
-        this.editTime = editTime;
-    }
-
     @Override
     public LafItem toBean() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         LafItem lafItem = super.toBean();
@@ -95,8 +75,6 @@ public class ItemDTO extends BaseDTO<LafItem> {
                 "itemId=" + itemId +
                 ", itemDesc='" + itemDesc + '\'' +
                 ", itemPickUpTime=" + itemPickUpTime +
-                ", createTime=" + createTime +
-                ", editTime=" + editTime +
                 '}';
     }
 }

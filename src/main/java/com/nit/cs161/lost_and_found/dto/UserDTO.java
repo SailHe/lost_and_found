@@ -31,12 +31,9 @@ public class UserDTO extends BaseDTO<SysUser> {
     private String userToken;
     private String userSignInIp;
     private Timestamp userSignInTime;
-    private Timestamp createTime;
-    private Timestamp editTime;
 
     public UserDTO() {
         super(SysUser.class);
-        setEditTime(new Timestamp(System.currentTimeMillis()));
     }
 
     public UserDTO(SysUser bean) {
@@ -158,22 +155,6 @@ public class UserDTO extends BaseDTO<SysUser> {
         this.userSignInTime = userSignInTime;
     }
 
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-    public Timestamp getEditTime() {
-        return editTime;
-    }
-
-    public void setEditTime(Timestamp editTime) {
-        this.editTime = editTime;
-    }
-
     @Override
     public SysUser toBean() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         SysUser bean = super.toBean();
@@ -202,8 +183,6 @@ public class UserDTO extends BaseDTO<SysUser> {
                 ", userToken='" + userToken + '\'' +
                 ", userSignInIp='" + userSignInIp + '\'' +
                 ", userSignInTime=" + userSignInTime +
-                ", createTime=" + createTime +
-                ", editTime=" + editTime +
                 '}';
     }
 }

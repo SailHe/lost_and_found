@@ -1,19 +1,14 @@
 package com.nit.cs161.lost_and_found.dto;
 
 import com.nit.cs161.lost_and_found.constant.EnumMessageType;
-import com.nit.cs161.lost_and_found.constant.general.ProjectConstants;
 import com.nit.cs161.lost_and_found.entity.SysUser;
 import com.nit.cs161.lost_and_found.entity.laf.LafItem;
 import com.nit.cs161.lost_and_found.entity.laf.LafMessage;
-import com.nit.cs161.lost_and_found.utility.BaseDTO;
 import com.nit.cs161.lost_and_found.utility.DateGenerator;
 import org.springframework.beans.BeanUtils;
 
-import javax.persistence.EnumType;
-import java.sql.Timestamp;
-
 /**
- * Descriptions: 主题, 消息和物品的复合类<p>
+ * Descriptions: 主题: 消息和物品的复合类<p>
  *
  * @author SailHe
  * @date 2018/10/6 22:46

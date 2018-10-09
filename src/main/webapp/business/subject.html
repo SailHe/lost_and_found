@@ -243,7 +243,7 @@
 </div>
 
 <div class="container">
-    <table id="exampleTable" class="table table-striped table-bordered table-hover table-condensed">
+    <table id="informationTable" class="table table-striped table-bordered table-hover table-condensed">
         <thead>
         <tr>
             <th>序号</th>
@@ -292,7 +292,7 @@
 </div>
 
 
-<div class="modal fade" id="exampleModal2">
+<div class="modal fade" id="informationModal">
     <div class="modal-dialog" style="width: 850px;">
         <div class="modal-content">
             <div class="modal-header" style="min-height: 55px;">
@@ -311,27 +311,27 @@
                             <label class="col-md-2 control-label">主题类型</label>
                             <div class="col-md-3">
                                 <select class="form-control hidden" id="onlyToTrigger"></select>
-                                <select class="form-control" name="subjectType"></select>
+                                <select class="form-control" name="messageType"></select>
                             </div>
 
                             <label class="col-md-1 control-label"></label>
                             <label class="col-md-2 control-label">消息图片</label>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" name="goodsMnemonicCode">
+                                <input type="text" class="form-control" name="msgImgUrls">
                             </div>
                         </div>
 
                         <div class="form-group" style="text-align: left">
                             <label class="col-md-2 control-label">消息内容</label>
                             <div class="col-md-10">
-                                <textarea type="text" class="form-control" name="goodsShortName"></textarea>
+                                <textarea type="text" class="form-control" name="messageDesc"></textarea>
                             </div>
                         </div>
 
                         <div class="form-group" style="text-align: left">
                             <label class="col-md-2 control-label">物品描述</label>
                             <div class="col-md-10">
-                                <textarea type="text" class="form-control" name="goodsName"></textarea>
+                                <textarea type="text" class="form-control" name="itemDesc"></textarea>
                             </div>
                         </div>
 
@@ -343,31 +343,23 @@
 
                             <label class="col-md-2 control-label">物品名称</label>
                             <div class="col-md-4">
-                                <input type="text" class="form-control " name="goodsName">
+                                <input type="text" class="form-control " name="itemName">
                             </div>
                         </div>
 
                         <!--隐藏-->
-                        <!--<div class="form-group">
-                            <label class="col-md-2 control-label"></label>
-                            <div class="col-md-3">
-                                <input type="text" readonly="readonly" class="form-control" name="goodsId" value="" style="display:none;">
-                            </div>
-                        </div>-->
-                        <!--</section>--><!--左半部份-->
-
-                        <!--<section class="col-md-0">
-
-                        </section>--><!--右半部份-->
+                        <!--这是临时存储user的-->
+                        <input type="text" readonly="readonly" class="hidden form-control" name="userId" value="1">
+                        <!--subjectId-->
+                        <input type="text" readonly="readonly" class="hidden form-control" name="messageId" value="">
 
                     </div> <!-- /container -->
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
             </form>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
         </div>
         <!-- /.modal-content -->
     </div>
@@ -380,11 +372,12 @@
 <script src="../lib/plugins/jQuery/jquery-3.3.1.min.js"></script>
 <script src="../lib/plugins/DataTables/DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
 <script src="../lib/plugins/DataTables/DataTables-1.10.16/js/dataTables.bootstrap.min.js"></script>
+<script src="../lib/plugins/suit/bootstrap.js"></script>
+<script src="../lib/plugins/bootstrapValidator/bootstrapValidator.min.js"></script>
 <!--可拖拽模态框-->
 <script src="../lib/plugins/suit/jquery-ui.js"></script>
 <!--<script src="plugins/jquery-ui-1.12.1.custom/timepicker-addon-1.6.3/jquery-ui-timepicker-addon.js"></script>-->
 <!--<script src="plugins/assets/js/bootstrap-datetimepicker.js"></script>-->
-<script src="../lib/plugins/suit/bootstrap.js"></script>
 
 <script src="../lib/plugins/unity/utility.js"></script>
 <script src="subject.js"></script>

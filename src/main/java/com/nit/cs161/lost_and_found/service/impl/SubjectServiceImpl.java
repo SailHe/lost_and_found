@@ -1,8 +1,10 @@
 package com.nit.cs161.lost_and_found.service.impl;
 
 import com.nit.cs161.lost_and_found.constant.EnumMessageType;
+import com.nit.cs161.lost_and_found.dto.ItemDTO;
 import com.nit.cs161.lost_and_found.dto.MessageDTO;
 import com.nit.cs161.lost_and_found.dto.SubjectDTO;
+import com.nit.cs161.lost_and_found.dto.UserDTO;
 import com.nit.cs161.lost_and_found.dto.general.DtRequestDTO;
 import com.nit.cs161.lost_and_found.dto.general.DtResponseDTO;
 import com.nit.cs161.lost_and_found.entity.SysUser;
@@ -56,7 +58,7 @@ public class SubjectServiceImpl implements SubjectService {
         List<LafItem> itemList = itemRepository.findAll();
         Map<Integer, LafItem> itemIdMapItem = new HashMap<>(50);
         Tools.calcKeyMapBean(itemList, itemIdMapItem, bean -> bean.getItemId());
-        //创建一个主题时 必须先创建一个item 再创建message 显示时以item为主
+        // 显示时以item为主 然后是message
         itemList.forEach(bean -> itemIdList.add(bean.getItemId()));
         Specification<LafMessage> specification = (root, criteriaQuery, criteriaBuilder) -> {
             //过滤条件
@@ -109,6 +111,15 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public Integer saveRecord(MessageDTO record) throws Exception {
         return null;
+    }
+
+    @Override
+    public Integer saveRecord(MessageDTO record, ItemDTO itemRecord, Integer userId) throws Exception {
+        // 创建一个主题时 先创建一个item 再创建message
+        itemRecord.setItemId(itemRepository.save(itemRecord.toBean()).getItemId());
+        record.setItemId(itemRecord.getItemId());
+        record.setUserId(userId);
+        return messageRepository.save(record.toBean()).getMessageId();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.nit.cs161.lost_and_found.controller;
 
 
 import com.nit.cs161.lost_and_found.constant.general.ProjectConstants;
+import com.nit.cs161.lost_and_found.dto.ItemDTO;
 import com.nit.cs161.lost_and_found.dto.MessageDTO;
 import com.nit.cs161.lost_and_found.dto.general.AjaxMsgDTO;
 import com.nit.cs161.lost_and_found.dto.general.DtRequestDTO;
@@ -109,10 +110,10 @@ public class SubjectController {
      */
     @RequestMapping(value = "save")
     @ResponseBody
-    public AjaxMsgDTO saveSubject(MessageDTO record) {
+    public AjaxMsgDTO saveSubject(MessageDTO record, ItemDTO itemRecord, Integer userId) {
         AjaxMsgDTO jsonMsgDTO = new AjaxMsgDTO();
         try {
-            jsonMsgDTO.setData(subjectService.saveRecord(record));
+            jsonMsgDTO.setData(subjectService.saveRecord(record, itemRecord, userId));
             jsonMsgDTO.setSuccess(ProjectConstants.SUCCESS);
         } catch (Exception e) {
             jsonMsgDTO.setSuccess(ProjectConstants.FAILURE);
