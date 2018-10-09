@@ -31,7 +31,7 @@ $(function () {
                                 //session ?
                                 localStorage.setItem('stationId', result.data[3]);
                                 // window.location.href = "/workbench.html";
-                                window.location.href = "/business/lafmessage.html";
+                                window.location.href = "/business/subject.html";
                             } else {
                                 $.messageBox(result.msg);
                                 $('#signInForm').bootstrapValidator('disableSubmitButtons', false).bootstrapValidator('resetForm', true);
