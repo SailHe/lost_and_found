@@ -3,6 +3,7 @@ var $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableFor
 //var messageTypeList = null, bufferMap = new Map();
 //$(document).ready(function ()
 $(function () {
+    $('input[name=userId]').val(localStorage.getItem('userId'));
     function divWrap(data) {
         return "<div style='text-align: center' class='flex-box-div'> " + data + "</div>";
     }
@@ -110,62 +111,30 @@ $(function () {
             validating: 'fa fa-refresh'
         },
         fields: {
-            goodsCode: {
+            messageDesc: {
                 validators: {
                     notEmpty: {
                         message: '非空！'
-                    },
-                    regexp: {
-                        regexp: /^[a-zA-Z0-9_]+$/,
-                        message: '只能包含大写,小写,数字和下划线'
                     },
                 },
                 stringLength: {
                     min: 1,
-                    max: 50,
-                    message: '长度必须在1到20位之间'
+                    max: 500,
+                    message: '长度必须在1到500位之间'
                 },
             },
-            goodsName: {
+            itemName: {
                 validators: {
                     notEmpty: {
                         message: '非空！'
                     },
-                    /*regexp: {
-                        regexp: /^[a-zA-Z0-9_]+$/,
-                        message: '只能包含大写、小写、数字和下划线'
-                    },
-                    emailAddress: {
-                        message: '邮箱地址格式有误'
-                    }*/
                 },
                 stringLength: {
                     min: 1,
-                    max: 50,
-                    message: '长度必须在1到50位之间'
+                    max: 25,
+                    message: '长度必须在1到25位之间'
                 },
-            },
-            goodsCategory1Id: {
-                validators: {
-                    notEmpty: {
-                        message: '非空！'
-                    }
-                }
-            },
-            goodsCategory2Id: {
-                validators: {
-                    notEmpty: {
-                        message: '非空！'
-                    }
-                }
-            },
-            goodsCategory3Id: {
-                validators: {
-                    notEmpty: {
-                        message: '非空！'
-                    }
-                }
-            },
+            }
         }
     }).on('success.form.bv', function (e) {
         e.preventDefault();

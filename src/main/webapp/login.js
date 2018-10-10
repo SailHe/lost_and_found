@@ -26,10 +26,10 @@ $(function () {
                         if (result !== null && typeof (result) !== "undefined") {
                             if (result.success === true && typeof (result.data) !== 'undefined') {
                                 localStorage.jwt = result.data.userToken;
-                                localStorage.setItem('username', result.data.userName);
+                                localStorage.setItem('username', result.data.userUsername);
                                 localStorage.setItem('userId', result.data.userId);
                                 //session ?
-                                localStorage.setItem('stationId', result.data[3]);
+                                // localStorage.setItem('stationId', result.data[3]);
                                 // window.location.href = "/workbench.html";
                                 window.location.href = "/business/subject.html";
                             } else {
