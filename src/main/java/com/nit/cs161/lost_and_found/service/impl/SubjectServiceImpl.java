@@ -49,8 +49,9 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public DtResponseDTO getPageResponse(DtRequestDTO dtRequestDTO) throws Exception {
+        // dtRequestDTO.start / dtRequestDTO.length 表示页数(从0开始); start表示这一页的起始元素的num-1
         Pageable pageable
-                = new PageRequest(dtRequestDTO.start, dtRequestDTO.length, new Sort(Sort.Direction.DESC, "createTime"));
+                = new PageRequest(dtRequestDTO.start / dtRequestDTO.length, dtRequestDTO.length, new Sort(Sort.Direction.DESC, "createTime"));
         Page<LafMessage> page;
         String search = dtRequestDTO.getSearch();
         boolean needSearch = search != null && search != "";
@@ -70,9 +71,10 @@ public class SubjectServiceImpl implements SubjectService {
                         /*, criteriaBuilder.equal(root.get("userId"), "%" + search + "%")*/
                 );
             } else {
+                // 显示所有主题(不是普通消息就视为主题)
                 filter = criteriaBuilder.and(
                         root.get("itemId").in(itemIdList)
-                        , criteriaBuilder.equal(root.get("messageType"), EnumMessageType.PICK_UP_ITEM.getValue())
+                        , criteriaBuilder.notEqual(root.get("messageType"), EnumMessageType.ORDINARY.getValue())
                 );
             }
             return filter;
@@ -114,11 +116,14 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Integer saveRecord(MessageDTO record, ItemDTO itemRecord, Integer userId) throws Exception {
-        // 创建一个主题时 先创建一个item 再创建message
-        itemRecord.setItemId(itemRepository.save(itemRecord.toBean()).getItemId());
-        record.setItemId(itemRecord.getItemId());
-        record.setUserId(userId);
+    public Integer saveRecord(MessageDTO record, ItemDTO itemRecord) throws Exception {
+        if (record.getMessageType().equals(EnumMessageType.ORDINARY.getValue())) {
+            // 普通消息: 直接保存message即可
+        } else {
+            // 创建一个主题: 先创建一个item 再创建message
+            itemRecord.setItemId(itemRepository.save(itemRecord.toBean()).getItemId());
+            record.setItemId(itemRecord.getItemId());
+        }
         return messageRepository.save(record.toBean()).getMessageId();
     }
 

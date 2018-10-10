@@ -110,10 +110,10 @@ public class SubjectController {
      */
     @RequestMapping(value = "save")
     @ResponseBody
-    public AjaxMsgDTO saveSubject(MessageDTO record, ItemDTO itemRecord, Integer userId) {
+    public AjaxMsgDTO saveSubject(MessageDTO record, ItemDTO itemRecord) {
         AjaxMsgDTO jsonMsgDTO = new AjaxMsgDTO();
         try {
-            jsonMsgDTO.setData(subjectService.saveRecord(record, itemRecord, userId));
+            jsonMsgDTO.setData(subjectService.saveRecord(record, itemRecord));
             jsonMsgDTO.setSuccess(ProjectConstants.SUCCESS);
         } catch (Exception e) {
             jsonMsgDTO.setSuccess(ProjectConstants.FAILURE);

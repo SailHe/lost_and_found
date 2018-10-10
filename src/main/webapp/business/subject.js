@@ -1,5 +1,6 @@
 var $DataTable = $('#informationTable'), $DataTableAPI = null;
 var $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableForm"), editPrimaryKey = '';
+//var messageTypeList = null, bufferMap = new Map();
 //$(document).ready(function ()
 $(function () {
     function divWrap(data) {
@@ -91,9 +92,10 @@ $(function () {
     AsyncLinkBufferChangeFactory({
         triggerSelector: 'select[id=onlyToTrigger]'
         , linkerSelector: 'select[name=messageType]'
+        // , linkerBufferMap : bufferMap
         , linkRequestUrl: '../subject/listSubjectType'
         , idName: 'value'
-        , dataName:'name'
+        , dataName: 'name'
     }).trigger('change', {selectLinkList: [0, -1]});
 
     $('input[name=itemPickUpTime]').initDatePicker().val(new Date().format(DATE_FORMAT));
@@ -176,5 +178,16 @@ $(function () {
         });
         $dataTableForm.resetFormValidCheck();
     });
+
+    $('select[name=messageType]').on('change', function () {
+        const NORMAL_MESSAGE_VALUE = '0';
+        const $currentNode = $(this);
+        if ($currentNode.val() === NORMAL_MESSAGE_VALUE) {
+            $('.item-info').domHideSubInvalid();
+        } else {
+            $('.item-info').domDisplaySubValid();
+        }
+    });
+
 });
 

@@ -49,12 +49,12 @@ public interface SubjectService extends PageService<MessageDTO, Integer> {
     List<SubjectType> listSubjectType();
 
     /**
-     * Descriptions: 保存一个主题<p>
+     * Descriptions: 保存一个主题 或是保存一个普通消息<p>
      *
      * @author SailHe
      * @date 2018/10/9 21:04
      */
-    Integer saveRecord(MessageDTO record, ItemDTO itemRecord, Integer userId) throws Exception;
+    Integer saveRecord(MessageDTO record, ItemDTO itemRecord) throws Exception;
 
 }
 
