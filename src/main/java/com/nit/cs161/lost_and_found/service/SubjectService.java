@@ -48,6 +48,8 @@ public interface SubjectService extends PageService<MessageDTO, Integer> {
      */
     List<SubjectType> listSubjectType();
 
+    List<MessageDTO> listSubjectMessage(Integer itemId);
+
     /**
      * Descriptions: 保存一个主题 或是保存一个普通消息<p>
      *

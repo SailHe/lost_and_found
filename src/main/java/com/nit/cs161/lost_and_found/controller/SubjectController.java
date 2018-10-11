@@ -142,6 +142,20 @@ public class SubjectController {
         return jsonMsgDTO;
     }
 
+    @RequestMapping(value = "listMessage")
+    @ResponseBody
+    public AjaxMsgDTO listSubjectMessage(Integer itemId) {
+        AjaxMsgDTO msgDTO = new AjaxMsgDTO();
+        try {
+            msgDTO.setData(subjectService.listSubjectMessage(itemId));
+            msgDTO.setSuccess(ProjectConstants.SUCCESS);
+        } catch (Exception e) {
+            msgDTO.setSuccess(ProjectConstants.FAILURE);
+            LOGGER.error("获取主题消息列表失败", e);
+        }
+        return msgDTO;
+    }
+
     @RequestMapping(value = "listSubjectType")
     @ResponseBody
     public AjaxMsgDTO listSubjectType() {

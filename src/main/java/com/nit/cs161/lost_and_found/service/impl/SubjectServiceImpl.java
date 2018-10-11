@@ -116,6 +116,13 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public List<MessageDTO> listSubjectMessage(Integer itemId) {
+        List<MessageDTO> messageDTOList = new LinkedList<>();
+        messageRepository.findAllByItemId(itemId).forEach(bean -> messageDTOList.add(new MessageDTO(bean)));
+        return messageDTOList;
+    }
+
+    @Override
     public Integer saveRecord(MessageDTO record, ItemDTO itemRecord) throws Exception {
         if (record.getMessageType().equals(EnumMessageType.ORDINARY.getValue())) {
             // 普通消息: 直接保存message即可
@@ -138,7 +145,6 @@ public class SubjectServiceImpl implements SubjectService {
         for (EnumMessageType e : EnumMessageType.values()) {
             subjectTypeList.add(new SubjectType(e.getValue(), e.getName()));
         }
-        //EnumMessageType temp = EnumMessageType.valueOf(EnumMessageType.class, "123");
         return subjectTypeList;
     }
 }

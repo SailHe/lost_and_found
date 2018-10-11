@@ -43,7 +43,7 @@ $(function () {
             }, {
                 data: "messageDesc",
                 render: (data, type, row) => {
-                    return divWrap('<a href=../subject/listMessage?itemId=' + parseInt(row.messageId) + '>' + data + '</a>');
+                    return divWrap('<a href=../"' + row.messageId + '">' + data + '</a>');
                 }
             }/*, {
             //详情里面加载
