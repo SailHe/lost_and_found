@@ -10,27 +10,7 @@
 const PATTERN_PASSWORD = /^[\w_-]{6,16}$/;
 
 $(function () {
-    $('#ckforget').click(function(){
-        var usernameid = document.getElementById("userUsername").value;
-        if(usernameid)
-        {
-            $.ajax({
-                type: 'post',
-                dataType: 'json',
-                data:{
-                    A:usernameid,
-
-                },
-                url:
-            })
-            alert('新密码为123456');
-        }
-        else
-        {
-            alert("请输入用户名！");
-        }
-    });
-    var verifyCode = new GVerify("v_container");//验证码
+    var verifyCode = new GVerify("v_container");
     $('#signInForm').bootstrapValidator({})
         .on('success.form.bv', function (e) {
             e.preventDefault();
@@ -132,7 +112,7 @@ $(function () {
                 }
             }
         }
-    };
+    }
 
     $('input[name=userBirthday]').initDatePicker().val(new Date().format(DATE_FORMAT));
 
