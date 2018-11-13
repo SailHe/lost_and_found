@@ -47,5 +47,13 @@ public interface UserService extends CrudService<UserDTO, Integer> {
      */
     List<UserDTO> listFuzzyUser(String search);
 
+    /**
+     * Descriptions: 重置密码<p>
+     *
+     * @author SailHe
+     * @date 2018/11/13 18:59
+     */
+    String resetPassword(String userUsername, String userEmailAddress) throws Exception;
+
 }
 

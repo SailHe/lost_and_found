@@ -82,6 +82,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String resetPassword(String userUsername, String userEmailAddress) throws Exception {
+        String result;
+        SysUser user = getBeanByUserName(userUsername);
+        if (user.getUserEmailAddress().equals(userEmailAddress)) {
+            user.setUserPassword("123456");
+            userRepository.save(user);
+            //其实该发送给这个用户的邮箱 或者让用户重填 此处只是简略实现
+            result = "重置成功!新密码123456";
+        } else {
+            result = "邮箱与用户名不符!";
+        }
+        return result;
+    }
+
+    @Override
     public UserDTO getRecord(Integer integer) throws Exception {
         return new UserDTO(userRepository.findOne(integer));
     }

@@ -156,3 +156,28 @@ function display() {
         $("#display").css("background-image", "url(assets/images/common/icon2.png)");
     }
 }
+
+/**
+ * Descriptions: 忘记密码(嗯 这实际上是个没经过推敲的辣鸡需求 但相对简单 可以作为示例)<p>
+ *
+ * @author SailHe
+ * @date 2018/11/13 18:52
+ */
+$('span[name=forgotBtn]').on('click', function () {
+    $.ajax({
+        url: 'user/resetPassword',
+        type: 'post',
+        data: {
+            userUsername: $('input[name=userUsername]').val(),
+            userEmailAddress: $('input[name=userEmailAddress]').val()
+        },
+        dataType: 'json',
+        success: function (result) {
+            if (isValidVar(result)) {
+                $.messageBox(result.data);
+            } else {
+                $.messageBox("系统错误，请与管理员联系!");
+            }
+        }
+    });
+});

@@ -180,6 +180,20 @@ public class UserController {
         return jsonMsgDTO;
     }
 
+    @RequestMapping(value = "resetPassword")
+    @ResponseBody
+    public AjaxMsgDTO resetPassword(String userUsername, String userEmailAddress) {
+        AjaxMsgDTO jsonMsgDTO = new AjaxMsgDTO();
+        try {
+            jsonMsgDTO.setData(userService.resetPassword(userUsername, userEmailAddress));
+            jsonMsgDTO.setSuccess(ProjectConstants.SUCCESS);
+        } catch (Exception e) {
+            jsonMsgDTO.setSuccess(ProjectConstants.FAILURE);
+            LOGGER.error("重置密码失败!", e);
+        }
+        return jsonMsgDTO;
+    }
+
 
     /**
      * Descriptions: 用户模糊查询接口<p>
