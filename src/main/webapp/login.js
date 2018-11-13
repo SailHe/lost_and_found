@@ -173,7 +173,7 @@ $('span[name=forgotBtn]').on('click', function () {
         },
         dataType: 'json',
         success: function (result) {
-            if (isValidVar(result)) {
+            if (isValidVar(result.success) && result.success) {
                 $.messageBox(result.data);
             } else {
                 $.messageBox("系统错误，请与管理员联系!");
