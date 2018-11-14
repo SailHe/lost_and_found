@@ -4,12 +4,13 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:mysql://localhost:3306/lost_and_found</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/sc</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <mapping class="com.nit.cs161.lost_and_found.entity.SysUser"/>
         <mapping class="com.nit.cs161.lost_and_found.entity.laf.LafItem"/>
         <mapping class="com.nit.cs161.lost_and_found.entity.laf.LafMessage"/>
         <mapping class="com.nit.cs161.lost_and_found.entity.laf.LafReturnLog"/>
+        <mapping class="com.nit.cs161.lost_and_found.entity.User"/>
 
     </session-factory>
 </hibernate-configuration>
