@@ -81,6 +81,25 @@ public class UserController {
     }
 
     /**
+     * Descriptions: 注册<p>
+     *
+     * @author SailHe
+     * @date 2018/10/1 15:46
+     */
+    @RequestMapping(value = "/signOut")
+    public AjaxMsgDTO signOutSystem(UserDTO userDTO) {
+        AjaxMsgDTO ajaxMsgDTO = new AjaxMsgDTO();
+        try {
+            ajaxMsgDTO.setMsg(userService.signOutSystem(userDTO));
+            ajaxMsgDTO.setSuccess(ProjectConstants.SUCCESS);
+        } catch (Exception e) {
+            ajaxMsgDTO.setSuccess(ProjectConstants.FAILURE);
+            LOGGER.error("用户注销失败", e);
+        }
+        return ajaxMsgDTO;
+    }
+
+    /**
      * Descriptions: 获取primaryKey对应的那条记录<p>
      *
      * @author SailHe

@@ -28,6 +28,13 @@ public interface UserService extends CrudService<UserDTO, Integer> {
      * @date 2018/10/4 16:41
      */
     String signUpSystem(UserDTO userDTO) throws Exception;
+    /**
+     * Descriptions: 用户注销<p>
+     *
+     * @author SailHe
+     * @date 2018/12/4 19:02
+     */
+    String signOutSystem(UserDTO userDTO) throws Exception;
 
     /**
      * Descriptions: 用token获取记录<p>

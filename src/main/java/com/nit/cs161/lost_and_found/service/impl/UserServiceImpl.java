@@ -170,6 +170,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String signOutSystem(UserDTO userDTO) throws Exception {
+        return "假装成功退出...";
+    }
+
+    @Override
     public UserDTO getTokenRecord(String token) throws Exception {
         String username = JWTUtil.getUsernameInToken(token);
         return getRecord(username);

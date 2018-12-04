@@ -3,6 +3,14 @@ var $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableFor
 //var messageTypeList = null, bufferMap = new Map();
 //$(document).ready(function ()
 $(function () {
+
+    let username = localStorage.getItem('username');
+    if(isValidVar(username)){
+        $.messageBox(username + "欢迎使用失物招领互助论坛!")
+    }else{
+        window.location.href='login.html';
+    }
+
     $('input[name=userId]').val(localStorage.getItem('userId'));
     function divWrap(data) {
         return "<div style='text-align: center' class='flex-box-div'> " + data + "</div>";
@@ -162,6 +170,21 @@ $(function () {
             $('.item-info').domDisplaySubValid();
         }
     });
+
+    $('#signOutSpan').on('click', function () {
+        const $currentNode = $(this);
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            data: username,
+            url: "../user/signOut",
+            success: function (result) {
+                console.log(result);
+                window.location.href='/login.html';
+            },
+        });
+    });
+
 
 });
 
