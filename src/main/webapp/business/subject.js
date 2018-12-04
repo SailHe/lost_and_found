@@ -4,14 +4,44 @@ var $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableFor
 //$(document).ready(function ()
 $(function () {
 
+    // ============ init start ===============
+
     let username = localStorage.getItem('username');
-    if(isValidVar(username)){
-        $.messageBox(username + "欢迎使用失物招领互助论坛!")
-    }else{
-        window.location.href='login.html';
+    if (isValidVar(username)) {
+        $('#userSingA').html(username);
+    } else {
+        // 强制返回
+        window.location.href = '/login.html';
     }
 
-    $('input[name=userId]').val(localStorage.getItem('userId'));
+    $('#signOutSpan').on('click', function () {
+        const $currentNode = $(this);
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            data: username,
+            url: "../user/signOut",
+            success: function (result) {
+                console.log(result);
+                localStorage.clear();
+                window.location.href = '/login.html';
+            },
+        });
+    });
+
+    $('#userSingA').on('click', function () {
+        const $currentNode = $(this);
+        if (isValidVar($currentNode.text())) {
+            $.messageBox(username + "欢迎使用失物招领互助论坛!");
+        } else {
+            window.location.href = '/login.html';
+        }
+    });
+
+    $('input[name=userId]').val(username);
+
+    // ============ init end ===============
+
     function divWrap(data) {
         return "<div style='text-align: center' class='flex-box-div'> " + data + "</div>";
     }
@@ -21,7 +51,7 @@ $(function () {
         $DataTableAPI.destroy();
     }
 
-    function queeySubjectInfo(messageId){
+    function queeySubjectInfo(messageId) {
 
     }
 
@@ -170,21 +200,6 @@ $(function () {
             $('.item-info').domDisplaySubValid();
         }
     });
-
-    $('#signOutSpan').on('click', function () {
-        const $currentNode = $(this);
-        $.ajax({
-            type: 'post',
-            dataType: 'json',
-            data: username,
-            url: "../user/signOut",
-            success: function (result) {
-                console.log(result);
-                window.location.href='/login.html';
-            },
-        });
-    });
-
 
 });
 
