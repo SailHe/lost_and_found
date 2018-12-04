@@ -47,6 +47,8 @@ public class SubjectServiceImpl implements SubjectService {
     @Resource
     private UserRepository userRepository;
 
+    // private Map<Integer, ItemDTO> itemIdMapItemDTO = new HashMap<>(50);
+
     @Override
     public DtResponseDTO getPageResponse(DtRequestDTO dtRequestDTO) throws Exception {
         // dtRequestDTO.start / dtRequestDTO.length 表示页数(从0开始); start表示这一页的起始元素的num-1
@@ -67,8 +69,11 @@ public class SubjectServiceImpl implements SubjectService {
             //搜索处理
             if (needSearch) {
                 filter = criteriaBuilder.or(
-                        criteriaBuilder.equal(root.get("itemId"), "%" + search + "%")
-                        /*, criteriaBuilder.equal(root.get("userId"), "%" + search + "%")*/
+                        criteriaBuilder.equal(root.get("itemId").as(String.class), search )
+                        , criteriaBuilder.like(root.get("messageDesc").as(String.class), "%" + search + "%")
+                        //, criteriaBuilder.like(root.get("itemName").as(String.class), "%" + search + "%")
+                        //, criteriaBuilder.like(root.get("itemDesc").as(String.class), "%" + search + "%")
+                        //, criteriaBuilder.like(root.get("userUsername").as(String.class), "%" + search + "%")
                 );
             } else {
                 // 显示所有主题(不是普通消息就视为主题)

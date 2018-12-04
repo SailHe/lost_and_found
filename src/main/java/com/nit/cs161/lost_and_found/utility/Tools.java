@@ -9,14 +9,14 @@ import java.util.Map;
  * 一些简短的泛型方法(多为提取方法: 有多处使用的雷同方法)<p>
  *
  * @Package: com.nit.lab205.mayoung.utility
- * @author: 何 帆
+ * @author: SailHe
  * @date: 2018/8/29 15:30
  */
 public class Tools {
     /**
      * Descriptions: 用List.for-each即可<p>
      *
-     * @author 何帆
+     * @author SailHe
      * @date 2018/8/29 14:56
      */
     public interface CustomTask<BeanType> {
@@ -24,7 +24,7 @@ public class Tools {
          * Descriptions: 自定义任务<p>
          *
          * @param bean 传入的实体
-         * @author 何帆
+         * @author SailHe
          * @date 2018/8/29 13:08
          */
         void task(BeanType bean);
@@ -36,7 +36,7 @@ public class Tools {
          *
          * @param bean 传入的实体
          * @return 返回自定义键
-         * @author 何帆
+         * @author SailHe
          * @date 2018/8/29 13:26
          */
         Key getKey(Bean bean);
@@ -46,7 +46,7 @@ public class Tools {
      * Descriptions: key映射BeanList, 一对多<p>
      *
      * @TODO 允许重复key的Map
-     * @author 何帆
+     * @author SailHe
      * @date 2018/8/29 12:56
      */
     public static <Key, BeanType> void calcKeyMapList(

@@ -9,7 +9,7 @@ import java.util.Objects;
  * Description: 无描述类<p>
  *
  * @Package: com.nit.cs161.lost_and_found.entity
- * @author: 何 帆
+ * @author: SailHe
  * @date: 2018/10/4 19:45
  */
 @Entity
