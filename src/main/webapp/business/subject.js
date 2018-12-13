@@ -91,7 +91,7 @@ $(function () {
                     */
                     return divWrap('<span class="clickable subject" messageId="' + parseInt(row.messageId) + '" >'
                         //+ row.messageType + ": " + row.itemName +
-                        + data.substring(0, 5) +
+                        + data.substring(0, 5) + (data.length > 5 ? "..." : "") +
                         '</span>');
                 }
             }/*, {
@@ -130,7 +130,7 @@ $(function () {
             });*/
             $(".subject").on('click', function () {
                 const currentMsgId = this.getAttribute("messageId");
-                localStorage.setItem("pastPagePar", currentMsgId);
+                localStorage.setItem("pastPagePar", this.innerHTML);
                 jumperAndParser.jumperToTarget('topic.html', {
                     messageId: currentMsgId
                 });
