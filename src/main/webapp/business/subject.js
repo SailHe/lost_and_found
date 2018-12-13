@@ -40,7 +40,7 @@ $(function () {
 
     $('input[name=userId]').val(username);
 
-    const jumperAndParser = new RequestParser();
+    const jumperAndParser = new JumperAndParser();
 
     // ============ init end ===============
 
@@ -79,7 +79,6 @@ $(function () {
             }, {
                 data: "messageDesc",
                 render: (data, type, row) => {
-                    // ../subject/listMessage?itemId=' +
                     return divWrap('<span class="clickable subject" itemId="'+parseInt(row.messageId)+'" >' + data + '</span>');
                 }
             }/*, {
@@ -117,7 +116,7 @@ $(function () {
                 cell.innerHTML = i + 1;
             });*/
             $(".subject").on('click', function () {
-                jumperAndParser.toTarget('topic.html', {
+                jumperAndParser.jumperToTarget('topic.html', {
                     itemId: this.getAttribute("itemId")
                 });
             });

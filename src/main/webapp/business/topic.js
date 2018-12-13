@@ -51,9 +51,7 @@ $(function () {
         $DataTableAPI.destroy();
     }
 
-    function queeySubjectInfo(messageId) {
-
-    }
+    const jumperAndParser = new JumperAndParser();
 
     $DataTableAPI = $DataTable.DataTable({
         ajax: {
@@ -64,7 +62,7 @@ $(function () {
                 d.search = $DataTable.DataTable().search(this.value);
                 d.userDevice = 'web';
             },
-            url: "../subject/queryPage"
+            url: "/subject/listMessage" +  jumperAndParser.parserQueryJSON(jumperAndParser.parseQueryString(window.location.href))
         },
         columns: [
             {

@@ -5,43 +5,13 @@
  * @author SailHe
  * @date 2018/12/13 14:29
  */
-function RequestParser() {
+function JumperAndParser() {
     var baseUrl = "/business";
 
     /**
-     * Descriptions: 跳转至目标页面<p>
+     * Descriptions: 解析url参数 为JSON对象<p>
      *
-     * 可以跟参数对象
-     * new RequestParser().toTarget("topic.html", {})
-     * @author SailHe
-     * @date 2018/12/13 14:27
-     */
-    this.toTarget = function (targetPage, paramsJSON) {
-        if (targetPage.indexOf('/') > 0) {
-            // do nothing
-        } else {
-            baseUrl += '/';
-        }
-
-        let paramsBody = null;
-        let parKeyList = Object.keys(paramsJSON);
-        if (parKeyList.length === 0) {
-            paramsBody = "";
-        } else {
-            paramsBody = "?";
-        }
-
-        paramsBody += parKeyList.map(function (key) {
-            // body...
-            return encodeURIComponent(key) + "=" + encodeURIComponent(paramsJSON[key]);
-        }).join("&");
-        window.location.href = baseUrl + targetPage + paramsBody;
-    }
-
-    /**
-     * Descriptions: 解析url参数<p>
-     *
-     * new RequestParser().parseQueryString(window.location.href)
+     * new JumperAndParser().parseQueryString(window.location.href)
      * @author SailHe
      * @date 2018/12/13 14:29
      */
@@ -58,4 +28,45 @@ function RequestParser() {
         }
         return obj;
     }
+
+    /**
+     * Descriptions: 将参数JSON对象解析为BodyString<p>
+     *
+     * @author SailHe
+     * @date 2018/12/13 14:47
+     */
+    this.parserQueryJSON = function(paramsJSON){
+        let paramsBody = null;
+        let parKeyList = Object.keys(paramsJSON);
+        if (parKeyList.length === 0) {
+            paramsBody = "";
+        } else {
+            paramsBody = "?";
+        }
+
+        paramsBody += parKeyList.map(function (key) {
+            // body...
+            return encodeURIComponent(key) + "=" + encodeURIComponent(paramsJSON[key]);
+        }).join("&");
+
+        return paramsBody;
+    }
+
+    /**
+     * Descriptions: 跳转至目标页面<p>
+     *
+     * 可以跟参数对象
+     * new JumperAndParser().jumperToTarget("topic.html", {})
+     * @author SailHe
+     * @date 2018/12/13 14:27
+     */
+    this.jumperToTarget = function (targetPage, paramsJSON) {
+        if (targetPage.indexOf('/') > 0) {
+            // do nothing
+        } else {
+            baseUrl += '/';
+        }
+        window.location.href = baseUrl + targetPage + this.parserQueryJSON(paramsJSON);
+    }
+
 }
