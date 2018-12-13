@@ -40,6 +40,8 @@ $(function () {
 
     $('input[name=userId]').val(username);
 
+    const jumperAndParser = new RequestParser();
+
     // ============ init end ===============
 
     function divWrap(data) {
@@ -49,10 +51,6 @@ $(function () {
     const noPicUrl = 'plugins/assets/images/common/nopic.jpg';
     if ($DataTableAPI != null) {
         $DataTableAPI.destroy();
-    }
-
-    function queeySubjectInfo(messageId) {
-
     }
 
     $DataTableAPI = $DataTable.DataTable({
@@ -81,7 +79,8 @@ $(function () {
             }, {
                 data: "messageDesc",
                 render: (data, type, row) => {
-                    return divWrap('<a href=../subject/listMessage?itemId=' + parseInt(row.messageId) + '>' + data + '</a>');
+                    // ../subject/listMessage?itemId=' +
+                    return divWrap('<span class="clickable subject" itemId="'+parseInt(row.messageId)+'" >' + data + '</span>');
                 }
             }/*, {
             //详情里面加载
@@ -117,6 +116,11 @@ $(function () {
             }).nodes().each(function (cell, i) {
                 cell.innerHTML = i + 1;
             });*/
+            $(".subject").on('click', function () {
+                jumperAndParser.toTarget('topic.html', {
+                    itemId: this.getAttribute("itemId")
+                });
+            });
         },
         // dom: "<'row'<'col-md-5'B>r>t<'row'<'col-md-5'l><'col-md-3'i><'col-md-4'p>>",
         processing: true,
