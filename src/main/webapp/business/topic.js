@@ -202,22 +202,3 @@ $(function () {
     });
 
 });
-
-
-// 获取money，以及分型的地址
-function GetRequest() {
-    const url = location.search;
-    var theRequest = new Object();
-    if (url.indexOf("?") != -1) {
-        var str = url.substr(1);
-        //alert(str);
-        var strs= new Array();
-        strs = str.split('&');
-        var money=strs[0].substring(6);
-        fxurl=(strs[1].substring(4)).trim();
-        //alert(fxurl);
-        var  view=money+"元";
-        $("#jieguo1m").html(view);
-    }
-}
-GetRequest();
