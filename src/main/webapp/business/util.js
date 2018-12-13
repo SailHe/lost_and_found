@@ -71,3 +71,32 @@ function JumperAndParser() {
     }
 
 }
+
+/**
+ * Descriptions: ajax请求结果判断闭包<p>
+ *
+ * @author SailHe
+ * @date 2018/12/13 15:20
+ */
+function callbackClosure(successFun, failureFun, tipsMessagePrefix) {
+    tipsMessagePrefix == undefined ? tipsMessagePrefix = "操作" : '';
+    return function tipsCallBack(result) {
+        if (result.success) {
+            debugLog(tipsMessagePrefix + "成功！");
+            if (isValidVar(successFun)) {
+                successFun(result.data);
+            } else {
+                debugLog("成功处理方法错误");
+            }
+        }
+        else {
+            debugLog(tipsMessagePrefix + "失败！", "alert");
+            if (isValidVar(failureFun)) {
+                failureFun(result.data);
+            } else {
+                debugLog("失败处理方法错误");
+            }
+        }
+    }
+}
+

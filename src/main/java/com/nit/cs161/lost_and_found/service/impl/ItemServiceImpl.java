@@ -81,7 +81,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDTO getRecord(Integer integer) throws Exception {
-        return null;
+        return new ItemDTO(itemRepository.findOne(integer));
     }
 
     @Override

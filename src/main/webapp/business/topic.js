@@ -52,6 +52,21 @@ $(function () {
     }
 
     const jumperAndParser = new JumperAndParser();
+    const currentPar = jumperAndParser.parseQueryString(window.location.href);
+    const currentItemId = currentPar.messageId;
+
+    $.ajax({
+        type: 'post',
+        dataType: 'json',
+        url: "/item/query",
+        data: {
+            primaryKey: currentItemId
+        },
+        success: callbackClosure(function (data) {
+            console.log(data);
+            document.title = data.itemDesc.substring(0, 5);
+        }),
+    });
 
     $DataTableAPI = $DataTable.DataTable({
         ajax: {
@@ -62,7 +77,7 @@ $(function () {
                 d.search = $DataTable.DataTable().search(this.value);
                 d.userDevice = 'web';
             },
-            url: "/subject/listMessage" +  jumperAndParser.parserQueryJSON(jumperAndParser.parseQueryString(window.location.href))
+            url: "/subject/listMessage" +  jumperAndParser.parserQueryJSON(currentPar)
         },
         columns: [
             {

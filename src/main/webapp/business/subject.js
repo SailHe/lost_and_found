@@ -79,7 +79,20 @@ $(function () {
             }, {
                 data: "messageDesc",
                 render: (data, type, row) => {
-                    return divWrap('<span class="clickable subject" itemId="'+parseInt(row.messageId)+'" >' + data + '</span>');
+                    debugLog(row);
+                    /*
+                    itemName:"小明的校园卡"
+                    messageDesc:"又捡了一张"
+                    messageId:9
+                    messageType:"拾取物品"
+                    msgImgUrls:"../lib/plugins/assets/images/common/2011060400304367.jpg"
+                    publishTime:"2018-10-09 00:00:00"
+                    userNickname:"昵称"
+                    */
+                    return divWrap('<span class="clickable subject" messageId="' + parseInt(row.messageId) + '" >'
+                        //+ row.messageType + ": " + row.itemName +
+                        + data.substring(0, 5) +
+                        '</span>');
                 }
             }/*, {
             //详情里面加载
@@ -116,8 +129,10 @@ $(function () {
                 cell.innerHTML = i + 1;
             });*/
             $(".subject").on('click', function () {
+                const currentMsgId = this.getAttribute("messageId");
+                localStorage.setItem("pastPagePar", currentMsgId);
                 jumperAndParser.jumperToTarget('topic.html', {
-                    itemId: this.getAttribute("itemId")
+                    messageId: currentMsgId
                 });
             });
         },
