@@ -3,7 +3,45 @@ var $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableFor
 //var messageTypeList = null, bufferMap = new Map();
 //$(document).ready(function ()
 $(function () {
-    $('input[name=userId]').val(localStorage.getItem('userId'));
+
+    // ============ init start ===============
+
+    let username = localStorage.getItem('username');
+    if (isValidVar(username)) {
+        $('#userSingA').html(username);
+    } else {
+        // 强制返回
+        window.location.href = '/login.html';
+    }
+
+    $('#signOutSpan').on('click', function () {
+        const $currentNode = $(this);
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            data: username,
+            url: "../user/signOut",
+            success: function (result) {
+                console.log(result);
+                localStorage.clear();
+                window.location.href = '/login.html';
+            },
+        });
+    });
+
+    $('#userSingA').on('click', function () {
+        const $currentNode = $(this);
+        if (isValidVar($currentNode.text())) {
+            $.messageBox(username + "欢迎使用失物招领互助论坛!");
+        } else {
+            window.location.href = '/login.html';
+        }
+    });
+
+    $('input[name=userId]').val(username);
+
+    // ============ init end ===============
+
     function divWrap(data) {
         return "<div style='text-align: center' class='flex-box-div'> " + data + "</div>";
     }
@@ -13,7 +51,7 @@ $(function () {
         $DataTableAPI.destroy();
     }
 
-    function queeySubjectInfo(messageId){
+    function queeySubjectInfo(messageId) {
 
     }
 
@@ -43,7 +81,7 @@ $(function () {
             }, {
                 data: "messageDesc",
                 render: (data, type, row) => {
-                    return divWrap('<a href=../"' + row.messageId + '">' + data + '</a>');
+                    return divWrap('<a href=../subject/listMessage?itemId=' + parseInt(row.messageId) + '>' + data + '</a>');
                 }
             }/*, {
             //详情里面加载
@@ -165,3 +203,21 @@ $(function () {
 
 });
 
+
+// 获取money，以及分型的地址
+function GetRequest() {
+    const url = location.search;
+    var theRequest = new Object();
+    if (url.indexOf("?") != -1) {
+        var str = url.substr(1);
+        //alert(str);
+        var strs= new Array();
+        strs = str.split('&');
+        var money=strs[0].substring(6);
+        fxurl=(strs[1].substring(4)).trim();
+        //alert(fxurl);
+        var  view=money+"元";
+        $("#jieguo1m").html(view);
+    }
+}
+GetRequest();
