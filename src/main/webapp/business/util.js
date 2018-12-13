@@ -1,9 +1,9 @@
-
 /**
  * Descriptions: 请求跳转与参数解析器<p>
  *
  * @author SailHe
  * @date 2018/12/13 14:29
+ * @see https://www.w3cschool.cn/json/1koy1piy.html
  */
 function JumperAndParser() {
     var baseUrl = "/business";
@@ -14,6 +14,7 @@ function JumperAndParser() {
      * new JumperAndParser().parseQueryString(window.location.href)
      * @author SailHe
      * @date 2018/12/13 14:29
+     * @see https://blog.csdn.net/AinUser/article/details/78882492
      */
     this.parseQueryString = function (url) {
         var obj = {};
@@ -35,7 +36,7 @@ function JumperAndParser() {
      * @author SailHe
      * @date 2018/12/13 14:47
      */
-    this.parserQueryJSON = function(paramsJSON){
+    this.parserQueryJSON = function (paramsJSON) {
         let paramsBody = null;
         let parKeyList = Object.keys(paramsJSON);
         if (parKeyList.length === 0) {
