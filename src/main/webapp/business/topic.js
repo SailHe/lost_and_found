@@ -57,22 +57,10 @@ $(function () {
 
     // 标题是上一次点击的html
     document.title = localStorage.getItem("pastPagePar");
-
-    /*$.ajax({
-        type: 'post',
-        dataType: 'json',
-        url: "/item/query",
-        data: {
-            primaryKey: currentItemId
-        },
-        success: callbackClosure(function (data) {
-            console.log(data);
-            document.title = data.itemDesc.substring(0, 5);
-        }),
-    });*/
+    $('#topInfo').text('物品名');
 
     $DataTableAPI = $DataTable.DataTable({
-        ajax: {
+        /*ajax: {
             type: 'post',
             dataType: 'json',
             async: true,
@@ -81,7 +69,7 @@ $(function () {
                 d.userDevice = 'web';
             },
             url: "/subject/listMessage" + jumperAndParser.parserQueryJSON(currentPar)
-        },
+        },*/
         columns: [
             {
                 /*data: null*/
@@ -147,6 +135,23 @@ $(function () {
         displayLength: 5,
         lengthMenu: [[5, 10, 15, 20, 50, 100, 150, -1], [5, 10, 15, 20, 50, 100, 150, "All"]],
         language: {url: "./datatable_zh_cn.json"}
+    });
+
+    $.ajax({
+        type: 'post',
+        dataType: 'json',
+        // url: "/item/query",  primaryKey
+        url: "/subject/listMessage" + jumperAndParser.parserQueryJSON(currentPar),
+        success: callbackClosure(function (data) {
+            data.forEach(ele => {
+                // 0 表示不是普通消息
+                if (ele.messageType != 0) {
+                    $('#currentSubjectInfo').text(ele.messageDesc);
+                } else {
+
+                }
+            });
+        }),
     });
 
     AsyncLinkBufferChangeFactory({

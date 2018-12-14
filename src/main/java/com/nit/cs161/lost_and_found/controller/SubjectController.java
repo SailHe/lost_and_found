@@ -144,10 +144,10 @@ public class SubjectController {
 
     @RequestMapping(value = "listMessage")
     @ResponseBody
-    public AjaxMsgDTO listSubjectMessage(Integer itemId) {
+    public AjaxMsgDTO listSubjectMessage(Integer messageId) {
         AjaxMsgDTO msgDTO = new AjaxMsgDTO();
         try {
-            msgDTO.setData(subjectService.listSubjectMessage(itemId));
+            msgDTO.setData(subjectService.listSubjectMessage(messageId));
             msgDTO.setSuccess(ProjectConstants.SUCCESS);
         } catch (Exception e) {
             msgDTO.setSuccess(ProjectConstants.FAILURE);
