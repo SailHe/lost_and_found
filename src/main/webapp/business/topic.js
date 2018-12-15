@@ -72,60 +72,27 @@ $(function () {
         },*/
         columns: [
             {
-                /*data: null*/
                 data: "msgImgUrls",
                 render: (data, type, row) => {
                     return divWrap('<img src="' + (isValidVar(data) ? data : noPicUrl) + '" style="width: 50%;">');
                 }
             }, {
-                data: "itemName",
-                render: (data, type, row) => {
-                    return divWrap(data);
-                }
-            }, {
                 data: "messageDesc",
                 render: (data, type, row) => {
-                    return divWrap('<a href=../subject/listMessage?itemId=' + parseInt(row.messageId) + '>' + data + '</a>');
-                }
-            }/*, {
-            //详情里面加载
-                data: "msgImgUrls"
-            }*/, {
-                data: "messageType",
-                render: (data, type, row) => {
-                    return divWrap(data);
+                    return divWrap('<span>' + data + '</span>');
                 }
             }, {
-                data: "publishTime",
+                data: "createTime",
                 render: (data, type, row) => {
                     return divWrap(data);
                 }
             }
         ],
-        "columnDefs": [
-            {
-                render: function (data, type, row, meta) {
-                    //渲染 把数据源中的标题和url组成超链接
-                    return '<a href="' + data + '" target="_blank">' + row.itemName + '</a>';
-                },
-                //指定是第1列
-                targets: 0
-            },
-            {"visible": true, "targets": 0}
-        ],
-        drawCallback: function (settings) {
-            //前台添加序号
-            /*$DataTableAPI.column(0, {
-                "search": 'applied',
-                "order": 'applied'
-            }).nodes().each(function (cell, i) {
-                cell.innerHTML = i + 1;
-            });*/
-        },
-        // dom: "<'row'<'col-md-5'B>r>t<'row'<'col-md-5'l><'col-md-3'i><'col-md-4'p>>",
         processing: true,
         // sortable: true,
-        serverSide: true,
+        // 服务器模式，把本来客户端所做的事情交给服务器去处理， 比如排序（order）、分页（paging）、过滤（filter）
+        // 但如果服务器没有做这些事情的话显示的时候就会出问题 @see http://datatables.club/manual/server-side.html
+        // serverSide: true,
         ordering: false,
         //使之向后台传请求页面时附加当前的 页码: start, 页长: length
         select: true,
@@ -147,14 +114,12 @@ $(function () {
                 // 0 表示不是普通消息
                 if (ele.messageType != 0) {
                     $('#currentSubjectInfo').text(ele.messageDesc);
-                } else {3
+                } else {
                     let counter = 'row';
                     $DataTableAPI.row.add( [
                         counter +'.1',
                         counter +'.2',
                         counter +'.3',
-                        counter +'.4',
-                        counter +'.5'
                     ] ).draw();
                 }
             });
