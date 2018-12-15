@@ -1,4 +1,5 @@
 //一个dataTable中 API 实例
+// @see http://localhost:8989/demo/dataTableDemo/dataTableDemo.html
 var $DataTableAPI = $('#example').DataTable({
     // 初始化请求
     ajax: {

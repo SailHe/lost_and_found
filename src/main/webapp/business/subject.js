@@ -48,7 +48,7 @@ $(function () {
         return "<div style='text-align: center' class='flex-box-div'> " + data + "</div>";
     }
 
-    const noPicUrl = 'plugins/assets/images/common/nopic.jpg';
+    const noPicUrl = '/lib/plugins/assets/images/common/nopic.jpg';
     if ($DataTableAPI != null) {
         $DataTableAPI.destroy();
     }
@@ -62,7 +62,7 @@ $(function () {
                 d.search = $DataTable.DataTable().search(this.value);
                 d.userDevice = 'web';
             },
-            url: "../subject/queryPage"
+            url: "/subject/queryPage"
         },
         columns: [
             {

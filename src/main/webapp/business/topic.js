@@ -46,7 +46,7 @@ $(function () {
         return "<div style='text-align: center' class='flex-box-div'> " + data + "</div>";
     }
 
-    const noPicUrl = 'plugins/assets/images/common/nopic.jpg';
+    const noPicUrl = '/lib/plugins/assets/images/common/nopic.jpg';
     if ($DataTableAPI != null) {
         $DataTableAPI.destroy();
     }
@@ -115,12 +115,15 @@ $(function () {
                 if (ele.messageType != 0) {
                     $('#currentSubjectInfo').text(ele.messageDesc);
                 } else {
-                    let counter = 'row';
-                    $DataTableAPI.row.add( [
-                        counter +'.1',
-                        counter +'.2',
-                        counter +'.3',
-                    ] ).draw();
+                    // @see http://datatables.club/example/api/add_row.html
+                    // https://cse.google.com/cse?cx=001171264216576386016:xim4af2d2ik&q=Datatable%20%E6%B7%BB%E5%8A%A0%E8%A1%8C&oq=Datatable%20%E6%B7%BB%E5%8A%A0%E8%A1%8C&gs_l=partner-generic.3..0l6.4791812.4805097.0.4805346.14.14.0.0.0.0.1500.7008.0j1j0j4j5j0j1j1j1.13.0.gsnos%2Cn%3D13...0.14057j24435291j27j1...1j4.34.partner-generic..7.7.2513.DAAsmkJdBww
+                    // 没有列名的情况下
+                    /*$DataTableAPI.row.add([
+                        'col' + '1',
+                        'col' + '2',
+                        'col' + '3',
+                    ]).draw();*/
+                    $DataTableAPI.row.add(ele).draw();
                 }
             });
         }),
