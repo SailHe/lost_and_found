@@ -147,8 +147,15 @@ $(function () {
                 // 0 表示不是普通消息
                 if (ele.messageType != 0) {
                     $('#currentSubjectInfo').text(ele.messageDesc);
-                } else {
-
+                } else {3
+                    let counter = 'row';
+                    $DataTableAPI.row.add( [
+                        counter +'.1',
+                        counter +'.2',
+                        counter +'.3',
+                        counter +'.4',
+                        counter +'.5'
+                    ] ).draw();
                 }
             });
         }),

@@ -12,7 +12,7 @@ var $DataTableAPI = $('#example').DataTable({
         data: {
             search: '%%'
         },
-        url: "../user/fuzzyQuery"
+        url: "/user/fuzzyQuery"
     },
     //每页显示4条数据
     pageLength: 4,
@@ -91,7 +91,7 @@ $DataTableAPI.on('order.dt search.dt',
 
 // 当初始化方式是json文件时可以 更换数据源（相同格式，但是数据内容不同）
 $("#redraw").click(function () {
-    var url = $DataTableAPI.ajax.url('newData.json');
+    var url = $DataTableAPI.ajax.url('./newData.json');
     url.load().on('order.dt search.dt', function () {
         console.log("新数据加载完毕");
     });
@@ -99,7 +99,7 @@ $("#redraw").click(function () {
 
 // 当初始化方式是ajax请求时 可以更换url发送请求
 $("#redrawFromServer").on('click', function () {
-    var url = $DataTableAPI.ajax.url('../user/fuzzyQuery');
+    var url = $DataTableAPI.ajax.url('/user/fuzzyQuery');
     url.load().on('order.dt search.dt', function () {
         console.log("服务器数据加载完毕");
     });
