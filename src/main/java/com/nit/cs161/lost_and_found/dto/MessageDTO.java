@@ -15,6 +15,13 @@ import java.sql.Timestamp;
 public class MessageDTO extends BaseDTO<LafMessage> {
     private Integer messageId;
     private Integer userId;
+    /**
+     * Descriptions: 由于前端使用的username 此处用于传参<p>
+     *
+     * @author SailHe
+     * @date 2018/12/16 15:20
+     */
+    private String userUsername;
     private Integer itemId;
     private String messageDesc;
     private String msgImgUrls;
@@ -43,6 +50,14 @@ public class MessageDTO extends BaseDTO<LafMessage> {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getUserUsername() {
+        return userUsername;
+    }
+
+    public void setUserUsername(String userUsername) {
+        this.userUsername = userUsername;
     }
 
     public Integer getItemId() {

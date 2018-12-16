@@ -14,6 +14,7 @@ import com.nit.cs161.lost_and_found.repository.ItemRepository;
 import com.nit.cs161.lost_and_found.repository.MessageRepository;
 import com.nit.cs161.lost_and_found.repository.UserRepository;
 import com.nit.cs161.lost_and_found.service.SubjectService;
+import com.nit.cs161.lost_and_found.service.UserService;
 import com.nit.cs161.lost_and_found.utility.Tools;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,6 +47,9 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Resource
     private UserRepository userRepository;
+
+    @Resource
+    private UserService userService;
 
     // private Map<Integer, ItemDTO> itemIdMapItemDTO = new HashMap<>(50);
 
@@ -146,6 +150,9 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public Integer saveRecord(MessageDTO record, ItemDTO itemRecord) throws Exception {
+        // @TODO 多此一举的感觉
+        UserDTO userDTO = userService.getRecord(record.getUserUsername());
+        record.setUserId(userDTO.getUserId());
         if (record.getMessageType().equals(EnumMessageType.ORDINARY.getValue())) {
             // 普通消息: 直接保存message即可
         } else {
