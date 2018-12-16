@@ -90,7 +90,9 @@ $(function () {
                 render: (data, type, row) => {
                     // return divWrap('<img src="' + (isValidVar(data) ? data : noPicUrl) + '" style="width: 50%;">');
                     return divWrap(
-                        "<span class='clickable subject' messageId='" + parseInt(row.messageId) + "'>"
+                        "<span class='clickable subject'"
+                        + "messageId='" + parseInt(row.messageId) + "'"
+                        + "itemName='" + row.itemName + "'>"
                         + showLimitLenStr(data, 10)
                         + "</span>"
                     );
@@ -146,7 +148,8 @@ $(function () {
             });*/
             $(".subject").on('click', function () {
                 const currentMsgId = this.getAttribute("messageId");
-                localStorage.setItem("pastPagePar", this.innerHTML);
+                const currentItemName = this.getAttribute("itemName");
+                localStorage.setItem("pastPagePar", JSON.stringify({title: this.innerHTML, itemName: currentItemName}));
                 jumperAndParser.jumperToTarget('topic.html', {
                     messageId: currentMsgId
                 });
