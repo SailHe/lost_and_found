@@ -180,8 +180,6 @@
             }
         }
 
-
-
         .flex-box-div {
             display: block;
             padding: 20px;
@@ -201,7 +199,8 @@
         }
 
         .flex-box-div {
-            min-height: 100px;max-height: 100px;
+            min-height: 100px;
+            max-height: 100px;
             /*min-width: 100px;max-width: 100px;*/
         }
 
@@ -326,14 +325,16 @@
                         <div class="form-group" style="text-align: left">
                             <label class="col-md-2 control-label">消息内容</label>
                             <div class="col-md-10">
-                                <textarea type="text" class="form-control" name="messageDesc"></textarea>
+                                <!--<textarea type="text" class="form-control" name="messageDesc"></textarea>-->
+                                <textarea type="text" id="msgDescEditorContent" class="form-control" name="messageDesc"></textarea>
                             </div>
                         </div>
 
                         <div class="form-group item-info" style="text-align: left">
                             <label class="col-md-2 control-label">物品描述</label>
                             <div class="col-md-10">
-                                <textarea type="text" class="form-control" name="itemDesc"></textarea>
+                                <!--<textarea type="text" class="form-control" name="itemDesc"></textarea>-->
+                                <textarea id="itemDescEditorContent" class="form-control" name="itemDesc"></textarea>
                             </div>
                         </div>
 
@@ -351,6 +352,8 @@
 
                         <!--隐藏-->
                         <input type="text" readonly="readonly" class="hidden form-control" name="userId" value="">
+                        <!-- id是数据库中使用的利于索引和隐藏实现 username是用户看见的 不会暴露系统 -->
+                        <input type="text" readonly="readonly" class="hidden form-control" name="userUsername" value="">
                         <!--subjectId-->
                         <input type="text" readonly="readonly" class="hidden form-control" name="messageId" value="">
 
@@ -379,6 +382,9 @@
 <script src="../lib/plugins/suit/jquery-ui.js"></script>
 <!--<script src="plugins/jquery-ui-1.12.1.custom/timepicker-addon-1.6.3/jquery-ui-timepicker-addon.js"></script>-->
 <!--<script src="plugins/assets/js/bootstrap-datetimepicker.js"></script>-->
+
+<script src="/lib/plugins/kindeditor/kindeditor-all-min.js"></script>
+<script src="/lib/plugins/kindeditor/lang/zh-CN.js"></script>
 
 <script src="../lib/plugins/unity/utility.js"></script>
 <script src="./util.js"></script>

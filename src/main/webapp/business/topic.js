@@ -38,7 +38,17 @@ $(function () {
         }
     });
 
-    $('input[name=userId]').val(username);
+    // $('input[name=userId]').val(username);
+    $('input[name=userUsername]').val(username);
+
+    // @see https://my.oschina.net/ShaneJhu/blog/172956
+    // http://kindeditor.net/doc.php
+    const editorSetting = {width: '100%', height: '100%', resizeType: 1};
+    // git tracking 后就变为function的颜色了
+    KindEditor.ready(function (K) {
+        window.editor = K.create('#msgDescEditorContent', editorSetting);
+        window.editor = K.create('#itemDescEditorContent', editorSetting);
+    });
 
     // ============ init end ===============
 
@@ -113,7 +123,9 @@ $(function () {
             data.forEach(ele => {
                 // 0 表示不是普通消息
                 if (ele.messageType != 0) {
-                    $('#currentSubjectInfo').text(ele.messageDesc);
+                    // $('#currentSubjectInfo').text(ele.messageDesc);
+                    // 哈哈 区别出现啦 text 是将其转换为文本了的
+                    $('#currentSubjectInfo').html(ele.messageDesc);
                 } else {
                     // @see http://datatables.club/example/api/add_row.html
                     // https://cse.google.com/cse?cx=001171264216576386016:xim4af2d2ik&q=Datatable%20%E6%B7%BB%E5%8A%A0%E8%A1%8C&oq=Datatable%20%E6%B7%BB%E5%8A%A0%E8%A1%8C&gs_l=partner-generic.3..0l6.4791812.4805097.0.4805346.14.14.0.0.0.0.1500.7008.0j1j0j4j5j0j1j1j1.13.0.gsnos%2Cn%3D13...0.14057j24435291j27j1...1j4.34.partner-generic..7.7.2513.DAAsmkJdBww

@@ -1,8 +1,11 @@
-var $DataTable = $('#informationTable'), $DataTableAPI = null;
-var $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableForm"), editPrimaryKey = '';
-//var messageTypeList = null, bufferMap = new Map();
 //$(document).ready(function ()
 $(function () {
+
+    var $DataTable = $('#informationTable'), $DataTableAPI = null;
+    var $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableForm"), editPrimaryKey = '';
+    //var messageTypeList = null, bufferMap = new Map();
+    let itemDescEditor = null;
+    let msgDescEditor = null;
 
     // ============ init start ===============
 
@@ -38,9 +41,19 @@ $(function () {
         }
     });
 
-    $('input[name=userId]').val(username);
+    // $('input[name=userId]').val(username);
+    $('input[name=userUsername]').val(username);
 
     const jumperAndParser = new JumperAndParser();
+
+    // @see https://my.oschina.net/ShaneJhu/blog/172956
+    // http://kindeditor.net/doc.php
+    const editorSetting = {width: '100%', height: '100%', resizeType: 1};
+    // git tracking 后就变为function的颜色了
+    KindEditor.ready(function (K) {
+        msgDescEditor = K.create('#msgDescEditorContent', editorSetting);
+        itemDescEditor = K.create('#itemDescEditorContent', editorSetting);
+    });
 
     // ============ init end ===============
 
@@ -155,7 +168,7 @@ $(function () {
         triggerSelector: 'select[id=onlyToTrigger]'
         , linkerSelector: 'select[name=messageType]'
         // , linkerBufferMap : bufferMap
-        , linkRequestUrl: '../subject/listSubjectType'
+        , linkRequestUrl: '/subject/listSubjectType'
         , idName: 'value'
         , dataName: 'name'
     }).trigger('change', {selectLinkList: [0, -1]});
@@ -172,7 +185,9 @@ $(function () {
             validating: 'fa fa-refresh'
         },
         fields: {
-            messageDesc: {
+            // 如果验证的名称填写错误不会造成jQuery堆栈溢出 但出现name相同的不同标签会
+            // jQuery.Deferred exception: Maximum call stack size exceeded RangeError: Maximum call stack size exceeded
+            messageDescBuffer: {
                 validators: {
                     notEmpty: {
                         message: '非空！'
@@ -199,6 +214,13 @@ $(function () {
         }
     }).on('success.form.bv', function (e) {
         e.preventDefault();
+
+        // 将富文本编辑器中无法serialize的部分存到隐藏的input中
+        // $('input[name=messageDesc]').val($('textarea[name=messageDescBuffer]').val());
+        // $('input[name=itemDesc]').val($('textarea[name=itemDescBuffer]').val());
+        msgDescEditor.sync();
+        itemDescEditor.sync();
+
         $.ajax({
             type: 'post',
             dataType: 'json',
