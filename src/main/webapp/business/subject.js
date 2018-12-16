@@ -61,6 +61,12 @@ $(function () {
         return "<div style='text-align: center' class='flex-box-div'> " + data + "</div>";
     }
 
+    function showLimitLenStr(data, maxShowLen) {
+        // 防止html分割显示错误
+        return "'" + data.substring(0, maxShowLen) + "'"
+            + (data.length > maxShowLen ? "..." : "");
+    }
+
     const noPicUrl = '/lib/plugins/assets/images/common/nopic.jpg';
     if ($DataTableAPI != null) {
         $DataTableAPI.destroy();
@@ -80,37 +86,34 @@ $(function () {
         columns: [
             {
                 /*data: null*/
-                data: "msgImgUrls",
+                data: "msgTitle",
                 render: (data, type, row) => {
-                    return divWrap('<img src="' + (isValidVar(data) ? data : noPicUrl) + '" style="width: 50%;">');
+                    // return divWrap('<img src="' + (isValidVar(data) ? data : noPicUrl) + '" style="width: 50%;">');
+                    return divWrap(
+                        "<span class='clickable subject' messageId='" + parseInt(row.messageId) + "'>"
+                        + showLimitLenStr(data, 10)
+                        + "</span>"
+                    );
+                    /*divWrap('<span class="clickable subject" messageId="' + parseInt(row.messageId) + '" >'
+                        //+ row.messageType + ": " + row.itemName +
+                        + data +
+                        '</span>');*/
                 }
             }, {
                 data: "itemName",
                 render: (data, type, row) => {
-                    return divWrap(data);
-                }
-            }, {
-                data: "messageDesc",
-                render: (data, type, row) => {
-                    debugLog(row);
                     /*
                     itemName:"小明的校园卡"
                     messageDesc:"又捡了一张"
                     messageId:9
                     messageType:"拾取物品"
-                    msgImgUrls:"../lib/plugins/assets/images/common/2011060400304367.jpg"
+                    msgTitle:"../lib/plugins/assets/images/common/2011060400304367.jpg"
                     publishTime:"2018-10-09 00:00:00"
                     userNickname:"昵称"
                     */
-                    return divWrap('<span class="clickable subject" messageId="' + parseInt(row.messageId) + '" >'
-                        //+ row.messageType + ": " + row.itemName +
-                        + data.substring(0, 5) + (data.length > 5 ? "..." : "") +
-                        '</span>');
+                    return divWrap(data);
                 }
-            }/*, {
-            //详情里面加载
-                data: "msgImgUrls"
-            }*/, {
+            }, {
                 data: "messageType",
                 render: (data, type, row) => {
                     return divWrap(data);

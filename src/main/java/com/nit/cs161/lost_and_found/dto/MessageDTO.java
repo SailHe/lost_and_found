@@ -4,8 +4,6 @@ import com.nit.cs161.lost_and_found.entity.laf.LafMessage;
 import com.nit.cs161.lost_and_found.utility.BaseDTO;
 import org.springframework.beans.BeanUtils;
 
-import java.sql.Timestamp;
-
 /**
  * Descriptions: 消息传输类<p>
  *
@@ -24,7 +22,7 @@ public class MessageDTO extends BaseDTO<LafMessage> {
     private String userUsername;
     private Integer itemId;
     private String messageDesc;
-    private String msgImgUrls;
+    private String msgTitle;
     private Byte messageType;
 
     public MessageDTO() {
@@ -76,12 +74,12 @@ public class MessageDTO extends BaseDTO<LafMessage> {
         this.messageDesc = messageDesc;
     }
 
-    public String getMsgImgUrls() {
-        return msgImgUrls;
+    public String getMsgTitle() {
+        return msgTitle;
     }
 
-    public void setMsgImgUrls(String msgImgUrls) {
-        this.msgImgUrls = msgImgUrls;
+    public void setMsgTitle(String msgTitle) {
+        this.msgTitle = msgTitle;
     }
 
     public Byte getMessageType() {
@@ -99,7 +97,7 @@ public class MessageDTO extends BaseDTO<LafMessage> {
                 ", userId=" + userId +
                 ", itemId=" + itemId +
                 ", messageDesc='" + messageDesc + '\'' +
-                ", msgImgUrls='" + msgImgUrls + '\'' +
+                ", msgTitle='" + msgTitle + '\'' +
                 '}';
     }
 }

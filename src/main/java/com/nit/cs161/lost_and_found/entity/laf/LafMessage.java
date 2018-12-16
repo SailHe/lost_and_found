@@ -18,7 +18,7 @@ public class LafMessage {
     private Integer userId;
     private Integer itemId;
     private String messageDesc;
-    private String msgImgUrls;
+    private String msgTitle;
     private Byte messageType;
     private Timestamp createTime;
     private Timestamp editTime;
@@ -65,13 +65,13 @@ public class LafMessage {
     }
 
     @Basic
-    @Column(name = "msg_img_urls", nullable = true, length = 500)
-    public String getMsgImgUrls() {
-        return msgImgUrls;
+    @Column(name = "msg_title", nullable = true, length = 500)
+    public String getMsgTitle() {
+        return msgTitle;
     }
 
-    public void setMsgImgUrls(String msgImgUrls) {
-        this.msgImgUrls = msgImgUrls;
+    public void setMsgTitle(String msgTitle) {
+        this.msgTitle = msgTitle;
     }
 
     @Basic
@@ -117,13 +117,13 @@ public class LafMessage {
                 Objects.equals(userId, that.userId) &&
                 Objects.equals(itemId, that.itemId) &&
                 Objects.equals(messageDesc, that.messageDesc) &&
-                Objects.equals(msgImgUrls, that.msgImgUrls) &&
+                Objects.equals(msgTitle, that.msgTitle) &&
                 Objects.equals(createTime, that.createTime) &&
                 Objects.equals(editTime, that.editTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(messageId, userId, itemId, messageDesc, msgImgUrls, createTime, editTime);
+        return Objects.hash(messageId, userId, itemId, messageDesc, msgTitle, createTime, editTime);
     }
 }

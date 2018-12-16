@@ -1,9 +1,9 @@
-var $DataTable = $('#informationTable'), $DataTableAPI = null;
-var $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableForm"), editPrimaryKey = '';
-//var messageTypeList = null, bufferMap = new Map();
-//$(document).ready(function ()
-$(function () {
 
+$(function () {
+    var $DataTable = $('#informationTable'), $DataTableAPI = null;
+    var $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableForm"), editPrimaryKey = '';
+    //var messageTypeList = null, bufferMap = new Map();
+    //$(document).ready(function ()
     // ============ init start ===============
 
     let username = localStorage.getItem('username');
@@ -20,7 +20,7 @@ $(function () {
             type: 'post',
             dataType: 'json',
             data: username,
-            url: "../user/signOut",
+            url: "/user/signOut",
             success: function (result) {
                 console.log(result);
                 localStorage.clear();
@@ -82,7 +82,7 @@ $(function () {
         },*/
         columns: [
             {
-                data: "msgImgUrls",
+                data: "msgTitle",
                 render: (data, type, row) => {
                     return divWrap('<img src="' + (isValidVar(data) ? data : noPicUrl) + '" style="width: 50%;">');
                 }
