@@ -62,8 +62,11 @@ $(function () {
     }
 
     function showLimitLenStr(data, maxShowLen) {
+        // keywords: [js judge text html]
+        // @see https://stackoverflow.com/questions/15458876/check-if-a-string-is-html-or-not
+        const isHtml = /<[a-z][\s\S]*>/i.test(data);
         // 防止html分割显示错误
-        return "'" + data.substring(0, maxShowLen) + "'"
+        return (isHtml ? "'" + data.substring(0, maxShowLen) + "'" : data.substring(0, maxShowLen))
             + (data.length > maxShowLen ? "..." : "");
     }
 
