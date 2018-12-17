@@ -96,7 +96,7 @@ $(function () {
             }, {
                 data: "createTime",
                 render: (data, type, row) => {
-                    return divWrap(data);
+                    return divWrap(new Date(data).toLocaleString());
                 }
             }
         ],
