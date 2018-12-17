@@ -174,10 +174,36 @@ $(function () {
         triggerSelector: 'select[id=onlyToTrigger]'
         , linkerSelector: 'select[name=messageType]'
         // , linkerBufferMap : bufferMap
-        , linkRequestUrl: '/subject/listSubjectType'
+        // , linkRequestUrl: '/subject/listSubjectType'
         , idName: 'value'
-        , dataName: 'name'
+        , dataName: 'name',
+        customLinkRequestFun: (triggerSelectIdParam, successCallback) => {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                async: true,
+                data: {},
+                url: '/subject/listSubjectType',
+                success: function (result) {
+                    if (result.success) {
+                        let dataList = new Array();
+                        result.data.forEach(ele => {
+                            if(ele.name === '普通消息'){
+                                // do nothing
+                            }else{
+                                dataList.push(ele);
+                            }
+                        });
+                        successCallback(dataList);
+                    } else {
+                        console.error("数据请求失败!");
+                    }
+                },
+            });
+        }
     }).trigger('change', {selectLinkList: [0, -1]});
+
+    // currentPage="subject" $('#topInfo').val()
 
     $('input[name=itemPickUpTime]').initDatePicker().val(new Date().format(DATE_FORMAT));
 
@@ -191,6 +217,18 @@ $(function () {
             validating: 'fa fa-refresh'
         },
         fields: {
+            msgTitle: {
+                validators: {
+                    notEmpty: {
+                        message: '非空！'
+                    },
+                },
+                stringLength: {
+                    min: 1,
+                    max: 500,
+                    message: '长度必须在1到500位之间'
+                },
+            },
             // 如果验证的名称填写错误不会造成jQuery堆栈溢出 但出现name相同的不同标签会
             // jQuery.Deferred exception: Maximum call stack size exceeded RangeError: Maximum call stack size exceeded
             messageDescBuffer: {
