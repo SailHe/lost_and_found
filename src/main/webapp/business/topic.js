@@ -116,38 +116,42 @@ $(function () {
         language: {url: "./datatable_zh_cn.json"}
     });
 
-    $.ajax({
-        type: 'post',
-        dataType: 'json',
-        // url: "/item/query",  primaryKey
-        url: "/subject/listMessage" + jumperAndParser.parserQueryJSON(currentPar),
-        success: callbackClosure(function (data) {
-            let currentItemId = -1;
-            data.forEach(ele => {
-                if (isValidVar(ele.itemId)) {
-                    // 0 表示不是普通消息
-                    if (ele.messageType != 0) {
-                        // $('#currentSubjectInfo').text(ele.messageDesc);
-                        // 哈哈 区别出现啦 text 是将其转换为文本了的
-                        $('#currentSubjectInfo').html(ele.messageDesc);
-                        currentItemId = $('input[name=itemId]').val(ele.itemId);
+    const reloadData = () => {
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            // url: "/item/query",  primaryKey
+            url: "/subject/listMessage" + jumperAndParser.parserQueryJSON(currentPar),
+            success: callbackClosure(function (data) {
+                let currentItemId = -1;
+                data.forEach(ele => {
+                    if (isValidVar(ele.itemId)) {
+                        // 0 表示不是普通消息
+                        if (ele.messageType != 0) {
+                            // $('#currentSubjectInfo').text(ele.messageDesc);
+                            // 哈哈 区别出现啦 text 是将其转换为文本了的
+                            $('#currentSubjectInfo').html(ele.messageDesc);
+                            currentItemId = $('input[name=itemId]').val(ele.itemId);
+                        } else {
+                            // @see http://datatables.club/example/api/add_row.html
+                            // https://cse.google.com/cse?cx=001171264216576386016:xim4af2d2ik&q=Datatable%20%E6%B7%BB%E5%8A%A0%E8%A1%8C&oq=Datatable%20%E6%B7%BB%E5%8A%A0%E8%A1%8C&gs_l=partner-generic.3..0l6.4791812.4805097.0.4805346.14.14.0.0.0.0.1500.7008.0j1j0j4j5j0j1j1j1.13.0.gsnos%2Cn%3D13...0.14057j24435291j27j1...1j4.34.partner-generic..7.7.2513.DAAsmkJdBww
+                            // 没有列名的情况下
+                            /*$DataTableAPI.row.add([
+                                'col' + '1',
+                                'col' + '2',
+                                'col' + '3',
+                            ]).draw();*/
+                            $DataTableAPI.row.add(ele).draw();
+                        }
                     } else {
-                        // @see http://datatables.club/example/api/add_row.html
-                        // https://cse.google.com/cse?cx=001171264216576386016:xim4af2d2ik&q=Datatable%20%E6%B7%BB%E5%8A%A0%E8%A1%8C&oq=Datatable%20%E6%B7%BB%E5%8A%A0%E8%A1%8C&gs_l=partner-generic.3..0l6.4791812.4805097.0.4805346.14.14.0.0.0.0.1500.7008.0j1j0j4j5j0j1j1j1.13.0.gsnos%2Cn%3D13...0.14057j24435291j27j1...1j4.34.partner-generic..7.7.2513.DAAsmkJdBww
-                        // 没有列名的情况下
-                        /*$DataTableAPI.row.add([
-                            'col' + '1',
-                            'col' + '2',
-                            'col' + '3',
-                        ]).draw();*/
-                        $DataTableAPI.row.add(ele).draw();
+                        console.assert(currentItemId === ele.itemId);
                     }
-                } else {
-                    console.assert(currentItemId === ele.itemId);
-                }
-            });
-        }),
-    });
+                });
+            }),
+        });
+    }
+
+    reloadData();
 
     AsyncLinkBufferChangeFactory({
         triggerSelector: 'select[id=onlyToTrigger]'
@@ -167,9 +171,9 @@ $(function () {
                     if (result.success) {
                         let dataList = new Array();
                         result.data.forEach(ele => {
-                            if(ele.name === '普通消息'){
+                            if (ele.name === '普通消息') {
                                 dataList.push(ele);
-                            }else{
+                            } else {
                                 // do nothing
                             }
                         });
@@ -240,7 +244,13 @@ $(function () {
             dataType: 'json',
             data: $dataTableForm.serialize() + editPrimaryKey,
             url: (editPrimaryKey == "") ? "../subject/save" : "../subject/update",
-            success: tipsCallbackClosure($DataTableAPI, (editPrimaryKey == "" ? '添加' : '编辑'), $addAndEditModal),
+            success: function (result) {
+                tipsCallbackClosure($DataTableAPI, (editPrimaryKey == "" ? '添加' : '编辑'), $addAndEditModal, false)(result);
+                // $DataTableAPI.ajax.url().reload(null, false);
+                $DataTableAPI.clear();
+                reloadData();
+                $DataTableAPI.draw();
+            },
         });
         $dataTableForm.resetFormValidCheck();
     });

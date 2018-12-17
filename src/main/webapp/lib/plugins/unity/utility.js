@@ -183,13 +183,15 @@ function loadDropSelect($select, gradeName, selectedValue) {
  * @author SailHe
  * @date 2018/4/22 10:32
  */
-function tipsCallbackClosure(reloadTable, tipsMessagePrefix, $informationModal) {
+function tipsCallbackClosure(reloadTable, tipsMessagePrefix, $informationModal, ajaxReload) {
     tipsMessagePrefix == undefined ? tipsMessagePrefix = "操作" : '';
     return function tipsCallBack(result) {
         if (result.success) {
             $.messageBox(tipsMessagePrefix + "成功！");
             //initDataTable();
-            reloadTable.ajax.reload(null, false);
+            if(ajaxReload){
+                reloadTable.ajax.reload(null, false);
+            }
         }
         else {
             $.messageBox(tipsMessagePrefix + "失败！", "alert");
