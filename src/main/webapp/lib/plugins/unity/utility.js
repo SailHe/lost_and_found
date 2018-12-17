@@ -828,7 +828,7 @@ function nStrPlush(lhs, rhs) {
  * 会在上一步的异步请求成功返回后自动选择 联动选择列表 第一个的idValue 并根据是否还有下一级选择自动触发下一级联动
  * @param selectLinkList 绑定事件trigger时的 联动选择列表
  * [0~end): linker的idValue; [end]: trigger的idIndex(若不设置就会触发默认的下级联动); 以此类推可设置任意多个(最后一个总表示trigger, 若无效请置为-1之类的值, 不要置为null, ''等无效值)
- * 注意 时apend在linker上而不是trigger上
+ * 注意 时append在linker上而不是trigger上
  * @eg: customLinkRequestFun = (triggerSelectIdParam, successCallback) => {
             $.ajax({
                 type: 'post',
