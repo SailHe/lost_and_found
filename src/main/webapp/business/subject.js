@@ -46,8 +46,11 @@ $(function () {
 
     const jumperAndParser = new JumperAndParser();
 
-    // @see https://my.oschina.net/ShaneJhu/blog/172956
+    // @see
+    // http://datatables.club/
+    // https://my.oschina.net/ShaneJhu/blog/172956
     // http://kindeditor.net/doc.php
+    // http://kindeditor.net/docs/option.html#id70
     const editorSetting = {width: '100%', height: '100%', resizeType: 1};
     // git tracking 后就变为function的颜色了
     KindEditor.ready(function (K) {
