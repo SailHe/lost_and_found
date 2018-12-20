@@ -22,7 +22,7 @@ import java.util.List;
  * @date 2018/10/1 15:56
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class  UserServiceImpl implements UserService {
 
 
     @Resource
