@@ -18,7 +18,7 @@ public class SubjectDTO {
     private String userNickname;
     private String itemName;
     private String messageDesc;
-    private String msgImgUrls;
+    private String msgTitle;
     private EnumMessageType messageType;
     private String publishTime;
 
@@ -66,12 +66,12 @@ public class SubjectDTO {
         this.messageDesc = messageDesc;
     }
 
-    public String getMsgImgUrls() {
-        return msgImgUrls;
+    public String getMsgTitle() {
+        return msgTitle;
     }
 
-    public void setMsgImgUrls(String msgImgUrls) {
-        this.msgImgUrls = msgImgUrls;
+    public void setMsgTitle(String msgTitle) {
+        this.msgTitle = msgTitle;
     }
 
     /**
@@ -103,7 +103,7 @@ public class SubjectDTO {
                 ", userNickname='" + userNickname + '\'' +
                 ", itemName='" + itemName + '\'' +
                 ", messageDesc='" + messageDesc + '\'' +
-                ", msgImgUrls='" + msgImgUrls + '\'' +
+                ", msgTitle='" + msgTitle + '\'' +
                 ", messageType=" + messageType +
                 ", publishTime='" + publishTime + '\'' +
                 '}';

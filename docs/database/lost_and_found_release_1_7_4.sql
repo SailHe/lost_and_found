@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost_3306
+Source Server         : localhost_3306_sailhe
 Source Server Version : 50717
 Source Host           : localhost:3306
 Source Database       : lost_and_found
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-11-06 22:25:14
+Date: 2018-12-16 16:14:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1597,7 +1597,7 @@ CREATE TABLE `laf_item` (
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `edit_time` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`item_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='lost and found item table';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='lost and found item table';
 
 -- ----------------------------
 -- Records of laf_item
@@ -1609,8 +1609,12 @@ INSERT INTO `laf_item` VALUES ('4', '233', '123', '2018-10-09 00:00:00', '2018-1
 INSERT INTO `laf_item` VALUES ('5', 'test', 'test', '2018-10-09 00:00:00', '2018-10-09 22:51:27', '2018-10-09 22:36:54');
 INSERT INTO `laf_item` VALUES ('6', 'test', 'test', '2018-10-09 00:00:00', '2018-10-09 22:51:24', '2018-10-09 22:37:52');
 INSERT INTO `laf_item` VALUES ('7', 'test', 'test', '2018-10-09 00:00:00', '2018-10-09 22:51:21', '2018-10-09 22:38:36');
-INSERT INTO `laf_item` VALUES ('8', 'test', 'test', '2018-10-09 00:00:00', '2018-10-09 22:50:55', '2018-10-09 22:50:55');
+INSERT INTO `laf_item` VALUES ('8', '校园卡等', '此外还包涵了许多东西', '2018-10-09 00:00:00', '2018-10-09 22:50:55', '2018-10-09 22:50:55');
 INSERT INTO `laf_item` VALUES ('9', '小明的校园卡', '校园卡啊', '2018-10-09 00:00:00', '2018-10-09 22:54:33', '2018-10-09 22:54:33');
+INSERT INTO `laf_item` VALUES ('14', '富文本编辑器 Editor name', '富文本编辑器 Editor item desc,', '2018-12-16 00:00:00', '2018-12-16 15:03:42', '2018-12-16 15:03:42');
+INSERT INTO `laf_item` VALUES ('15', '富文本编辑器 Editor name', '富文本编辑器 Editor&nbsp;item', '2018-12-16 00:00:00', '2018-12-16 15:24:26', '2018-12-16 15:24:26');
+INSERT INTO `laf_item` VALUES ('16', '富文本编辑器 Editor name', '<img src=\"http://localhost:8989/lib/plugins/kindeditor/plugins/emoticons/images/2.gif\" border=\"0\" alt=\"\" /><strong>士大夫士\r\n<pre class=\"prettyprint lang-js\">console.log(\'哈哈\')</pre>\r\n</strong>', '2018-12-16 00:00:00', '2018-12-16 15:27:53', '2018-12-16 15:27:53');
+INSERT INTO `laf_item` VALUES ('17', '电话', '<span>就是那个电话,&nbsp;大概长这样<img src=\"http://localhost:8989/lib/plugins/kindeditor/plugins/emoticons/images/118.gif\" border=\"0\" alt=\"\" /></span><img src=\"http://localhost:8989/lib/plugins/kindeditor/plugins/emoticons/images/115.gif\" border=\"0\" alt=\"\" /><img src=\"http://localhost:8989/lib/plugins/kindeditor/plugins/emoticons/images/118.gif\" border=\"0\" alt=\"\" />', '2018-12-16 00:00:00', '2018-12-16 16:12:28', '2018-12-16 16:12:28');
 
 -- ----------------------------
 -- Table structure for laf_message
@@ -1621,7 +1625,7 @@ CREATE TABLE `laf_message` (
   `user_id` int(11) DEFAULT NULL COMMENT 'user primary key',
   `item_id` int(11) DEFAULT NULL,
   `message_desc` varchar(500) DEFAULT NULL,
-  `msg_img_urls` varchar(500) DEFAULT NULL COMMENT 'a url list with scroll img url or single',
+  `msg_title` varchar(500) DEFAULT NULL COMMENT 'a url list with scroll img url or single',
   `message_type` tinyint(4) DEFAULT NULL,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `edit_time` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -1630,22 +1634,26 @@ CREATE TABLE `laf_message` (
   KEY `FK_publisher` (`user_id`),
   CONSTRAINT `FK_associate_item` FOREIGN KEY (`item_id`) REFERENCES `laf_item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_publisher` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='lost and found message table';
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='lost and found message table';
 
 -- ----------------------------
 -- Records of laf_message
 -- ----------------------------
-INSERT INTO `laf_message` VALUES ('1', '1', '1', '这个东西是谁丢的?', '../lib/plugins/assets/images/common/2011060400304367.jpg', '10', '2018-10-05 23:30:11', '2018-10-06 19:04:01');
-INSERT INTO `laf_message` VALUES ('2', '1', '2', '这个东西好像是我丢的', '../lib/plugins/assets/images/common/2011060400304367.jpg', '20', '2018-10-06 21:39:00', '2018-10-06 21:39:00');
-INSERT INTO `laf_message` VALUES ('3', '1', '3', 'test', '../lib/plugins/assets/images/common/2011060400304367.jpg', '10', '2018-10-09 22:47:35', '2018-10-09 22:29:28');
-INSERT INTO `laf_message` VALUES ('4', '1', '4', 'test', '../lib/plugins/assets/images/common/2011060400304367.jpg', '10', '2018-10-09 22:47:39', '2018-10-09 22:34:13');
-INSERT INTO `laf_message` VALUES ('5', '1', '5', 'test', '../lib/plugins/assets/images/common/2011060400304367.jpg', '10', '2018-10-09 22:47:42', '2018-10-09 22:36:54');
-INSERT INTO `laf_message` VALUES ('6', '1', '6', 'test', '../lib/plugins/assets/images/common/2011060400304367.jpg', '10', '2018-10-09 22:47:44', '2018-10-09 22:37:52');
-INSERT INTO `laf_message` VALUES ('7', '1', '7', 'test', '../lib/plugins/assets/images/common/2011060400304367.jpg', '10', '2018-10-09 22:51:03', '2018-10-09 22:38:36');
-INSERT INTO `laf_message` VALUES ('8', '1', '8', 'test', '../lib/plugins/assets/images/common/2011060400304367.jpg', '10', '2018-10-09 22:50:55', '2018-10-09 22:50:55');
-INSERT INTO `laf_message` VALUES ('9', '1', '9', '又捡了一张', '../lib/plugins/assets/images/common/2011060400304367.jpg', '10', '2018-10-09 22:54:33', '2018-10-09 22:54:33');
-INSERT INTO `laf_message` VALUES ('10', '1', '1', '这个卡是貌似我的唉', '', '0', '2018-10-10 14:18:55', '2018-10-10 14:18:55');
-INSERT INTO `laf_message` VALUES ('11', '1', null, '233\r\n', '', '0', '2018-10-10 14:51:35', '2018-10-10 14:51:35');
+INSERT INTO `laf_message` VALUES ('1', '1', '1', '这个东西是谁丢的?', '捡东西', '10', '2018-10-05 23:30:11', '2018-10-06 19:04:01');
+INSERT INTO `laf_message` VALUES ('2', '1', '2', '这个东西好像是我丢的', '丢东西', '20', '2018-10-06 21:39:00', '2018-10-06 21:39:00');
+INSERT INTO `laf_message` VALUES ('3', '1', '3', '捡', '捡东西', '10', '2018-10-09 22:47:35', '2018-10-09 22:29:28');
+INSERT INTO `laf_message` VALUES ('4', '1', '4', '捡', '捡东西', '10', '2018-10-09 22:47:39', '2018-10-09 22:34:13');
+INSERT INTO `laf_message` VALUES ('5', '1', '5', '捡', '捡东西', '10', '2018-10-09 22:47:42', '2018-10-09 22:36:54');
+INSERT INTO `laf_message` VALUES ('6', '1', '6', '捡', '捡东西', '10', '2018-10-09 22:47:44', '2018-10-09 22:37:52');
+INSERT INTO `laf_message` VALUES ('7', '1', '7', '捡', '捡东西', '10', '2018-10-09 22:51:03', '2018-10-09 22:38:36');
+INSERT INTO `laf_message` VALUES ('8', '1', '8', '我在图书馆捡了一张校园卡, 卡号是3160407066, 请问这是谁的', '捡东西', '10', '2018-10-09 22:50:55', '2018-10-09 22:50:55');
+INSERT INTO `laf_message` VALUES ('9', '1', '9', '食堂捡了一张校园卡, 卡号是66666666请问这是谁的', '捡东西', '10', '2018-10-09 22:54:33', '2018-10-09 22:54:33');
+INSERT INTO `laf_message` VALUES ('10', '1', '9', '这个卡是貌似我的唉', '消息', '0', '2018-10-10 14:18:55', '2018-10-10 14:18:55');
+INSERT INTO `laf_message` VALUES ('11', '1', '9', '233\r\n', '消息', '0', '2018-10-10 14:51:35', '2018-10-10 14:51:35');
+INSERT INTO `laf_message` VALUES ('17', '1', '14', '富文本编辑器 Editor msg des', '丢东西', '20', '2018-12-16 15:03:42', '2018-12-16 15:03:42');
+INSERT INTO `laf_message` VALUES ('18', '1', '15', '富文本编辑器 Editor&nbsp;msg', '捡东西', '10', '2018-12-16 15:24:26', '2018-12-16 15:24:26');
+INSERT INTO `laf_message` VALUES ('19', '1', '16', '<img src=\"http://localhost:8989/lib/plugins/kindeditor/plugins/emoticons/images/0.gif\" border=\"0\" alt=\"\" />', '捡东西', '10', '2018-12-16 15:27:53', '2018-12-16 15:27:53');
+INSERT INTO `laf_message` VALUES ('20', '1', '17', '就是那个<img src=\"http://localhost:8989/lib/plugins/kindeditor/plugins/emoticons/images/11.gif\" border=\"0\" alt=\"\" />', '谁领错了', '20', '2018-12-16 16:12:28', '2018-12-16 16:12:28');
 
 -- ----------------------------
 -- Table structure for laf_return_log
@@ -1671,6 +1679,30 @@ CREATE TABLE `laf_return_log` (
 -- ----------------------------
 -- Records of laf_return_log
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for op_log
+-- ----------------------------
+DROP TABLE IF EXISTS `op_log`;
+CREATE TABLE `op_log` (
+  `op_log_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '操作日志主键',
+  `op_name` varchar(255) DEFAULT NULL COMMENT '操作名称',
+  PRIMARY KEY (`op_log_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of op_log
+-- ----------------------------
+INSERT INTO `op_log` VALUES ('1', 'insert');
+INSERT INTO `op_log` VALUES ('2', 'insert');
+INSERT INTO `op_log` VALUES ('3', 'insert');
+INSERT INTO `op_log` VALUES ('4', 'insert');
+INSERT INTO `op_log` VALUES ('5', 'insert');
+INSERT INTO `op_log` VALUES ('6', 'insert');
+INSERT INTO `op_log` VALUES ('7', 'insert');
+INSERT INTO `op_log` VALUES ('8', 'insert');
+INSERT INTO `op_log` VALUES ('9', 'insert');
+INSERT INTO `op_log` VALUES ('10', 'insert');
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -1701,3 +1733,11 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 INSERT INTO `sys_user` VALUES ('1', 'admin', '123456', '真名0', '昵称', 'https://avatar-static.segmentfault.com/267/666/2676661219-59894cbb54922_big64', '1@email.com', '18723888888', 'none', '2018-10-04', '10', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Mzg4ODE1NjksInVzZXJuYW1lIjoiYWRtaW4ifQ.T9jbcyILFHfsq4Tfeau0442rIIbeY6TMSJX8UyUii-Aadmin', null, null, '2018-10-04 19:34:40', '2018-10-04 19:34:40');
 INSERT INTO `sys_user` VALUES ('2', 'admin12', '123456', null, null, null, '12312@email.com', null, null, '2018-10-05', null, null, null, null, '2018-10-11 11:22:58', '2018-10-11 11:22:58');
+DROP TRIGGER IF EXISTS `after_insert`;
+DELIMITER ;;
+CREATE TRIGGER `after_insert` AFTER INSERT ON `laf_message` FOR EACH ROW begin
+	  insert into op_log(op_name)
+		values( 'insert');
+end
+;;
+DELIMITER ;

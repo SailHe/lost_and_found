@@ -4,8 +4,6 @@ import com.nit.cs161.lost_and_found.entity.laf.LafMessage;
 import com.nit.cs161.lost_and_found.utility.BaseDTO;
 import org.springframework.beans.BeanUtils;
 
-import java.sql.Timestamp;
-
 /**
  * Descriptions: 消息传输类<p>
  *
@@ -15,9 +13,16 @@ import java.sql.Timestamp;
 public class MessageDTO extends BaseDTO<LafMessage> {
     private Integer messageId;
     private Integer userId;
+    /**
+     * Descriptions: 由于前端使用的username 此处用于传参<p>
+     *
+     * @author SailHe
+     * @date 2018/12/16 15:20
+     */
+    private String userUsername;
     private Integer itemId;
     private String messageDesc;
-    private String msgImgUrls;
+    private String msgTitle;
     private Byte messageType;
 
     public MessageDTO() {
@@ -45,6 +50,14 @@ public class MessageDTO extends BaseDTO<LafMessage> {
         this.userId = userId;
     }
 
+    public String getUserUsername() {
+        return userUsername;
+    }
+
+    public void setUserUsername(String userUsername) {
+        this.userUsername = userUsername;
+    }
+
     public Integer getItemId() {
         return itemId;
     }
@@ -61,12 +74,12 @@ public class MessageDTO extends BaseDTO<LafMessage> {
         this.messageDesc = messageDesc;
     }
 
-    public String getMsgImgUrls() {
-        return msgImgUrls;
+    public String getMsgTitle() {
+        return msgTitle;
     }
 
-    public void setMsgImgUrls(String msgImgUrls) {
-        this.msgImgUrls = msgImgUrls;
+    public void setMsgTitle(String msgTitle) {
+        this.msgTitle = msgTitle;
     }
 
     public Byte getMessageType() {
@@ -84,7 +97,7 @@ public class MessageDTO extends BaseDTO<LafMessage> {
                 ", userId=" + userId +
                 ", itemId=" + itemId +
                 ", messageDesc='" + messageDesc + '\'' +
-                ", msgImgUrls='" + msgImgUrls + '\'' +
+                ", msgTitle='" + msgTitle + '\'' +
                 '}';
     }
 }

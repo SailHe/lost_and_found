@@ -48,7 +48,13 @@ public interface SubjectService extends PageService<MessageDTO, Integer> {
      */
     List<SubjectType> listSubjectType();
 
-    List<MessageDTO> listSubjectMessage(Integer itemId);
+    /**
+     * Descriptions: 依据传入消息主键返回该消息对应主题的消息列表<p>
+     *
+     * @author SailHe
+     * @date 2018/12/13 16:34
+     */
+    List<MessageDTO> listSubjectMessage(Integer messageId);
 
     /**
      * Descriptions: 保存一个主题 或是保存一个普通消息<p>

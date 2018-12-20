@@ -1,12 +1,10 @@
-//$(document).ready(function ()
 $(function () {
-
     var $DataTable = $('#informationTable'), $DataTableAPI = null;
     var $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableForm"), editPrimaryKey = '';
     //var messageTypeList = null, bufferMap = new Map();
+    //$(document).ready(function ()
     let itemDescEditor = null;
     let msgDescEditor = null;
-
     // ============ init start ===============
 
     let username = localStorage.getItem('username');
@@ -23,7 +21,7 @@ $(function () {
             type: 'post',
             dataType: 'json',
             data: username,
-            url: "../user/signOut",
+            url: "/user/signOut",
             success: function (result) {
                 console.log(result);
                 localStorage.clear();
@@ -44,8 +42,6 @@ $(function () {
     // $('input[name=userId]').val(username);
     $('input[name=userUsername]').val(username);
 
-    const jumperAndParser = new JumperAndParser();
-
     // @see https://my.oschina.net/ShaneJhu/blog/172956
     // http://kindeditor.net/doc.php
     const editorSetting = {width: '100%', height: '100%', resizeType: 1};
@@ -61,22 +57,22 @@ $(function () {
         return "<div style='text-align: center' class='flex-box-div'> " + data + "</div>";
     }
 
-    function showLimitLenStr(data, maxShowLen) {
-        // keywords: [js judge text html]
-        // @see https://stackoverflow.com/questions/15458876/check-if-a-string-is-html-or-not
-        const isHtml = /<[a-z][\s\S]*>/i.test(data);
-        // 防止html分割显示错误
-        return (isHtml ? "'" + data.substring(0, maxShowLen) + "'" : data.substring(0, maxShowLen))
-            + (data.length > maxShowLen ? "..." : "");
-    }
-
     const noPicUrl = '/lib/plugins/assets/images/common/nopic.jpg';
     if ($DataTableAPI != null) {
         $DataTableAPI.destroy();
     }
 
+    const jumperAndParser = new JumperAndParser();
+    const currentPar = jumperAndParser.parseQueryString(window.location.href);
+    const currentMsgId = currentPar.messageId;
+
+    // 标题是上一次点击的html
+    const pastPar = JSON.parse(localStorage.getItem("pastPagePar"));
+    document.title = pastPar.title;
+    $('#topInfo').text("关联物品: " + pastPar.itemName);
+
     $DataTableAPI = $DataTable.DataTable({
-        ajax: {
+        /*ajax: {
             type: 'post',
             dataType: 'json',
             async: true,
@@ -84,84 +80,31 @@ $(function () {
                 d.search = $DataTable.DataTable().search(this.value);
                 d.userDevice = 'web';
             },
-            url: "/subject/queryPage"
-        },
+            url: "/subject/listMessage" + jumperAndParser.parserQueryJSON(currentPar)
+        },*/
         columns: [
             {
-                /*data: null*/
                 data: "msgTitle",
                 render: (data, type, row) => {
-                    // return divWrap('<img src="' + (isValidVar(data) ? data : noPicUrl) + '" style="width: 50%;">');
-                    return divWrap(
-                        "<span class='clickable subject'"
-                        + "messageId='" + parseInt(row.messageId) + "'"
-                        + "itemName='" + row.itemName + "'>"
-                        + showLimitLenStr(data, 10)
-                        + "</span>"
-                    );
-                    /*divWrap('<span class="clickable subject" messageId="' + parseInt(row.messageId) + '" >'
-                        //+ row.messageType + ": " + row.itemName +
-                        + data +
-                        '</span>');*/
-                }
-            }, {
-                data: "itemName",
-                render: (data, type, row) => {
-                    /*
-                    itemName:"小明的校园卡"
-                    messageDesc:"又捡了一张"
-                    messageId:9
-                    messageType:"拾取物品"
-                    msgTitle:"../lib/plugins/assets/images/common/2011060400304367.jpg"
-                    publishTime:"2018-10-09 00:00:00"
-                    userNickname:"昵称"
-                    */
                     return divWrap(data);
                 }
             }, {
-                data: "messageType",
+                data: "messageDesc",
                 render: (data, type, row) => {
-                    return divWrap(data);
+                    return divWrap('<span>' + data + '</span>');
                 }
             }, {
-                data: "publishTime",
+                data: "createTime",
                 render: (data, type, row) => {
-                    return divWrap(data);
+                    return divWrap(new Date(data).toLocaleString());
                 }
             }
         ],
-        "columnDefs": [
-            {
-                render: function (data, type, row, meta) {
-                    //渲染 把数据源中的标题和url组成超链接
-                    return '<a href="' + data + '" target="_blank">' + row.itemName + '</a>';
-                },
-                //指定是第1列
-                targets: 0
-            },
-            {"visible": true, "targets": 0}
-        ],
-        drawCallback: function (settings) {
-            //前台添加序号
-            /*$DataTableAPI.column(0, {
-                "search": 'applied',
-                "order": 'applied'
-            }).nodes().each(function (cell, i) {
-                cell.innerHTML = i + 1;
-            });*/
-            $(".subject").on('click', function () {
-                const currentMsgId = this.getAttribute("messageId");
-                const currentItemName = this.getAttribute("itemName");
-                localStorage.setItem("pastPagePar", JSON.stringify({title: this.innerHTML, itemName: currentItemName}));
-                jumperAndParser.jumperToTarget('topic.html', {
-                    messageId: currentMsgId
-                });
-            });
-        },
-        // dom: "<'row'<'col-md-5'B>r>t<'row'<'col-md-5'l><'col-md-3'i><'col-md-4'p>>",
         processing: true,
         // sortable: true,
-        serverSide: true,
+        // 服务器模式，把本来客户端所做的事情交给服务器去处理， 比如排序（order）、分页（paging）、过滤（filter）
+        // 但如果服务器没有做这些事情的话显示的时候就会出问题 @see http://datatables.club/manual/server-side.html
+        // serverSide: true,
         ordering: false,
         //使之向后台传请求页面时附加当前的 页码: start, 页长: length
         select: true,
@@ -173,11 +116,48 @@ $(function () {
         language: {url: "./datatable_zh_cn.json"}
     });
 
+    const reloadData = () => {
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            // url: "/item/query",  primaryKey
+            url: "/subject/listMessage" + jumperAndParser.parserQueryJSON(currentPar),
+            success: callbackClosure(function (data) {
+                let currentItemId = -1;
+                data.forEach(ele => {
+                    if (isValidVar(ele.itemId)) {
+                        // 0 表示不是普通消息
+                        if (ele.messageType != 0) {
+                            // $('#currentSubjectInfo').text(ele.messageDesc);
+                            // 哈哈 区别出现啦 text 是将其转换为文本了的
+                            $('#currentSubjectInfo').html(ele.messageDesc);
+                            currentItemId = $('input[name=itemId]').val(ele.itemId);
+                        } else {
+                            // @see http://datatables.club/example/api/add_row.html
+                            // https://cse.google.com/cse?cx=001171264216576386016:xim4af2d2ik&q=Datatable%20%E6%B7%BB%E5%8A%A0%E8%A1%8C&oq=Datatable%20%E6%B7%BB%E5%8A%A0%E8%A1%8C&gs_l=partner-generic.3..0l6.4791812.4805097.0.4805346.14.14.0.0.0.0.1500.7008.0j1j0j4j5j0j1j1j1.13.0.gsnos%2Cn%3D13...0.14057j24435291j27j1...1j4.34.partner-generic..7.7.2513.DAAsmkJdBww
+                            // 没有列名的情况下
+                            /*$DataTableAPI.row.add([
+                                'col' + '1',
+                                'col' + '2',
+                                'col' + '3',
+                            ]).draw();*/
+                            $DataTableAPI.row.add(ele).draw();
+                        }
+                    } else {
+                        console.assert(currentItemId === ele.itemId);
+                    }
+                });
+            }),
+        });
+    }
+
+    reloadData();
+
     AsyncLinkBufferChangeFactory({
         triggerSelector: 'select[id=onlyToTrigger]'
         , linkerSelector: 'select[name=messageType]'
         // , linkerBufferMap : bufferMap
-        // , linkRequestUrl: '/subject/listSubjectType'
+        // , linkRequestUrl: '../subject/listSubjectType'
         , idName: 'value'
         , dataName: 'name',
         customLinkRequestFun: (triggerSelectIdParam, successCallback) => {
@@ -191,10 +171,10 @@ $(function () {
                     if (result.success) {
                         let dataList = new Array();
                         result.data.forEach(ele => {
-                            if(ele.name === '普通消息'){
-                                // do nothing
-                            }else{
+                            if (ele.name === '普通消息') {
                                 dataList.push(ele);
+                            } else {
+                                // do nothing
                             }
                         });
                         successCallback(dataList);
@@ -205,8 +185,6 @@ $(function () {
             });
         }
     }).trigger('change', {selectLinkList: [0, -1]});
-
-    // currentPage="subject" $('#topInfo').val()
 
     $('input[name=itemPickUpTime]').initDatePicker().val(new Date().format(DATE_FORMAT));
 
@@ -232,9 +210,7 @@ $(function () {
                     message: '长度必须在1到500位之间'
                 },
             },
-            // 如果验证的名称填写错误不会造成jQuery堆栈溢出 但出现name相同的不同标签会
-            // jQuery.Deferred exception: Maximum call stack size exceeded RangeError: Maximum call stack size exceeded
-            messageDescBuffer: {
+            messageDesc: {
                 validators: {
                     notEmpty: {
                         message: '非空！'
@@ -260,20 +236,21 @@ $(function () {
             }
         }
     }).on('success.form.bv', function (e) {
-        e.preventDefault();
-
-        // 将富文本编辑器中无法serialize的部分存到隐藏的input中
-        // $('input[name=messageDesc]').val($('textarea[name=messageDescBuffer]').val());
-        // $('input[name=itemDesc]').val($('textarea[name=itemDescBuffer]').val());
         msgDescEditor.sync();
         itemDescEditor.sync();
-
+        e.preventDefault();
         $.ajax({
             type: 'post',
             dataType: 'json',
             data: $dataTableForm.serialize() + editPrimaryKey,
             url: (editPrimaryKey == "") ? "../subject/save" : "../subject/update",
-            success: tipsCallbackClosure($DataTableAPI, (editPrimaryKey == "" ? '添加' : '编辑'), $addAndEditModal),
+            success: function (result) {
+                tipsCallbackClosure($DataTableAPI, (editPrimaryKey == "" ? '添加' : '编辑'), $addAndEditModal, false)(result);
+                // $DataTableAPI.ajax.url().reload(null, false);
+                $DataTableAPI.clear();
+                reloadData();
+                $DataTableAPI.draw();
+            },
         });
         $dataTableForm.resetFormValidCheck();
     });
@@ -289,4 +266,3 @@ $(function () {
     });
 
 });
-

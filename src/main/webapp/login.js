@@ -10,6 +10,18 @@
 const PATTERN_PASSWORD = /^[\w_-]{6,16}$/;
 
 $(function () {
+
+    const ap = new APlayer({
+        container: document.getElementById('aplayer'),
+        fixed: true,
+        audio: [{
+            name: 'Lost And Found',
+            artist: 'Katie Herzig',
+            url: 'http://music.163.com/song/media/outer/url?id=18993717.mp3',
+            cover: 'http://p2.music.126.net/76E8NJSZukPsZSyrRG5YNw==/6672936069851299.jpg?param=300x300'
+        }]
+    });
+
     var verifyCode = new GVerify("v_container");
     $('#signInForm').bootstrapValidator({})
         .on('success.form.bv', function (e) {

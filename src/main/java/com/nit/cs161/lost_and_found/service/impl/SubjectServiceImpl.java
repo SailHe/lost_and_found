@@ -14,6 +14,7 @@ import com.nit.cs161.lost_and_found.repository.ItemRepository;
 import com.nit.cs161.lost_and_found.repository.MessageRepository;
 import com.nit.cs161.lost_and_found.repository.UserRepository;
 import com.nit.cs161.lost_and_found.service.SubjectService;
+import com.nit.cs161.lost_and_found.service.UserService;
 import com.nit.cs161.lost_and_found.utility.Tools;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,6 +48,9 @@ public class SubjectServiceImpl implements SubjectService {
     @Resource
     private UserRepository userRepository;
 
+    @Resource
+    private UserService userService;
+
     // private Map<Integer, ItemDTO> itemIdMapItemDTO = new HashMap<>(50);
 
     @Override
@@ -69,7 +73,7 @@ public class SubjectServiceImpl implements SubjectService {
             //搜索处理
             if (needSearch) {
                 filter = criteriaBuilder.or(
-                        criteriaBuilder.equal(root.get("itemId").as(String.class), search )
+                        criteriaBuilder.equal(root.get("itemId").as(String.class), search)
                         , criteriaBuilder.like(root.get("messageDesc").as(String.class), "%" + search + "%")
                         //, criteriaBuilder.like(root.get("itemName").as(String.class), "%" + search + "%")
                         //, criteriaBuilder.like(root.get("itemDesc").as(String.class), "%" + search + "%")
@@ -120,15 +124,35 @@ public class SubjectServiceImpl implements SubjectService {
         return null;
     }
 
-    @Override
-    public List<MessageDTO> listSubjectMessage(Integer itemId) {
+    /**
+     * Descriptions: 列举一个物品的消息列表(即主题)<p>
+     *
+     * @author SailHe
+     * @date 2018/12/13 16:35
+     */
+    private List<MessageDTO> listItemMessage(Integer itemId) {
         List<MessageDTO> messageDTOList = new LinkedList<>();
         messageRepository.findAllByItemId(itemId).forEach(bean -> messageDTOList.add(new MessageDTO(bean)));
         return messageDTOList;
     }
 
     @Override
+    public List<MessageDTO> listSubjectMessage(Integer messageId) {
+        List<MessageDTO> messageDTOList;
+        LafMessage message = messageRepository.findOne(messageId);
+        if (message == null) {
+            messageDTOList = new LinkedList<>();
+        } else {
+            messageDTOList = listItemMessage(message.getItemId());
+        }
+        return messageDTOList;
+    }
+
+    @Override
     public Integer saveRecord(MessageDTO record, ItemDTO itemRecord) throws Exception {
+        // @TODO 多此一举的感觉
+        UserDTO userDTO = userService.getRecord(record.getUserUsername());
+        record.setUserId(userDTO.getUserId());
         if (record.getMessageType().equals(EnumMessageType.ORDINARY.getValue())) {
             // 普通消息: 直接保存message即可
         } else {

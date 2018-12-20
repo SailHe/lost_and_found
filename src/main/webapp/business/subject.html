@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>物品</title>
+    <title>失物招领</title>
     <link rel="stylesheet" type="text/css"
           href="../lib/plugins/DataTables/DataTables-1.10.16/css/dataTables.bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="../lib/plugins/bootstrap/css/bootstrap.min.css"/>
@@ -180,8 +180,6 @@
             }
         }
 
-
-
         .flex-box-div {
             display: block;
             padding: 20px;
@@ -201,7 +199,8 @@
         }
 
         .flex-box-div {
-            min-height: 100px;max-height: 100px;
+            min-height: 100px;
+            max-height: 100px;
             /*min-width: 100px;max-width: 100px;*/
         }
 
@@ -228,8 +227,9 @@
                             <div id="logo"></div>
                         </a>
                     </td>
+                    <td width="110" align="center" id="topInfo" currentPage="subject" ></td>
                     <td width="570" align="right" style="padding-top: 2px;">
-                        <a href="/" class="top">首页</a>
+                        <a href="/business/subject.html" class="top">首页</a>
                         &nbsp;&nbsp;&nbsp;
                         <span id="userSingA" class="top clickable">注册 / 登录</span>
                         <span id="signOutSpan" class="clickable">退出</span>
@@ -247,9 +247,8 @@
     <table id="informationTable" class="table table-striped table-bordered table-hover table-condensed">
         <thead>
         <tr>
-            <th>序号</th>
+            <th>标题</th>
             <th>物品名</th>
-            <th>主题描述</th>
             <th>类型</th>
             <th>发布时间</th>
         </tr>
@@ -257,9 +256,8 @@
         <tbody></tbody>
         <tfoot style="display: none">
         <tr>
-            <th>序号</th>
+            <th>标题</th>
             <th>物品名</th>
-            <th>主题描述</th>
             <th>类型</th>
             <th>发布时间</th>
         </tr>
@@ -316,23 +314,25 @@
                             </div>
 
                             <label class="col-md-1 control-label"></label>
-                            <label class="col-md-2 control-label">消息图片</label>
+                            <label class="col-md-2 control-label">消息标题</label>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" name="msgImgUrls">
+                                <input type="text" class="form-control" name="msgTitle">
                             </div>
                         </div>
 
                         <div class="form-group" style="text-align: left">
                             <label class="col-md-2 control-label">消息内容</label>
                             <div class="col-md-10">
-                                <textarea type="text" class="form-control" name="messageDesc"></textarea>
+                                <!--<textarea type="text" class="form-control" name="messageDesc"></textarea>-->
+                                <textarea type="text" id="msgDescEditorContent" class="form-control" name="messageDesc"></textarea>
                             </div>
                         </div>
 
                         <div class="form-group item-info" style="text-align: left">
                             <label class="col-md-2 control-label">物品描述</label>
                             <div class="col-md-10">
-                                <textarea type="text" class="form-control" name="itemDesc"></textarea>
+                                <!--<textarea type="text" class="form-control" name="itemDesc"></textarea>-->
+                                <textarea id="itemDescEditorContent" class="form-control" name="itemDesc"></textarea>
                             </div>
                         </div>
 
@@ -350,6 +350,8 @@
 
                         <!--隐藏-->
                         <input type="text" readonly="readonly" class="hidden form-control" name="userId" value="">
+                        <!-- id是数据库中使用的利于索引和隐藏实现 username是用户看见的 不会暴露系统 -->
+                        <input type="text" readonly="readonly" class="hidden form-control" name="userUsername" value="">
                         <!--subjectId-->
                         <input type="text" readonly="readonly" class="hidden form-control" name="messageId" value="">
 
@@ -379,7 +381,11 @@
 <!--<script src="plugins/jquery-ui-1.12.1.custom/timepicker-addon-1.6.3/jquery-ui-timepicker-addon.js"></script>-->
 <!--<script src="plugins/assets/js/bootstrap-datetimepicker.js"></script>-->
 
+<script src="/lib/plugins/kindeditor/kindeditor-all-min.js"></script>
+<script src="/lib/plugins/kindeditor/lang/zh-CN.js"></script>
+
 <script src="../lib/plugins/unity/utility.js"></script>
+<script src="./util.js"></script>
 <script src="subject.js"></script>
 </body>
 </html>

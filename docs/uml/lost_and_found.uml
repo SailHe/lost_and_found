@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.nit.cs161.lost_and_found.repository</OriginalElement>
+  <nodes>
+    <node x="0.0" y="420.0">com.nit.cs161.lost_and_found.repository.UserRepository</node>
+    <node x="211.0" y="420.0">com.nit.cs161.lost_and_found.repository.ItemRepository</node>
+    <node x="190.0" y="584.0">com.nit.cs161.lost_and_found.dto.UserDTO</node>
+    <node x="0.0" y="584.0">com.nit.cs161.lost_and_found.dto.SubjectDTO</node>
+    <node x="217.0" y="169.0">com.nit.cs161.lost_and_found.constant.EnumMessageType</node>
+    <node x="202.0" y="502.0">com.nit.cs161.lost_and_found.dto.MessageDTO</node>
+    <node x="252.5" y="0.0">com.nit.cs161.lost_and_found.service.UserService</node>
+    <node x="403.0" y="502.0">com.nit.cs161.lost_and_found.controller.ApiController</node>
+    <node x="421.0" y="420.0">com.nit.cs161.lost_and_found.controller.UserController</node>
+    <node x="0.0" y="256.0">com.nit.cs161.lost_and_found.service.impl.ItemServiceImpl</node>
+    <node x="0.0" y="87.0">com.nit.cs161.lost_and_found.service.impl.SubjectServiceImpl</node>
+    <node x="15.0" y="169.0">com.nit.cs161.lost_and_found.service.ItemService</node>
+    <node x="360.0" y="584.0">com.nit.cs161.lost_and_found.dto.ItemDTO</node>
+    <node x="238.0" y="87.0">com.nit.cs161.lost_and_found.service.impl.UserServiceImpl</node>
+    <node x="15.0" y="0.0">com.nit.cs161.lost_and_found.service.SubjectService</node>
+    <node x="0.0" y="502.0">com.nit.cs161.lost_and_found.controller.ItemController</node>
+    <node x="242.0" y="338.0">com.nit.cs161.lost_and_found.controller.SubjectController</node>
+    <node x="0.0" y="338.0">com.nit.cs161.lost_and_found.repository.MessageRepository</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.nit.cs161.lost_and_found.service.impl.UserServiceImpl" target="com.nit.cs161.lost_and_found.service.UserService">
+      <point x="0.0" y="-18.5" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="com.nit.cs161.lost_and_found.service.impl.ItemServiceImpl" target="com.nit.cs161.lost_and_found.service.ItemService">
+      <point x="0.0" y="-18.5" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="com.nit.cs161.lost_and_found.service.impl.SubjectServiceImpl" target="com.nit.cs161.lost_and_found.service.SubjectService">
+      <point x="0.0" y="-18.5" />
+      <point x="0.0" y="18.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.8" x="673.75" y="274.375" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
