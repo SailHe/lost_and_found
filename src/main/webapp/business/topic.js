@@ -188,7 +188,7 @@ $(function () {
 
     $('input[name=itemPickUpTime]').initDatePicker().val(new Date().format(DATE_FORMAT));
 
-    initDraggableModal($($('.btn-modal-show').get(0)), $addAndEditModal);
+    initDraggableModal($($('.btn-modal-show').get(0)), $addAndEditModal, "发布消息");
 
 
     $dataTableForm.bootstrapValidator({
