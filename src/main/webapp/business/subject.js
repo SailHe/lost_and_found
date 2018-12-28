@@ -276,7 +276,7 @@ $(function () {
             dataType: 'json',
             data: $dataTableForm.serialize() + editPrimaryKey,
             url: (editPrimaryKey == "") ? "../subject/save" : "../subject/update",
-            success: tipsCallbackClosure($DataTableAPI, (editPrimaryKey == "" ? '添加' : '编辑'), $addAndEditModal),
+            success: tipsCallbackClosure($DataTableAPI, (editPrimaryKey == "" ? '主题发布' : '编辑'), $addAndEditModal),
         });
         $dataTableForm.resetFormValidCheck();
     });

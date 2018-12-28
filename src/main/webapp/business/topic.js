@@ -245,7 +245,7 @@ $(function () {
             data: $dataTableForm.serialize() + editPrimaryKey,
             url: (editPrimaryKey == "") ? "../subject/save" : "../subject/update",
             success: function (result) {
-                tipsCallbackClosure($DataTableAPI, (editPrimaryKey == "" ? '添加' : '编辑'), $addAndEditModal, false)(result);
+                tipsCallbackClosure($DataTableAPI, (editPrimaryKey == "" ? '发表消息' : '编辑'), $addAndEditModal, false)(result);
                 // $DataTableAPI.ajax.url().reload(null, false);
                 $DataTableAPI.clear();
                 reloadData();
