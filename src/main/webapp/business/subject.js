@@ -9,7 +9,7 @@ $(function () {
         msgDescEditor: null
     }
 
-    let {jumperAndParser, divWrap, showLimitLenStr} = initPage(editor);
+    let {username, jumperAndParser, divWrap, showLimitLenStr} = initPage(editor);
 
     if ($DataTableAPI != null) {
         $DataTableAPI.destroy();
@@ -47,15 +47,6 @@ $(function () {
             }, {
                 data: "itemName",
                 render: (data, type, row) => {
-                    /*
-                    itemName:"小明的校园卡"
-                    messageDesc:"又捡了一张"
-                    messageId:9
-                    messageType:"拾取物品"
-                    msgTitle:"../lib/plugins/assets/images/common/2011060400304367.jpg"
-                    publishTime:"2018-10-09 00:00:00"
-                    userNickname:"昵称"
-                    */
                     return divWrap(data);
                 }
             }, {
@@ -71,7 +62,23 @@ $(function () {
             }, {
                 data: "messageId",
                 render: (data, type, row) => {
-                    return divWrap("<span class='clickable msg-pre-del' msgId='" + data + "'> 删除 </span>");
+                    /*
+                    itemName:"小明的校园卡"
+                    messageDesc:"又捡了一张"
+                    messageId:9
+                    messageType:"拾取物品"
+                    msgTitle:"../lib/plugins/assets/images/common/2011060400304367.jpg"
+                    publishTime:"2018-10-09 00:00:00"
+                    userUsername:"admin"
+                    userNickname:"昵称"
+                    */
+                    const isPublisher = row.userUsername === username;
+                    const publisherStr = "<span class='clickable option-col msg-opt-del' msgId='" + data + "'> 删除 </span>";
+                    const visitErStr = "";
+                    return divWrap(
+                        isPublisher ? publisherStr : visitErStr,
+                        isPublisher ? "option-col" : "pre-del-col"
+                    );
                 }
             }
         ],
@@ -103,7 +110,7 @@ $(function () {
                 });
             });
 
-            $('.msg-pre-del').on('click', function () {
+            $('.msg-opt-del').on('click', function () {
                 const $currentNode = $(this);
                 const msgId = $currentNode.attr("msgId");
                 deleteRowClosure(
@@ -125,7 +132,6 @@ $(function () {
                     }),
                 });*/
             });
-
         },
         // dom: "<'row'<'col-md-5'B>r>t<'row'<'col-md-5'l><'col-md-3'i><'col-md-4'p>>",
         processing: true,

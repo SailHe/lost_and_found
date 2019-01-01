@@ -163,8 +163,8 @@ function initPage(editor) {
         }
     });
 
-    const divWrap = (data) => {
-        return "<div style='text-align: center' class='flex-box-div'> " + data + "</div>";
+    const divWrap = (data, customClass = "") => {
+        return "<div style='text-align: center' class='flex-box-div " + customClass +"'> " + data + "</div>";
     }
 
     const showLimitLenStr = (data, maxShowLen) => {
