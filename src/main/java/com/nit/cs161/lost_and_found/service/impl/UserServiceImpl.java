@@ -1,6 +1,7 @@
 package com.nit.cs161.lost_and_found.service.impl;
 
 import com.nit.cs161.lost_and_found.constant.general.EnumIs;
+import com.nit.cs161.lost_and_found.constant.general.EnumUserType;
 import com.nit.cs161.lost_and_found.dto.UserDTO;
 import com.nit.cs161.lost_and_found.entity.SysUser;
 import com.nit.cs161.lost_and_found.repository.UserRepository;
@@ -158,6 +159,9 @@ public class UserServiceImpl implements UserService {
         String result;
         if (isUserExist(usernameFieldName, userDTO.getUserUsername()).equals(EnumIs.NO)) {
             if (isUserExist(emailFieldName, userDTO.getUserEmailAddress()).equals(EnumIs.NO)) {
+                if (userDTO.getUserRole() == null) {
+                    userDTO.setUserRole(EnumUserType.NORMAL.getValue());
+                }
                 userRepository.save(userDTO.toBean());
                 result = "注册成功!";
             } else {
