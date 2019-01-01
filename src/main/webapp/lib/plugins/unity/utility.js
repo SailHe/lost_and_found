@@ -613,7 +613,7 @@ $.messageBox = function (content, type) {
  * @author SailHe
  * @date 2018/5/8 19:26
  */
-deleteRowClosure = function (dataTableApi, deleteUrl) {
+deleteRowClosure = function (dataTableApi, deleteUrl, customTips = "") {
     return function (primaryKey) {
         //确认框
         bootbox.confirm({
@@ -628,7 +628,7 @@ deleteRowClosure = function (dataTableApi, deleteUrl) {
                 }
             },
             title: '提示',
-            message: '确定删除么？',
+            message: '确定删除么？' + customTips,
             callback: function (result) {
                 if (result) {
                     $.ajax({

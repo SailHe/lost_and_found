@@ -106,7 +106,11 @@ $(function () {
             $('.msg-pre-del').on('click', function () {
                 const $currentNode = $(this);
                 const msgId = $currentNode.attr("msgId");
-                $.ajax({
+                deleteRowClosure(
+                    $DataTableAPI
+                    , "/subject/delete"
+                    , "</br>  PS: 只能删除主题以及对应物品 无法直接删除别人的回复")(msgId);
+                /*$.ajax({
                     type: 'post',
                     dataType: 'json',
                     data: {
@@ -114,13 +118,12 @@ $(function () {
                     },
                     url: "/subject/delete",
                     success: callbackClosure((data) => {
-                        // deleteRowClosure
                         $.messageBox("删除成功!" + data);
                         $DataTableAPI.ajax.reload();
                     }, (data) => {
                         $.messageBox("删除失败!");
                     }),
-                });
+                });*/
             });
 
         },
