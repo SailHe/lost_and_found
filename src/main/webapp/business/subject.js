@@ -68,6 +68,11 @@ $(function () {
                 render: (data, type, row) => {
                     return divWrap(data);
                 }
+            }, {
+                data: "messageId",
+                render: (data, type, row) => {
+                    return divWrap("<span class='clickable msg-pre-del' msgId='" + data + "'> 删除 </span>");
+                }
             }
         ],
         "columnDefs": [
@@ -97,6 +102,27 @@ $(function () {
                     messageId: currentMsgId
                 });
             });
+
+            $('.msg-pre-del').on('click', function () {
+                const $currentNode = $(this);
+                const msgId = $currentNode.attr("msgId");
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        primaryKey: msgId
+                    },
+                    url: "/subject/delete",
+                    success: callbackClosure((data) => {
+                        // deleteRowClosure
+                        $.messageBox("删除成功!" + data);
+                        $DataTableAPI.ajax.reload();
+                    }, (data) => {
+                        $.messageBox("删除失败!");
+                    }),
+                });
+            });
+
         },
         // dom: "<'row'<'col-md-5'B>r>t<'row'<'col-md-5'l><'col-md-3'i><'col-md-4'p>>",
         processing: true,

@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.Predicate;
@@ -110,8 +111,18 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Integer deleteRecord(Integer integer) throws Exception {
-        return null;
+    @Transactional(rollbackFor = Exception.class)
+    public Integer deleteRecord(Integer messageId) throws Exception {
+        int delCnt = 0;
+        Integer itemId = messageRepository.findOne(messageId).getItemId();
+        messageRepository.delete(messageId);
+        ++delCnt;
+        itemRepository.delete(itemId);
+        ++delCnt;
+        /*if(delCnt > 0){
+            throw new Exception("kua j n Exception: 只要发生异常 上述语句都不会被执行");
+        }*/
+        return delCnt;
     }
 
     @Override
@@ -149,6 +160,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Integer saveRecord(MessageDTO record, ItemDTO itemRecord) throws Exception {
         // @TODO 多此一举的感觉
         UserDTO userDTO = userService.getRecord(record.getUserUsername());
