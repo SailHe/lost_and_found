@@ -250,7 +250,7 @@ $(function () {
             url: (editPrimaryKey == "") ? "../subject/save" : "../subject/update",
             success: tipsCallbackClosure($DataTableAPI, (editPrimaryKey == "" ? '主题发布' : '编辑'), $addAndEditModal),
         });
-        $dataTableForm.resetFormValidCheck();
+        $dataTableForm.resetFormValidCheck().clearForm();
     });
 
     $('select[name=messageType]').on('change', function () {

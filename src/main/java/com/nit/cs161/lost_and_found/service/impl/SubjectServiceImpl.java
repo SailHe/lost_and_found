@@ -180,7 +180,8 @@ public class SubjectServiceImpl implements SubjectService {
         UserDTO userDTO = userService.getRecord(record.getUserUsername());
         record.setUserId(userDTO.getUserId());
         if (record.getMessageType().equals(EnumMessageType.ORDINARY.getValue())) {
-            // 普通消息: 直接保存message即可
+            // 普通消息: 没有标题 然后直接保存message即可
+            record.setMsgTitle(null);
         } else {
             // 创建一个主题: 先创建一个item 再创建message
             itemRecord.setItemId(itemRepository.save(itemRecord.toBean()).getItemId());
