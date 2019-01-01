@@ -107,10 +107,10 @@ public class UserController {
      */
     @RequestMapping(value = "query")
     @ResponseBody
-    public AjaxMsgDTO queryUser(Integer primaryKey) {
+    public AjaxMsgDTO queryUser(String username) {
         AjaxMsgDTO msgDTO = new AjaxMsgDTO();
         try {
-            msgDTO.setData(userService.getRecord(primaryKey));
+            msgDTO.setData(userService.getRecord(username));
             msgDTO.setSuccess(ProjectConstants.SUCCESS);
         } catch (Exception e) {
             msgDTO.setSuccess(ProjectConstants.FAILURE);

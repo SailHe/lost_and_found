@@ -102,7 +102,7 @@ function callbackClosure(successFun, failureFun, tipsMessagePrefix) {
 
 /**
  * Descriptions: 初始化一个论坛页面 当然, 标记什么的得相同<p>
- *
+ *  若editor未定义或者为null 则不会初始化KindEditor(富文本编辑器)
  * @author SailHe
  * @date 2019/1/1 18:05
  */
@@ -136,18 +136,22 @@ function initPage(editor) {
 
     const jumperAndParser = new JumperAndParser();
 
-    // @see
-    // http://datatables.club/
-    // https://my.oschina.net/ShaneJhu/blog/172956
-    // http://kindeditor.net/doc.php
-    // http://kindeditor.net/docs/option.html#id70
-    const editorSetting = {width: '100%', height: '100%', resizeType: 1};
-    // git tracking 后就变为function的颜色了
-    KindEditor.ready(function (K) {
-        // 其实editor 在方法返回时并没有被初始化 因此使用一个对象引用
-        editor.msgDescEditor = K.create('#msgDescEditorContent', editorSetting);
-        editor.itemDescEditor = K.create('#itemDescEditorContent', editorSetting);
-    });
+    if(isValidVar(editor)){
+        // @see
+        // http://datatables.club/
+        // https://my.oschina.net/ShaneJhu/blog/172956
+        // http://kindeditor.net/doc.php
+        // http://kindeditor.net/docs/option.html#id70
+        const editorSetting = {width: '100%', height: '100%', resizeType: 1};
+        // git tracking 后就变为function的颜色了
+        KindEditor.ready(function (K) {
+            // 其实editor 在方法返回时并没有被初始化 因此使用一个对象引用
+            editor.msgDescEditor = K.create('#msgDescEditorContent', editorSetting);
+            editor.itemDescEditor = K.create('#itemDescEditorContent', editorSetting);
+        });
+    }else{
+        // do nothing
+    }
 
     $('#userSingA').on('click', function () {
         const $currentNode = $(this);

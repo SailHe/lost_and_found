@@ -1,13 +1,6 @@
 $(document).ready(function () {
     let $DataTable = $('#exampleTable'), $DataTableAPI = null;
-
-    let username = localStorage.getItem('username');
-    if (isValidVar(username)) {
-        $('#userSingA').html(username);
-    } else {
-        // 强制返回
-        window.location.href = '/login.html';
-    }
+    let {username, jumperAndParser, divWrap, showLimitLenStr} = initPage();
 
     if ($DataTableAPI != null) {
         $DataTableAPI.destroy();
