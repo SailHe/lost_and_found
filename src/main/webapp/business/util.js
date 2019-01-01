@@ -163,6 +163,12 @@ function initPage(editor) {
         }
     });
 
+    /**
+     * Descriptions: 返回一个居中显示的div Dom<p>
+     *
+     * @author SailHe
+     * @date 2019/1/1 20:02
+     */
     const divWrap = (data, customClass = "") => {
         return "<div style='text-align: center' class='flex-box-div " + customClass +"'> " + data + "</div>";
     }
@@ -176,9 +182,9 @@ function initPage(editor) {
             + "'" : data.substring(0, maxShowLen))
             + (data.length > maxShowLen ? "..." : "");
     }
-
-    const noPicUrl = '/lib/plugins/assets/images/common/nopic.jpg';
+    const NORMAL_MESSAGE_VALUE = '0';
+    const NO_PIC_URL = '/lib/plugins/assets/images/common/nopic.jpg';
 
     // ============ init end ===============
-    return {username, jumperAndParser, divWrap, showLimitLenStr, noPicUrl};
+    return {username, jumperAndParser, divWrap, showLimitLenStr, NO_PIC_URL, NORMAL_MESSAGE_VALUE};
 }

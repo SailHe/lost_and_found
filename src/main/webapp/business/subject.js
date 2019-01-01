@@ -31,7 +31,7 @@ $(function () {
                 /*data: null*/
                 data: "msgTitle",
                 render: (data, type, row) => {
-                    // return divWrap('<img src="' + (isValidVar(data) ? data : noPicUrl) + '" style="width: 50%;">');
+                    // return divWrap('<img src="' + (isValidVar(data) ? data : NO_PIC_URL) + '" style="width: 50%;">');
                     return divWrap(
                         "<span class='clickable subject'"
                         + "messageId='" + parseInt(row.messageId) + "'"
@@ -73,7 +73,7 @@ $(function () {
                     userNickname:"昵称"
                     */
                     const isPublisher = row.userUsername === username;
-                    const publisherStr = "<span class='clickable option-col msg-opt-del' msgId='" + data + "'> 删除 </span>";
+                    const publisherStr = "<span class='clickable option-col subject-opt-del' msgId='" + data + "'> 删除 </span>";
                     const visitErStr = "";
                     return divWrap(
                         isPublisher ? publisherStr : visitErStr,
@@ -110,7 +110,7 @@ $(function () {
                 });
             });
 
-            $('.msg-opt-del').on('click', function () {
+            $('.subject-opt-del').on('click', function () {
                 const $currentNode = $(this);
                 const msgId = $currentNode.attr("msgId");
                 deleteRowClosure(

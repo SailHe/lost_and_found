@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.Predicate;
+import javax.tools.Tool;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -148,13 +149,26 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public List<MessageDTO> listSubjectMessage(Integer messageId) {
+    public List<MessageDTO> listSubjectMessage(Integer messageId) throws Exception {
         List<MessageDTO> messageDTOList;
         LafMessage message = messageRepository.findOne(messageId);
         if (message == null) {
             messageDTOList = new LinkedList<>();
         } else {
             messageDTOList = listItemMessage(message.getItemId());
+            List<Integer> userIdList = new LinkedList<>();
+            messageDTOList.forEach(ele -> userIdList.add(ele.getUserId()));
+            List<SysUser> userList = userRepository.findAll((root, query, cb) -> {
+                Predicate predicate;
+                predicate = cb.and(root.get("userId").in(userIdList));
+                // 先写返回值有利于IDE在lambda体中快速识别重载方法
+                return predicate;
+            });
+            Map<Integer, SysUser> userIdMapUser = new HashMap<>(50);
+            Tools.calcKeyMapBean(userList, userIdMapUser, bean -> bean.getUserId());
+            messageDTOList.forEach((ele) ->
+                    ele.setUserUsername(userIdMapUser.get(ele.getUserId()).getUserUsername())
+            );
         }
         return messageDTOList;
     }

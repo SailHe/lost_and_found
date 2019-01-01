@@ -1,14 +1,14 @@
 $(function () {
-    var $DataTable = $('#informationTable'), $DataTableAPI = null;
-    var $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableForm"), editPrimaryKey = '';
+    let $DataTable = $('#informationTable'), $DataTableAPI = null;
+    let $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableForm"), editPrimaryKey = '';
     //var messageTypeList = null, bufferMap = new Map();
     //$(document).ready(function ()
     const editor = {
-        itemDescEditor : null,
+        itemDescEditor: null,
         msgDescEditor: null
     }
 
-    let {jumperAndParser, divWrap} = initPage(editor);
+    let {username, jumperAndParser, divWrap, NORMAL_MESSAGE_VALUE} = initPage(editor);
 
     if ($DataTableAPI != null) {
         $DataTableAPI.destroy();
@@ -83,6 +83,12 @@ $(function () {
                             // 哈哈 区别出现啦 text 是将其转换为文本了的
                             $('#currentSubjectInfo').html(ele.messageDesc);
                             currentItemId = $('input[name=itemId]').val(ele.itemId);
+                            if (ele.userUsername === username) {
+                                $('.publish-new-msg').after(
+                                    // "<span class='clickable option-col msg-opt-del' msgId='" + currentMsgId + "'> 编辑 </span>"
+                                    "<span class='clickable option-col btn-modal-show subject-opt-edit'> 编辑主题 </span>"
+                                );
+                            }
                         } else {
                             // @see http://datatables.club/example/api/add_row.html
                             // https://cse.google.com/cse?cx=001171264216576386016:xim4af2d2ik&q=Datatable%20%E6%B7%BB%E5%8A%A0%E8%A1%8C&oq=Datatable%20%E6%B7%BB%E5%8A%A0%E8%A1%8C&gs_l=partner-generic.3..0l6.4791812.4805097.0.4805346.14.14.0.0.0.0.1500.7008.0j1j0j4j5j0j1j1j1.13.0.gsnos%2Cn%3D13...0.14057j24435291j27j1...1j4.34.partner-generic..7.7.2513.DAAsmkJdBww
@@ -98,10 +104,61 @@ $(function () {
                         console.assert(currentItemId === ele.itemId);
                     }
                 });
+                let $editModalBtn = $('.btn-modal-show.subject-opt-edit');
+                initDraggableModal($($editModalBtn.get(0)), $addAndEditModal, "编辑主题");
+                $editModalBtn.on('click', function () {
+                    const $currentNode = $(this);
+                    editPrimaryKey = currentMsgId;
+                    $('textarea[name=messageDesc]').val($('#currentSubjectInfo').text());
+                    editor.msgDescEditor.sync();
+                    $.messageBox("编辑呀");
+                });
+
+                // 这里是要求对两个模态框的消息类型做订制: 发布消息只能有普通消息类型, 编辑主题有除了普通消息外的类型
+                $('.btn-modal-show').on('click', function () {
+                    const $currentNode = $(this);
+                    const $messageType = $('select[name=messageType]');
+                    const optionList = $messageType.find('option');
+                    let hasNotSelected = true;
+                    if ($currentNode.text().indexOf("编辑") < 0) {
+                        optionList.each(i => {
+                            const currentOp = optionList[i];
+                            if (currentOp.value.toString() === NORMAL_MESSAGE_VALUE) {
+                                $(currentOp).domDisplaySubValid();
+                                if (hasNotSelected) {
+                                    currentOp.selected = true;
+                                    $(currentOp).trigger('change');
+                                    hasNotSelected = false;
+                                } else {
+                                    // do nothing
+                                }
+                            } else {
+                                $(currentOp).domHideSubInvalid();
+                            }
+                        });
+                    } else {
+                        optionList.each(i => {
+                            const currentOp = optionList[i];
+                            if (currentOp.value.toString() === NORMAL_MESSAGE_VALUE) {
+                                $(currentOp).domHideSubInvalid();
+                            } else {
+                                if (hasNotSelected) {
+                                    currentOp.selected = true;
+                                    $(currentOp).trigger('change');
+                                    hasNotSelected = false;
+                                } else {
+                                    // do nothing
+                                }
+                                $(currentOp).domDisplaySubValid();
+                            }
+                        });
+                    }
+                });
             }),
         });
     }
 
+    initDraggableModal($($('.btn-modal-show').get(0)), $addAndEditModal, "发布消息");
     reloadData();
 
     AsyncLinkBufferChangeFactory({
@@ -122,11 +179,12 @@ $(function () {
                     if (result.success) {
                         let dataList = new Array();
                         result.data.forEach(ele => {
-                            if (ele.name === '普通消息') {
+                            dataList.push(ele);
+                            /*if (ele.name === '普通消息') {
                                 dataList.push(ele);
                             } else {
                                 // do nothing
-                            }
+                            }*/
                         });
                         successCallback(dataList);
                     } else {
@@ -138,8 +196,6 @@ $(function () {
     }).trigger('change', {selectLinkList: [0, -1]});
 
     $('input[name=itemPickUpTime]').initDatePicker().val(new Date().format(DATE_FORMAT));
-
-    initDraggableModal($($('.btn-modal-show').get(0)), $addAndEditModal, "发布消息");
 
 
     $dataTableForm.bootstrapValidator({
@@ -187,8 +243,8 @@ $(function () {
             }
         }
     }).on('success.form.bv', function (e) {
-        msgDescEditor.sync();
-        itemDescEditor.sync();
+        editor.msgDescEditor.sync();
+        editor.itemDescEditor.sync();
         e.preventDefault();
         $.ajax({
             type: 'post',
@@ -204,10 +260,10 @@ $(function () {
             },
         });
         $dataTableForm.resetFormValidCheck();
+        editPrimaryKey = "";
     });
 
     $('select[name=messageType]').on('change', function () {
-        const NORMAL_MESSAGE_VALUE = '0';
         const $currentNode = $(this);
         if ($currentNode.val() === NORMAL_MESSAGE_VALUE) {
             $('.item-info').domHideSubInvalid();

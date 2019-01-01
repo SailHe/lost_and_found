@@ -54,7 +54,7 @@ public interface SubjectService extends PageService<MessageDTO, Integer> {
      * @author SailHe
      * @date 2018/12/13 16:34
      */
-    List<MessageDTO> listSubjectMessage(Integer messageId);
+    List<MessageDTO> listSubjectMessage(Integer messageId) throws Exception;
 
     /**
      * Descriptions: 保存一个主题 或是保存一个普通消息<p>
