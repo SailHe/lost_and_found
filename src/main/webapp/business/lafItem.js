@@ -1,5 +1,14 @@
-var $DataTable = $('#exampleTable'), $DataTableAPI = null;
 $(document).ready(function () {
+    let $DataTable = $('#exampleTable'), $DataTableAPI = null;
+
+    let username = localStorage.getItem('username');
+    if (isValidVar(username)) {
+        $('#userSingA').html(username);
+    } else {
+        // 强制返回
+        window.location.href = '/login.html';
+    }
+
     if ($DataTableAPI != null) {
         $DataTableAPI.destroy();
     }
