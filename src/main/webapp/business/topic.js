@@ -3,66 +3,17 @@ $(function () {
     var $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableForm"), editPrimaryKey = '';
     //var messageTypeList = null, bufferMap = new Map();
     //$(document).ready(function ()
-    let itemDescEditor = null;
-    let msgDescEditor = null;
-    // ============ init start ===============
-
-    let username = localStorage.getItem('username');
-    if (isValidVar(username)) {
-        $('#userSingA').html(username);
-    } else {
-        // 强制返回
-        window.location.href = '/login.html';
+    const editor = {
+        itemDescEditor : null,
+        msgDescEditor: null
     }
 
-    $('#signOutSpan').on('click', function () {
-        const $currentNode = $(this);
-        $.ajax({
-            type: 'post',
-            dataType: 'json',
-            data: username,
-            url: "/user/signOut",
-            success: function (result) {
-                console.log(result);
-                localStorage.clear();
-                window.location.href = '/login.html';
-            },
-        });
-    });
+    let {jumperAndParser, divWrap} = initPage(editor);
 
-    $('#userSingA').on('click', function () {
-        const $currentNode = $(this);
-        if (isValidVar($currentNode.text())) {
-            $.messageBox(username + "欢迎使用失物招领互助论坛!");
-        } else {
-            window.location.href = '/login.html';
-        }
-    });
-
-    // $('input[name=userId]').val(username);
-    $('input[name=userUsername]').val(username);
-
-    // @see https://my.oschina.net/ShaneJhu/blog/172956
-    // http://kindeditor.net/doc.php
-    const editorSetting = {width: '100%', height: '100%', resizeType: 1};
-    // git tracking 后就变为function的颜色了
-    KindEditor.ready(function (K) {
-        msgDescEditor = K.create('#msgDescEditorContent', editorSetting);
-        itemDescEditor = K.create('#itemDescEditorContent', editorSetting);
-    });
-
-    // ============ init end ===============
-
-    function divWrap(data) {
-        return "<div style='text-align: center' class='flex-box-div'> " + data + "</div>";
-    }
-
-    const noPicUrl = '/lib/plugins/assets/images/common/nopic.jpg';
     if ($DataTableAPI != null) {
         $DataTableAPI.destroy();
     }
 
-    const jumperAndParser = new JumperAndParser();
     const currentPar = jumperAndParser.parseQueryString(window.location.href);
     const currentMsgId = currentPar.messageId;
 
