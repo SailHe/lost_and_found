@@ -22,9 +22,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.Predicate;
+import javax.tools.Tool;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -110,8 +112,18 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Integer deleteRecord(Integer integer) throws Exception {
-        return null;
+    @Transactional(rollbackFor = Exception.class)
+    public Integer deleteRecord(Integer messageId) throws Exception {
+        int delCnt = 0;
+        Integer itemId = messageRepository.findOne(messageId).getItemId();
+        messageRepository.delete(messageId);
+        ++delCnt;
+        itemRepository.delete(itemId);
+        ++delCnt;
+        /*if(delCnt > 0){
+            throw new Exception("kua j n Exception: 只要发生异常 上述语句都不会被执行");
+        }*/
+        return delCnt;
     }
 
     @Override
@@ -137,24 +149,39 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public List<MessageDTO> listSubjectMessage(Integer messageId) {
+    public List<MessageDTO> listSubjectMessage(Integer messageId) throws Exception {
         List<MessageDTO> messageDTOList;
         LafMessage message = messageRepository.findOne(messageId);
         if (message == null) {
             messageDTOList = new LinkedList<>();
         } else {
             messageDTOList = listItemMessage(message.getItemId());
+            List<Integer> userIdList = new LinkedList<>();
+            messageDTOList.forEach(ele -> userIdList.add(ele.getUserId()));
+            List<SysUser> userList = userRepository.findAll((root, query, cb) -> {
+                Predicate predicate;
+                predicate = cb.and(root.get("userId").in(userIdList));
+                // 先写返回值有利于IDE在lambda体中快速识别重载方法
+                return predicate;
+            });
+            Map<Integer, SysUser> userIdMapUser = new HashMap<>(50);
+            Tools.calcKeyMapBean(userList, userIdMapUser, bean -> bean.getUserId());
+            messageDTOList.forEach((ele) ->
+                    ele.setUserUsername(userIdMapUser.get(ele.getUserId()).getUserUsername())
+            );
         }
         return messageDTOList;
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Integer saveRecord(MessageDTO record, ItemDTO itemRecord) throws Exception {
         // @TODO 多此一举的感觉
         UserDTO userDTO = userService.getRecord(record.getUserUsername());
         record.setUserId(userDTO.getUserId());
         if (record.getMessageType().equals(EnumMessageType.ORDINARY.getValue())) {
-            // 普通消息: 直接保存message即可
+            // 普通消息: 没有标题 然后直接保存message即可
+            record.setMsgTitle(null);
         } else {
             // 创建一个主题: 先创建一个item 再创建message
             itemRecord.setItemId(itemRepository.save(itemRecord.toBean()).getItemId());

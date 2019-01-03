@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
  */
 public class SubjectDTO {
     private Integer messageId;
+    private String userUsername;
     private String userNickname;
     private String itemName;
     private String messageDesc;
@@ -40,6 +41,14 @@ public class SubjectDTO {
 
     public void setMessageId(Integer messageId) {
         this.messageId = messageId;
+    }
+
+    public String getUserUsername() {
+        return userUsername;
+    }
+
+    public void setUserUsername(String userUsername) {
+        this.userUsername = userUsername;
     }
 
     public String getUserNickname() {
@@ -100,6 +109,7 @@ public class SubjectDTO {
     public String toString() {
         return "SubjectDTO{" +
                 "messageId=" + messageId +
+                ", userUsername='" + userUsername + '\'' +
                 ", userNickname='" + userNickname + '\'' +
                 ", itemName='" + itemName + '\'' +
                 ", messageDesc='" + messageDesc + '\'' +

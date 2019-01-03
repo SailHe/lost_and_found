@@ -1,79 +1,16 @@
 //$(document).ready(function ()
 $(function () {
 
-    var $DataTable = $('#informationTable'), $DataTableAPI = null;
-    var $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableForm"), editPrimaryKey = '';
+    let $DataTable = $('#informationTable'), $DataTableAPI = null;
+    let $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableForm"), editPrimaryKey = '';
     //var messageTypeList = null, bufferMap = new Map();
-    let itemDescEditor = null;
-    let msgDescEditor = null;
-
-    // ============ init start ===============
-
-    let username = localStorage.getItem('username');
-    if (isValidVar(username)) {
-        $('#userSingA').html(username);
-    } else {
-        // 强制返回
-        window.location.href = '/login.html';
+    const editor = {
+        itemDescEditor : null,
+        msgDescEditor: null
     }
 
-    $('#signOutSpan').on('click', function () {
-        const $currentNode = $(this);
-        $.ajax({
-            type: 'post',
-            dataType: 'json',
-            data: username,
-            url: "../user/signOut",
-            success: function (result) {
-                console.log(result);
-                localStorage.clear();
-                window.location.href = '/login.html';
-            },
-        });
-    });
+    let {username, jumperAndParser, divWrap, showLimitLenStr} = initPage(editor);
 
-    $('#userSingA').on('click', function () {
-        const $currentNode = $(this);
-        if (isValidVar($currentNode.text())) {
-            $.messageBox(username + "欢迎使用失物招领互助论坛!");
-        } else {
-            window.location.href = '/login.html';
-        }
-    });
-
-    // $('input[name=userId]').val(username);
-    $('input[name=userUsername]').val(username);
-
-    const jumperAndParser = new JumperAndParser();
-
-    // @see
-    // http://datatables.club/
-    // https://my.oschina.net/ShaneJhu/blog/172956
-    // http://kindeditor.net/doc.php
-    // http://kindeditor.net/docs/option.html#id70
-    const editorSetting = {width: '100%', height: '100%', resizeType: 1};
-    // git tracking 后就变为function的颜色了
-    KindEditor.ready(function (K) {
-        msgDescEditor = K.create('#msgDescEditorContent', editorSetting);
-        itemDescEditor = K.create('#itemDescEditorContent', editorSetting);
-    });
-
-    // ============ init end ===============
-
-    function divWrap(data) {
-        return "<div style='text-align: center' class='flex-box-div'> " + data + "</div>";
-    }
-
-    function showLimitLenStr(data, maxShowLen) {
-        // keywords: [js judge text html]
-        // @see https://stackoverflow.com/questions/15458876/check-if-a-string-is-html-or-not
-        const isHtml = /<[a-z][\s\S]*>/i.test(data);
-        // 防止html分割显示错误
-        return (isHtml ? "'" + data.substring(0, maxShowLen) + "'" : data.substring(0, maxShowLen))
-            + (data.length > maxShowLen ? "..." : "");
-    }
-
-    const noPicUrl = '/lib/plugins/assets/images/common/nopic.jpg';
     if ($DataTableAPI != null) {
         $DataTableAPI.destroy();
     }
@@ -94,7 +31,7 @@ $(function () {
                 /*data: null*/
                 data: "msgTitle",
                 render: (data, type, row) => {
-                    // return divWrap('<img src="' + (isValidVar(data) ? data : noPicUrl) + '" style="width: 50%;">');
+                    // return divWrap('<img src="' + (isValidVar(data) ? data : NO_PIC_URL) + '" style="width: 50%;">');
                     return divWrap(
                         "<span class='clickable subject'"
                         + "messageId='" + parseInt(row.messageId) + "'"
@@ -110,15 +47,6 @@ $(function () {
             }, {
                 data: "itemName",
                 render: (data, type, row) => {
-                    /*
-                    itemName:"小明的校园卡"
-                    messageDesc:"又捡了一张"
-                    messageId:9
-                    messageType:"拾取物品"
-                    msgTitle:"../lib/plugins/assets/images/common/2011060400304367.jpg"
-                    publishTime:"2018-10-09 00:00:00"
-                    userNickname:"昵称"
-                    */
                     return divWrap(data);
                 }
             }, {
@@ -130,6 +58,27 @@ $(function () {
                 data: "publishTime",
                 render: (data, type, row) => {
                     return divWrap(data);
+                }
+            }, {
+                data: "messageId",
+                render: (data, type, row) => {
+                    /*
+                    itemName:"小明的校园卡"
+                    messageDesc:"又捡了一张"
+                    messageId:9
+                    messageType:"拾取物品"
+                    msgTitle:"../lib/plugins/assets/images/common/2011060400304367.jpg"
+                    publishTime:"2018-10-09 00:00:00"
+                    userUsername:"admin"
+                    userNickname:"昵称"
+                    */
+                    const isPublisher = row.userUsername === username;
+                    const publisherStr = "<span class='clickable option-col subject-opt-del' msgId='" + data + "'> 删除 </span>";
+                    const visitErStr = "";
+                    return divWrap(
+                        isPublisher ? publisherStr : visitErStr,
+                        isPublisher ? "option-col" : "pre-del-col"
+                    );
                 }
             }
         ],
@@ -159,6 +108,29 @@ $(function () {
                 jumperAndParser.jumperToTarget('topic.html', {
                     messageId: currentMsgId
                 });
+            });
+
+            $('.subject-opt-del').on('click', function () {
+                const $currentNode = $(this);
+                const msgId = $currentNode.attr("msgId");
+                deleteRowClosure(
+                    $DataTableAPI
+                    , "/subject/delete"
+                    , "</br>  PS: 只能删除主题以及对应物品 无法直接删除别人的回复")(msgId);
+                /*$.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        primaryKey: msgId
+                    },
+                    url: "/subject/delete",
+                    success: callbackClosure((data) => {
+                        $.messageBox("删除成功!" + data);
+                        $DataTableAPI.ajax.reload();
+                    }, (data) => {
+                        $.messageBox("删除失败!");
+                    }),
+                });*/
             });
         },
         // dom: "<'row'<'col-md-5'B>r>t<'row'<'col-md-5'l><'col-md-3'i><'col-md-4'p>>",
@@ -213,7 +185,7 @@ $(function () {
 
     $('input[name=itemPickUpTime]').initDatePicker().val(new Date().format(DATE_FORMAT));
 
-    initDraggableModal($($('.btn-modal-show').get(0)), $addAndEditModal);
+    initDraggableModal($($('.btn-modal-show').get(0)), $addAndEditModal, "发布主题");
 
 
     $dataTableForm.bootstrapValidator({
@@ -268,17 +240,17 @@ $(function () {
         // 将富文本编辑器中无法serialize的部分存到隐藏的input中
         // $('input[name=messageDesc]').val($('textarea[name=messageDescBuffer]').val());
         // $('input[name=itemDesc]').val($('textarea[name=itemDescBuffer]').val());
-        msgDescEditor.sync();
-        itemDescEditor.sync();
+        editor.msgDescEditor.sync();
+        editor.itemDescEditor.sync();
 
         $.ajax({
             type: 'post',
             dataType: 'json',
             data: $dataTableForm.serialize() + editPrimaryKey,
             url: (editPrimaryKey == "") ? "../subject/save" : "../subject/update",
-            success: tipsCallbackClosure($DataTableAPI, (editPrimaryKey == "" ? '添加' : '编辑'), $addAndEditModal),
+            success: tipsCallbackClosure($DataTableAPI, (editPrimaryKey == "" ? '主题发布' : '编辑'), $addAndEditModal),
         });
-        $dataTableForm.resetFormValidCheck();
+        $dataTableForm.resetFormValidCheck().clearForm();
     });
 
     $('select[name=messageType]').on('change', function () {

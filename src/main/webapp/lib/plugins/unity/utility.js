@@ -183,7 +183,7 @@ function loadDropSelect($select, gradeName, selectedValue) {
  * @author SailHe
  * @date 2018/4/22 10:32
  */
-function tipsCallbackClosure(reloadTable, tipsMessagePrefix, $informationModal, ajaxReload) {
+function tipsCallbackClosure(reloadTable, tipsMessagePrefix, $informationModal, ajaxReload=true) {
     tipsMessagePrefix == undefined ? tipsMessagePrefix = "操作" : '';
     return function tipsCallBack(result) {
         if (result.success) {
@@ -613,7 +613,7 @@ $.messageBox = function (content, type) {
  * @author SailHe
  * @date 2018/5/8 19:26
  */
-deleteRowClosure = function (dataTableApi, deleteUrl) {
+deleteRowClosure = function (dataTableApi, deleteUrl, customTips = "") {
     return function (primaryKey) {
         //确认框
         bootbox.confirm({
@@ -628,7 +628,7 @@ deleteRowClosure = function (dataTableApi, deleteUrl) {
                 }
             },
             title: '提示',
-            message: '确定删除么？',
+            message: '确定删除么？' + customTips,
             callback: function (result) {
                 if (result) {
                     $.ajax({
@@ -1126,10 +1126,11 @@ function betweenNumLORC(min, num, max) {
 /**
  * Descriptions: 初始化一个可拖拽的Bootstrap Modal 许引入jQ-ui<p>
  *
+ * @TODO 某些情况下右侧会出现滚动条
  * @author SailHe
  * @date 2018/9/12 11:21
  */
-const initDraggableModal = ($button, $modal) => {
+const initDraggableModal = ($button, $modal, modalTitle) => {
     //设置初始化
     $modal.modal({
         //点击空白处关闭
@@ -1166,15 +1167,16 @@ const initDraggableModal = ($button, $modal) => {
             '500',
             function () {
                 const modal = $(this);
-                modal.find('.modal-title').text('可拖拽Modal');
+                modal.find('.modal-title').text(isValidVar(modalTitle) ? modalTitle : '可拖拽Modal');
                 $.ajax({});
             }
         );
-        //完成拖拽 基于jQ-UI
+        // 临时取消拖拽
+        /*//完成拖拽 基于jQ-UI
         $modal.draggable({
             cursor: "move",
             handle: '.modal-header'
-        });
+        });*/
         //显示
         $modal.modal('show');
     });

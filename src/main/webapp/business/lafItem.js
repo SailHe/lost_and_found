@@ -1,5 +1,7 @@
-var $DataTable = $('#exampleTable'), $DataTableAPI = null;
 $(document).ready(function () {
+    let $DataTable = $('#exampleTable'), $DataTableAPI = null;
+    let {username, jumperAndParser, divWrap, showLimitLenStr} = initPage();
+
     if ($DataTableAPI != null) {
         $DataTableAPI.destroy();
     }

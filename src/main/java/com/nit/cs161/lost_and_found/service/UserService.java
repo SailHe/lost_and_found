@@ -44,6 +44,12 @@ public interface UserService extends CrudService<UserDTO, Integer> {
      */
     UserDTO getTokenRecord(String token) throws Exception;
 
+    /**
+     * Descriptions: 按照用户名获取用户信息<p>
+     *
+     * @author SailHe
+     * @date 2019/1/1 18:18
+     */
     UserDTO getRecord(String userName) throws Exception;
 
     /**
