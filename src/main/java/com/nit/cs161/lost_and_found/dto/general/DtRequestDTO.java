@@ -1,11 +1,15 @@
 package com.nit.cs161.lost_and_found.dto.general;
 
 
+import java.util.List;
+
 public class DtRequestDTO {
     public Integer draw;
     public Integer start;
     public Integer length;
     public String search;
+    public List<String> multiSearchKeyList;
+    public List<String> multiSearchValueList;
 
     public DtRequestDTO() {
     }
@@ -47,5 +51,21 @@ public class DtRequestDTO {
 
     public void setSearch(String search) {
         this.search = search;
+    }
+
+    public List<String> getMultiSearchKeyList() {
+        return multiSearchKeyList;
+    }
+
+    public void setMultiSearchKeyList(List<String> multiSearchKeyList) {
+        this.multiSearchKeyList = multiSearchKeyList;
+    }
+
+    public List<String> getMultiSearchValueList() {
+        return multiSearchValueList;
+    }
+
+    public void setMultiSearchValueList(List<String> multiSearchValueList) {
+        this.multiSearchValueList = multiSearchValueList;
     }
 }

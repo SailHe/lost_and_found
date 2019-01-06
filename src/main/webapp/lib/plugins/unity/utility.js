@@ -1070,6 +1070,8 @@ $.fn.rangeDatePicker = function ($endDatePickerInput) {
             dateFormat: DATE_FORMAT_DATEPICKER,
             onClose: function (selectedDate) {
                 $end.datepicker("option", "minDate", selectedDate);
+                // 注意 只要关闭了控件 就会触发
+                $start.trigger('input');
             }
         });
         $end.prop("readonly", true).datepicker({
@@ -1077,7 +1079,7 @@ $.fn.rangeDatePicker = function ($endDatePickerInput) {
             dateFormat: DATE_FORMAT_DATEPICKER,
             onClose: function (selectedDate) {
                 $start.datepicker("option", "maxDate", selectedDate);
-                $end.val($(this).val());
+                $end.val($(this).val()).trigger('input');
             }
         });
     }

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css"
+          href="../lib/plugins/DataTables/DataTables-1.10.16/css/dataTables.bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../lib/plugins/bootstrap/css/bootstrap.min.css"/>
+    <link href="../lib/plugins/jQuery/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet">
+    <!--<link rel="stylesheet" type="text/css" href="../lib/css/styles.css"/>-->
+    <link rel="stylesheet" type="text/css" href="../lib/plugins/unity/utility.css"/>
+    <link rel="stylesheet" type="text/css" href="./main.css"/>
+</head>
+<body>
+<div class="ibox-tools">
+    <span>年度</span>
+    <select id="year"></select>
+    <span>月度</span>
+    <select id="month"></select>
+    <span>开始日期</span>
+    <input id="StartTime"/>
+    <span>结束日期</span>
+    <input id="EndTime"/>
+
+    <span>发文类型</span>
+    <select id="DTMName"></select>
+    <span>关键字</span>
+    <input id="KeyWords"/>
+
+    <a class="btn btn-primary btn-sm" title='搜索' id="btn_search" href="javascript:void(0)"><i class="fa fa-search"></i>搜索</a>
+    <a class="btn btn-primary btn-sm" title='发文' href=""><i class="fa fa-plus"></i>添加</a>
+
+    <a class="collapse-link">
+        <i class="fa fa-chevron-up"></i>
+    </a>
+    <div class="container">
+        <table id="informationTable" class="dataTables-example table table-striped table-bordered table-hover table-condensed">
+            <thead>
+            <tr>
+                <th>标题</th>
+                <th>标题</th>
+                <th>标题</th>
+                <th>标题</th>
+                <th>标题</th>
+                <th>标题</th>
+                <th>物品名</th>
+                <th>类型</th>
+                <th>发布时间</th>
+                <th class="option-col">操作</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot style="display: none">
+            <tr>
+                <th>标题</th>
+                <th>标题</th>
+                <th>标题</th>
+                <th>标题</th>
+                <th>标题</th>
+                <th>标题</th>
+                <th>物品名</th>
+                <th>类型</th>
+                <th>发布时间</th>
+                <th class="option-col">操作</th>
+            </tr>
+            </tfoot>
+            <!-- tbody是必须的 -->
+        </table>
+    </div>
+
+</div>
+</body>
+<script src="../lib/plugins/jQuery/jquery-3.3.1.min.js"></script>
+<script src="../lib/plugins/DataTables/DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="../lib/plugins/DataTables/DataTables-1.10.16/js/dataTables.bootstrap.min.js"></script>
+<script src="../lib/plugins/suit/bootstrap.js"></script>
+<script src="../lib/plugins/bootstrapValidator/bootstrapValidator.min.js"></script>
+<!--可拖拽模态框-->
+<script src="../lib/plugins/suit/jquery-ui.js"></script>
+<!--<script src="plugins/jquery-ui-1.12.1.custom/timepicker-addon-1.6.3/jquery-ui-timepicker-addon.js"></script>-->
+<!--<script src="plugins/assets/js/bootstrap-datetimepicker.js"></script>-->
+
+<script src="/lib/plugins/kindeditor/kindeditor-all-min.js"></script>
+<script src="/lib/plugins/kindeditor/lang/zh-CN.js"></script>
+
+<script src="../lib/plugins/unity/utility.js"></script>
+<script src="./util.js"></script>
+<script type="javascript">
+
+    //把公共的设置项都放在这里，就不需要每个页面都设置一遍了，放在jQuery对象上是为了避免污染全局变量
+    $.dataTablesSettings = {
+        "aLengthMenu": [10, 25, 50, 100],
+        "bAutoWidth": false,
+        "bDeferRender": true,
+        "bLengthChange": true,
+        "sAjaxSource": "/ReceivedDoc/AjaxHandler",
+        "bPaginate": true,
+        "bServerSide": true,
+        "bSort": true,
+        "iDisplayLength": 10,
+        searching: false,//是否显示搜索框
+        "aaSorting": [[0, "asc"]], // set first column as a default sort by asc
+        "bFilter": true,
+        "aoColumnDefs": [{  // define columns sorting options(by default all columns are sortable extept the first checkbox column)
+            'bSortable': true,
+            'aTargets': [0, 8]
+        }],
+        "fnServerParams": function (aoData) {
+            aoData._rand = Math.random();
+        },
+        "fnDrawCallback": function () {
+
+        }
+    }
+    let $dataTable = $(".dataTables-example").dataTable($.dataTablesSettings);
+    $('#btn_search').click(function () {
+        //这里重新设置参数
+        $.dataTablesSettings.fnServerParams = function (aoData) {
+            aoData._rand = Math.random();
+            aoData.push(
+                {"name": "year", "value": $('#year').val()},
+                {"name": "month", "value": $('#month').val()},
+                {"name": "StartTime", "value": $('#StartTime').val()},
+                {"name": "EndTime", "value": $('#EndTime').val()},
+                {"name": "DTMName", "value": $('#DTMName').val()},
+                {"name": "KeyWords", "value": $('#KeyWords').val()}
+            );
+        }
+        //搜索就是设置参数，然后销毁datatable重新再建一个
+        $dataTable.fnDestroy(false);
+        $dataTable = $(".dataTables-example").dataTable($.dataTablesSettings);
+        //搜索后跳转到第一页
+        $dataTable.fnPageChange(0);
+    });
+</script>
+</html>
