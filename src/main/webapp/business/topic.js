@@ -16,9 +16,8 @@ $(function () {
 
     const currentPar = jumperAndParser.parseQueryString(window.location.href);
     const currentMsgId = currentPar.messageId;
-
     // 标题是上一次点击的html
-    const pastPar = JSON.parse(localStorage.getItem("pastPagePar"));
+    let pastPar = JSON.parse(localStorage.getItem("pastPagePar"));
     document.title = pastPar.title;
     $('#topInfo').text("关联物品: " + pastPar.itemName);
 
@@ -168,6 +167,10 @@ $(function () {
                 } else {
                     // do nothing
                 }
+                // 标题是上一次点击的html
+                localStorage.setItem("pastPagePar", JSON.stringify(pastPar))
+                document.title = pastPar.title;
+                $('#topInfo').text("关联物品: " + pastPar.itemName);
             }),
         });
     }
@@ -260,6 +263,10 @@ $(function () {
         editor.msgDescEditor.sync();
         editor.itemDescEditor.sync();
         e.preventDefault();
+        const tmpTitle =$('input[name=msgTitle]').val();
+        const tmpItemName = $('input[name=itemName]').val();
+        pastPar.title = isValidVar(tmpTitle) ? tmpTitle : pastPar.title;
+        pastPar.itemName = isValidVar(tmpItemName) ? tmpItemName : pastPar.itemName;
         $.ajax({
             type: 'post',
             dataType: 'json',
