@@ -274,6 +274,7 @@ $(function () {
             url: (editPrimaryKey == "") ? "../subject/save" : "../subject/update",
             success: function (result) {
                 tipsCallbackClosure($DataTableAPI, (editPrimaryKey == "" ? '发表消息' : '编辑'), $addAndEditModal, false)(result);
+                editPrimaryKey = "";
                 // $DataTableAPI.ajax.url().reload(null, false);
                 $DataTableAPI.clear();
                 reloadData();
@@ -281,7 +282,6 @@ $(function () {
             },
         });
         $dataTableForm.resetFormValidCheck().clearForm();
-        editPrimaryKey = "";
     });
 
     $('select[name=messageType]').on('change', function () {
