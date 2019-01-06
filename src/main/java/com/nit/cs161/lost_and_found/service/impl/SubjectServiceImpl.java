@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.persistence.criteria.Predicate;
 import javax.tools.Tool;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -188,6 +189,22 @@ public class SubjectServiceImpl implements SubjectService {
             record.setItemId(itemRecord.getItemId());
         }
         return messageRepository.save(record.toBean()).getMessageId();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Integer updateRecord(MessageDTO record, ItemDTO itemRecord) throws Exception {
+        LafMessage msgBean = messageRepository.findOne(record.getMessageId());
+        record.setCreateTime(msgBean.getCreateTime());
+        record.setEditTime(new Timestamp(System.currentTimeMillis()));
+
+        LafItem itemBean = itemRepository.findOne(msgBean.getItemId());
+        itemRecord.setItemId(itemBean.getItemId());
+        itemRecord.setItemPickUpTime(itemBean.getItemPickUpTime().toString());
+        itemRecord.setCreateTime(msgBean.getCreateTime());
+        itemRecord.setEditTime(new Timestamp(System.currentTimeMillis()));
+        saveRecord(record, itemRecord);
+        return 2;
     }
 
     @Override

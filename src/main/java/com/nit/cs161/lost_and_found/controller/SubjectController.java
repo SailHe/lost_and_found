@@ -90,10 +90,10 @@ public class SubjectController {
      */
     @RequestMapping(value = "update")
     @ResponseBody
-    public AjaxMsgDTO updateSubject(MessageDTO record) {
+    public AjaxMsgDTO updateSubject(MessageDTO record, ItemDTO itemRecord) {
         AjaxMsgDTO msgDTO = new AjaxMsgDTO();
         try {
-            msgDTO.setData(subjectService.updateRecord(record));
+            msgDTO.setData(subjectService.updateRecord(record, itemRecord));
             msgDTO.setSuccess(ProjectConstants.SUCCESS);
         } catch (Exception e) {
             msgDTO.setSuccess(ProjectConstants.FAILURE);

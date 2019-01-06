@@ -67,6 +67,8 @@ $(function () {
         language: {url: "./datatable_zh_cn.json"}
     });
 
+    let isNotInited = true;
+
     const reloadData = () => {
         $.ajax({
             type: 'post',
@@ -83,7 +85,7 @@ $(function () {
                             // 哈哈 区别出现啦 text 是将其转换为文本了的
                             $('#currentSubjectInfo').html(ele.messageDesc);
                             currentItemId = $('input[name=itemId]').val(ele.itemId);
-                            if (ele.userUsername === username) {
+                            if (ele.userUsername === username && isNotInited) {
                                 $('.publish-new-msg').after(
                                     // "<span class='clickable option-col msg-opt-del' msgId='" + currentMsgId + "'> 编辑 </span>"
                                     "<span class='clickable option-col btn-modal-show subject-opt-edit'> 编辑主题 </span>"
@@ -104,62 +106,68 @@ $(function () {
                         console.assert(currentItemId === ele.itemId);
                     }
                 });
-                let $editModalBtn = $('.btn-modal-show.subject-opt-edit');
-                initDraggableModal($($editModalBtn.get(0)), $addAndEditModal, "编辑主题");
-                $editModalBtn.on('click', function () {
-                    const $currentNode = $(this);
-                    editPrimaryKey = currentMsgId;
-                    $('textarea[name=messageDesc]').val($('#currentSubjectInfo').text());
-                    editor.msgDescEditor.sync();
-                    $.messageBox("编辑呀");
-                });
+                if (isNotInited) {
+                    let $editModalBtn = $('.btn-modal-show.subject-opt-edit');
+                    initDraggableModal($($editModalBtn.get(0)), $addAndEditModal, "编辑主题");
+                    $editModalBtn.on('click', function () {
+                        const $currentNode = $(this);
+                        editPrimaryKey = currentMsgId;
+                        $('textarea[name=messageDesc]').val($('#currentSubjectInfo').text());
+                        editor.msgDescEditor.sync();
+                        // $.messageBox("编辑呀");
+                    });
 
-                // 这里是要求对两个模态框的消息类型做订制: 发布消息只能有普通消息类型, 编辑主题有除了普通消息外的类型
-                $('.btn-modal-show').on('click', function () {
-                    $dataTableForm.resetFormValidCheck();
-                    const $currentNode = $(this);
-                    const $messageType = $('select[name=messageType]');
-                    const optionList = $messageType.find('option');
-                    let hasNotSelected = true;
-                    // 判断是 发布消息 还是 编辑主题
-                    if ($currentNode.text().indexOf("编辑") < 0) {
-                        // 发布消息
-                        $('.msg-title-dom').domHideSubInvalid();
-                        optionList.each(i => {
-                            const currentOp = optionList[i];
-                            if (currentOp.value.toString() === NORMAL_MESSAGE_VALUE) {
-                                $(currentOp).domDisplaySubValid();
-                                if (hasNotSelected) {
-                                    currentOp.selected = true;
-                                    $(currentOp).trigger('change');
-                                    hasNotSelected = false;
+                    // 这里是要求对两个模态框的消息类型做订制: 发布消息只能有普通消息类型, 编辑主题有除了普通消息外的类型
+                    $('.btn-modal-show').on('click', function () {
+                        $dataTableForm.resetFormValidCheck();
+                        const $currentNode = $(this);
+                        const $messageType = $('select[name=messageType]');
+                        const optionList = $messageType.find('option');
+                        let hasNotSelected = true;
+                        // 判断是 发布消息 还是 编辑主题
+                        if ($currentNode.text().indexOf("编辑") < 0) {
+                            // 发布消息
+                            $('.msg-title-dom').domHideSubInvalid();
+                            optionList.each(i => {
+                                const currentOp = optionList[i];
+                                if (currentOp.value.toString() === NORMAL_MESSAGE_VALUE) {
+                                    $(currentOp).domDisplaySubValid();
+                                    if (hasNotSelected) {
+                                        currentOp.selected = true;
+                                        $(currentOp).trigger('change');
+                                        hasNotSelected = false;
+                                    } else {
+                                        // do nothing
+                                    }
                                 } else {
-                                    // do nothing
+                                    $(currentOp).domHideSubInvalid();
                                 }
-                            } else {
-                                $(currentOp).domHideSubInvalid();
-                            }
-                        });
-                    } else {
-                        // 编辑主题
-                        $('.msg-title-dom').domDisplaySubValid();
-                        optionList.each(i => {
-                            const currentOp = optionList[i];
-                            if (currentOp.value.toString() === NORMAL_MESSAGE_VALUE) {
-                                $(currentOp).domHideSubInvalid();
-                            } else {
-                                if (hasNotSelected) {
-                                    currentOp.selected = true;
-                                    $(currentOp).trigger('change');
-                                    hasNotSelected = false;
+                            });
+                        } else {
+                            // 编辑主题
+                            $('.msg-title-dom').domDisplaySubValid();
+                            optionList.each(i => {
+                                const currentOp = optionList[i];
+                                if (currentOp.value.toString() === NORMAL_MESSAGE_VALUE) {
+                                    $(currentOp).domHideSubInvalid();
                                 } else {
-                                    // do nothing
+                                    if (hasNotSelected) {
+                                        currentOp.selected = true;
+                                        $(currentOp).trigger('change');
+                                        hasNotSelected = false;
+                                    } else {
+                                        // do nothing
+                                    }
+                                    $(currentOp).domDisplaySubValid();
                                 }
-                                $(currentOp).domDisplaySubValid();
-                            }
-                        });
-                    }
-                });
+                            });
+                        }
+                    });
+
+                    isNotInited = false;
+                } else {
+                    // do nothing
+                }
             }),
         });
     }

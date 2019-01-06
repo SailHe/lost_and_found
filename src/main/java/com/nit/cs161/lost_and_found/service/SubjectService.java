@@ -64,5 +64,13 @@ public interface SubjectService extends PageService<MessageDTO, Integer> {
      */
     Integer saveRecord(MessageDTO record, ItemDTO itemRecord) throws Exception;
 
+    /**
+     * Descriptions: 更新一个主题 或是一个普通消息<p>
+     *
+     * @author SailHe
+     * @date 2019/1/6 10:44
+     */
+    Integer updateRecord(MessageDTO record, ItemDTO itemRecord) throws Exception;
+
 }
 
