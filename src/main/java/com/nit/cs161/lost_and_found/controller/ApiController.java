@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -50,6 +51,25 @@ public class ApiController {
         } catch (Exception e){
             ajaxMsgDTO.setSuccess(ProjectConstants.FAILURE);
             LOGGER.error("获取菜单列表失败", e);
+        }
+        return ajaxMsgDTO;
+    }
+
+    /**
+     * Descriptions: 文件上传接口<p>
+     *
+     * @author SailHe
+     * @date 2019/1/3 18:38
+     */
+    @RequestMapping(value = "file/upload")
+    public AjaxMsgDTO fileUpload(){
+        AjaxMsgDTO ajaxMsgDTO = new AjaxMsgDTO();
+        try {
+            File f = new File("F://Temper");
+            System.out.println(f.getName());
+        } catch (Exception e){
+            ajaxMsgDTO.setSuccess(ProjectConstants.FAILURE);
+            LOGGER.error("文件上传失败!", e);
         }
         return ajaxMsgDTO;
     }

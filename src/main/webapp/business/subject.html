@@ -40,6 +40,18 @@
 </div>
 
 <div class="container">
+    <span>标题</span>
+    <input id="idMsgTitleSearch"/>
+    <span>详情</span>
+    <input id="idMessageDescSearch"/>
+    <span>开始日期</span>
+    <input id="idStartTime" class="form-control time date-time-picker"/>
+    <span>结束日期</span>
+    <input id="idEndTime" class="form-control time date-time-picker"/>
+
+    <span>主题类型</span>
+    <select id="idMsgType" class="cMsgType"></select>
+    <!--<button class="btn btn-primary btn-sm" title='搜索' id="btn_search" href="javascript:void(0)"><i class="fa fa-search"></i>搜索</button>-->
     <table id="informationTable" class="table table-striped table-bordered table-hover table-condensed">
         <thead>
         <tr>
@@ -123,7 +135,7 @@
                             <label class="col-md-2 control-label">消息内容</label>
                             <div class="col-md-10">
                                 <!--<textarea type="text" class="form-control" name="messageDesc"></textarea>-->
-                                <textarea type="text" id="msgDescEditorContent" class="form-control" name="messageDesc"></textarea>
+                                <textarea type="text" id="msgDescEditorContent" class="form-control cMsgType" name="messageDesc"></textarea>
                             </div>
                         </div>
 

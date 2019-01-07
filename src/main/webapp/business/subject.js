@@ -5,7 +5,7 @@ $(function () {
     let $addAndEditModal = $('#informationModal'), $dataTableForm = $("#dataTableForm"), editPrimaryKey = '';
     //var messageTypeList = null, bufferMap = new Map();
     const editor = {
-        itemDescEditor : null,
+        itemDescEditor: null,
         msgDescEditor: null
     }
 
@@ -15,14 +15,31 @@ $(function () {
         $DataTableAPI.destroy();
     }
 
+    let multiSearchValueList = [];
+    let multiSearchKeyList = [];
+    let searchOrderString = "";
+
     $DataTableAPI = $DataTable.DataTable({
         ajax: {
             type: 'post',
             dataType: 'json',
             async: true,
             data: function (d) {
-                d.search = $DataTable.DataTable().search(this.value);
+                // d.search = $DataTable.DataTable().search(this.value);
+                d.search = searchOrderString;
                 d.userDevice = 'web';
+                // 不能直接在d中新增字段? 不能新增对象字段 普通;类型是可以的
+                // @see https://datatables.net/reference/option/ajax.data
+                //d.multiSearchValueList = multiSearchValueList;
+                //d.multiSearchKeyList = multiSearchKeyList;
+                const obj = $.extend({}, d, {
+                    // JSON.stringify(multiSearchKeyList);
+                    // 后去除"[]" 后端可以直接使用 List接收 (但这个方法只适用于非空list) keyTmp.replace('[', '').replace(']', '')
+                    // @see https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String
+                    "multiSearchKeyList": multiSearchKeyList.toString(),
+                    "multiSearchValueList": multiSearchValueList.toString()
+                });
+                return obj;
             },
             url: "/subject/queryPage"
         },
@@ -136,6 +153,8 @@ $(function () {
         // dom: "<'row'<'col-md-5'B>r>t<'row'<'col-md-5'l><'col-md-3'i><'col-md-4'p>>",
         processing: true,
         // sortable: true,
+        // 是否显示搜索框
+        searching: false,
         serverSide: true,
         ordering: false,
         //使之向后台传请求页面时附加当前的 页码: start, 页长: length
@@ -150,7 +169,8 @@ $(function () {
 
     AsyncLinkBufferChangeFactory({
         triggerSelector: 'select[id=onlyToTrigger]'
-        , linkerSelector: 'select[name=messageType]'
+        // , linkerSelector: 'select[name=messageType]'
+        , linkerSelector: 'select[class=cMsgType]'
         // , linkerBufferMap : bufferMap
         // , linkRequestUrl: '/subject/listSubjectType'
         , idName: 'value'
@@ -166,9 +186,9 @@ $(function () {
                     if (result.success) {
                         let dataList = new Array();
                         result.data.forEach(ele => {
-                            if(ele.name === '普通消息'){
+                            if (ele.name === '普通消息') {
                                 // do nothing
-                            }else{
+                            } else {
                                 dataList.push(ele);
                             }
                         });
@@ -184,6 +204,7 @@ $(function () {
     // currentPage="subject" $('#topInfo').val()
 
     $('input[name=itemPickUpTime]').initDatePicker().val(new Date().format(DATE_FORMAT));
+    $('input[id=idStartTime]').rangeDatePicker($('input[id=idEndTime]'));
 
     initDraggableModal($($('.btn-modal-show').get(0)), $addAndEditModal, "发布主题");
 
@@ -261,6 +282,49 @@ $(function () {
         } else {
             $('.item-info').domDisplaySubValid();
         }
+    });
+
+    // 前两个 和 后两个 属于不同的查询类型; 后端与其顺序无关
+    $('#idMsgTitleSearch, #idMessageDescSearch, #idStartTime, #idEndTime, #idMsgType').on('input', function () {
+        // @see https://www.cnblogs.com/snandy/archive/2011/04/04/2005156.html
+        // 虽然可以使用 $(this).val() 但那样子动态性太强; 这样每次有输入就直接重新计算所有筛选字段更简洁
+        searchOrderString = "";
+        multiSearchKeyList = [];
+        multiSearchValueList = [];
+        let value = $('#idMsgTitleSearch').val();
+        if (isValidVar(value)) {
+            multiSearchKeyList.push("msgTitle");
+            multiSearchValueList.push(value);
+            searchOrderString += '0';
+        }
+
+        value = $('#idMessageDescSearch').val();
+        if (isValidVar(value)) {
+            multiSearchKeyList.push("messageDesc");
+            multiSearchValueList.push(value);
+            searchOrderString += '0';
+        }
+
+        value = $('#idStartTime').val();
+        if (isValidVar(value)) {
+            let timeRange = value;
+            value = $('#idEndTime').val();
+            if (isValidVar(value)) {
+                timeRange = timeRange + "_" + value;
+                multiSearchKeyList.push("timeRange");
+                multiSearchValueList.push(timeRange);
+                searchOrderString += '3';
+            }
+        }
+
+        value = $('#idMsgType').val();
+        if (isValidVar(value)) {
+            multiSearchKeyList.push("messageType");
+            multiSearchValueList.push(value);
+            searchOrderString += '1';
+        }
+
+        $DataTableAPI.search(searchOrderString).draw();
     });
 
 });

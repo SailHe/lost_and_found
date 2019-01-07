@@ -1,5 +1,6 @@
 package com.nit.cs161.lost_and_found.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.nit.cs161.lost_and_found.constant.EnumMessageType;
 import com.nit.cs161.lost_and_found.dto.ItemDTO;
 import com.nit.cs161.lost_and_found.dto.MessageDTO;
@@ -15,6 +16,7 @@ import com.nit.cs161.lost_and_found.repository.MessageRepository;
 import com.nit.cs161.lost_and_found.repository.UserRepository;
 import com.nit.cs161.lost_and_found.service.SubjectService;
 import com.nit.cs161.lost_and_found.service.UserService;
+import com.nit.cs161.lost_and_found.utility.DateGenerator;
 import com.nit.cs161.lost_and_found.utility.Tools;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,14 +25,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.Predicate;
 import javax.tools.Tool;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * Descriptions: 业务逻辑实现<p>
@@ -62,31 +63,73 @@ public class SubjectServiceImpl implements SubjectService {
                 = new PageRequest(dtRequestDTO.start / dtRequestDTO.length, dtRequestDTO.length, new Sort(Sort.Direction.DESC, "createTime"));
         Page<LafMessage> page;
         String search = dtRequestDTO.getSearch();
-        boolean needSearch = search != null && search != "";
+        boolean needSearch = search != null && search != ""
+                && dtRequestDTO.getMultiSearchKeyList() != null && dtRequestDTO.getMultiSearchValueList() != null;
         List<Integer> itemIdList = new LinkedList<>();
         List<LafItem> itemList = itemRepository.findAll();
         Map<Integer, LafItem> itemIdMapItem = new HashMap<>(50);
         Tools.calcKeyMapBean(itemList, itemIdMapItem, bean -> bean.getItemId());
-        // 显示时以item为主 然后是message
+        // 显示时以item为主 然后是message @TODO 迷
         itemList.forEach(bean -> itemIdList.add(bean.getItemId()));
         Specification<LafMessage> specification = (root, criteriaQuery, criteriaBuilder) -> {
-            //过滤条件
-            Predicate filter;
-            //搜索处理
+            // 过滤条件 显示所有主题(不是普通消息就视为主题)
+            Predicate filter = criteriaBuilder.notEqual(root.get("messageType"), EnumMessageType.ORDINARY.getValue());
+            // 搜索处理
+            // 这里 multiSearchKeyList multiSearchValueList;
+            // 1,2,3,4列分别表示msgTitle, messageDesc, 时间段; (若相应字段为空 则不需要对其进行搜索处理)
             if (needSearch) {
-                filter = criteriaBuilder.or(
+                Assert.isTrue(
+                        dtRequestDTO.getMultiSearchKeyList().size() == dtRequestDTO.getMultiSearchValueList().size()
+                        , "筛选数组必须不为空且长度相等"
+                );
+                Iterator<String> itKey = dtRequestDTO.getMultiSearchKeyList().iterator();
+                Iterator<String> itValue = dtRequestDTO.getMultiSearchValueList().iterator();
+                // 由于后两个字段是时间不能归一处理
+                int index = -1;
+                while (itKey.hasNext()) {
+                    String sKey = itKey.next();
+                    String sValue = itValue.next();
+                    ++index;
+                    if (sKey == null || sKey.equals("")) {
+                        // do nothing
+                    } else {
+                        char order = search.charAt(index);
+                        switch (order) {
+                            case '0': {
+                                filter = criteriaBuilder.and(filter
+                                        , criteriaBuilder.like(root.get(sKey).as(String.class), "%" + sValue + "%")
+                                );
+                                break;
+                            }
+                            case '1': {
+                                filter = criteriaBuilder.and(filter
+                                        , criteriaBuilder.equal(root.get(sKey).as(String.class), sValue)
+                                );
+                                break;
+                            }
+                            case '3': {
+                                int midIndex = sValue.indexOf("_");
+                                String startTime = sValue.substring(0, midIndex);
+                                String endTime = sValue.substring(midIndex + 1);
+                                filter = criteriaBuilder.and(filter
+                                        , criteriaBuilder.between(root.get("createTime").as(Timestamp.class)
+                                                , new DateGenerator(startTime + " 00:00:00").toTimestamp(), new DateGenerator(endTime + " 00:00:00").toTimestamp())
+                                );
+                                break;
+                            }
+                        }
+                    }
+                }
+                /*filter = criteriaBuilder.or(
                         criteriaBuilder.equal(root.get("itemId").as(String.class), search)
                         , criteriaBuilder.like(root.get("messageDesc").as(String.class), "%" + search + "%")
+                        , criteriaBuilder.like(root.get("msgTitle").as(String.class), "%" + search + "%")
                         //, criteriaBuilder.like(root.get("itemName").as(String.class), "%" + search + "%")
                         //, criteriaBuilder.like(root.get("itemDesc").as(String.class), "%" + search + "%")
                         //, criteriaBuilder.like(root.get("userUsername").as(String.class), "%" + search + "%")
-                );
+                );*/
             } else {
-                // 显示所有主题(不是普通消息就视为主题)
-                filter = criteriaBuilder.and(
-                        root.get("itemId").in(itemIdList)
-                        , criteriaBuilder.notEqual(root.get("messageType"), EnumMessageType.ORDINARY.getValue())
-                );
+                filter = criteriaBuilder.and(filter, root.get("itemId").in(itemIdList));
             }
             return filter;
         };
@@ -188,6 +231,22 @@ public class SubjectServiceImpl implements SubjectService {
             record.setItemId(itemRecord.getItemId());
         }
         return messageRepository.save(record.toBean()).getMessageId();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Integer updateRecord(MessageDTO record, ItemDTO itemRecord) throws Exception {
+        LafMessage msgBean = messageRepository.findOne(record.getMessageId());
+        record.setCreateTime(msgBean.getCreateTime());
+        record.setEditTime(new Timestamp(System.currentTimeMillis()));
+
+        LafItem itemBean = itemRepository.findOne(msgBean.getItemId());
+        itemRecord.setItemId(itemBean.getItemId());
+        itemRecord.setItemPickUpTime(itemBean.getItemPickUpTime().toString());
+        itemRecord.setCreateTime(msgBean.getCreateTime());
+        itemRecord.setEditTime(new Timestamp(System.currentTimeMillis()));
+        saveRecord(record, itemRecord);
+        return 2;
     }
 
     @Override

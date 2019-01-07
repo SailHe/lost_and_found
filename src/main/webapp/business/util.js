@@ -136,7 +136,7 @@ function initPage(editor) {
 
     const jumperAndParser = new JumperAndParser();
 
-    if(isValidVar(editor)){
+    if (isValidVar(editor)) {
         // @see
         // http://datatables.club/
         // https://my.oschina.net/ShaneJhu/blog/172956
@@ -149,7 +149,7 @@ function initPage(editor) {
             editor.msgDescEditor = K.create('#msgDescEditorContent', editorSetting);
             editor.itemDescEditor = K.create('#itemDescEditorContent', editorSetting);
         });
-    }else{
+    } else {
         // do nothing
     }
 
@@ -170,7 +170,7 @@ function initPage(editor) {
      * @date 2019/1/1 20:02
      */
     const divWrap = (data, customClass = "") => {
-        return "<div style='text-align: center' class='flex-box-div " + customClass +"'> " + data + "</div>";
+        return "<div style='text-align: center' class='flex-box-div " + customClass + "'> " + data + "</div>";
     }
 
     const showLimitLenStr = (data, maxShowLen) => {
