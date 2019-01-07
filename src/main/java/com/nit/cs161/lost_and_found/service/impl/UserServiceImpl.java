@@ -7,6 +7,7 @@ import com.nit.cs161.lost_and_found.entity.SysUser;
 import com.nit.cs161.lost_and_found.repository.UserRepository;
 import com.nit.cs161.lost_and_found.service.UserService;
 import com.nit.cs161.lost_and_found.shiroutils.JWTUtil;
+import com.nit.cs161.lost_and_found.utility.SecureHashStandard;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,8 @@ public class  UserServiceImpl implements UserService {
 
     @Resource
     private UserRepository userRepository;
+
+    private SecureHashStandard sha512 = new SecureHashStandard(SecureHashStandard.EnumSHAType.SHA_512);
 
     private SysUser getBeanByUserName(String userName) throws Exception {
         List<SysUser> sysUsers = userRepository.findAllByUserUsername(userName);
@@ -87,7 +90,7 @@ public class  UserServiceImpl implements UserService {
         String result;
         SysUser user = getBeanByUserName(userUsername);
         if (user.getUserEmailAddress().equals(userEmailAddress)) {
-            user.setUserPassword("123456");
+            user.setUserPassword(sha512.calcHashValue("123456"));
             userRepository.save(user);
             //其实该发送给这个用户的邮箱 或者让用户重填 此处只是简略实现
             result = "重置成功!新密码123456";
@@ -140,7 +143,9 @@ public class  UserServiceImpl implements UserService {
             result = "用户不存在!";
         } else {
             String token, userUsername = userBean.getUserUsername();
-            if (unSignedUserDTO.getUserPassword().equals(userBean.getUserPassword())) {
+            if (sha512.calcHashValue(unSignedUserDTO.getUserPassword())
+                    .equals(userBean.getUserPassword())
+            ) {
                 token = JWTUtil.signature(userUsername, unSignedUserDTO.getUserPassword());
                 userBean.setUserToken(token + userUsername);
                 unSignedUserDTO.setUserToken(token);
@@ -162,6 +167,7 @@ public class  UserServiceImpl implements UserService {
                 if (userDTO.getUserRole() == null) {
                     userDTO.setUserRole(EnumUserType.NORMAL.getValue());
                 }
+                userDTO.setUserPassword(sha512.calcHashValue(userDTO.getUserPassword()));
                 userRepository.save(userDTO.toBean());
                 result = "注册成功!";
             } else {

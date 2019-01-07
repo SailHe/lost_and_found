@@ -54,7 +54,7 @@ public class SysUser {
     }
 
     @Basic
-    @Column(name = "user_password", nullable = true, length = 50)
+    @Column(name = "user_password", nullable = true, length = 128)
     public String getUserPassword() {
         return userPassword;
     }
