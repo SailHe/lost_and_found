@@ -170,7 +170,8 @@ $(function () {
     AsyncLinkBufferChangeFactory({
         triggerSelector: 'select[id=onlyToTrigger]'
         // , linkerSelector: 'select[name=messageType]'
-        , linkerSelector: 'select[class=cMsgType]'
+        // , linkerSelector: 'select[class=cMsgType]' // 这样仅指class='cMsgType'的; class='cMsgType else'就不行
+        , linkerSelector: 'select.cMsgType'
         // , linkerBufferMap : bufferMap
         // , linkRequestUrl: '/subject/listSubjectType'
         , idName: 'value'
