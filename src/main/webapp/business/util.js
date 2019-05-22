@@ -6,7 +6,7 @@
  * @see https://www.w3cschool.cn/json/1koy1piy.html
  */
 function JumperAndParser() {
-    var baseUrl = "/business";
+    let baseUrl = "/business";
 
     /**
      * Descriptions: 解析url参数 为JSON对象<p>
@@ -62,7 +62,9 @@ function JumperAndParser() {
      * @date 2018/12/13 14:27
      */
     this.jumperToTarget = function (targetPage, paramsJSON) {
-        if (targetPage.indexOf('/') > 0) {
+        const originC = baseUrl.charAt(baseUrl.length - 1) == '/';
+        const targetC = targetPage.indexOf('/') > 0;
+        if (originC || targetC) {
             // do nothing
         } else {
             baseUrl += '/';
@@ -146,8 +148,8 @@ function initPage(editor) {
         // git tracking 后就变为function的颜色了
         KindEditor.ready(function (K) {
             // 其实editor 在方法返回时并没有被初始化 因此使用一个对象引用
-            editor.msgDescEditor = K.create('#msgDescEditorContent', editorSetting);
-            editor.itemDescEditor = K.create('#itemDescEditorContent', editorSetting);
+            editor.msgDescEditor = K.create("#msgDescEditorContent", editorSetting);
+            editor.itemDescEditor = K.create("#itemDescEditorContent", editorSetting);
         });
     } else {
         // do nothing
