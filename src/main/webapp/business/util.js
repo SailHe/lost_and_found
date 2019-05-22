@@ -17,11 +17,11 @@ function JumperAndParser() {
      * @see https://blog.csdn.net/AinUser/article/details/78882492
      */
     this.parseQueryString = function (url) {
-        var obj = {};
-        var keyvalue = [];
-        var key = "", value = "";
-        var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
-        for (var i in paraString) {
+        let obj = {};
+        let keyvalue = [];
+        let key = "", value = "";
+        let paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+        for (let i in paraString) {
             keyvalue = paraString[i].split("=");
             key = keyvalue[0];
             value = keyvalue[1];
