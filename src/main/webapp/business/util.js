@@ -146,11 +146,13 @@ function initPage(editor) {
         // http://kindeditor.net/docs/option.html#id70
         const editorSetting = {width: '100%', height: '100%', resizeType: 1};
         // git tracking 后就变为function的颜色了
-        KindEditor.ready(function (K) {
-            // 其实editor 在方法返回时并没有被初始化 因此使用一个对象引用
+        editor.msgDescEditor = KindEditor.create("#msgDescEditorContent", editorSetting);
+        editor.itemDescEditor = KindEditor.create("#itemDescEditorContent", editorSetting);
+        /*KindEditor.ready((K) => {
+            // 在方法返回时editor并没有被初始化 因此使用引用; 另外ready貌似类似于页面Dom加载完毕的意思
             editor.msgDescEditor = K.create("#msgDescEditorContent", editorSetting);
             editor.itemDescEditor = K.create("#itemDescEditorContent", editorSetting);
-        });
+        });*/
     } else {
         // do nothing
     }

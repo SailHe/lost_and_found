@@ -262,8 +262,12 @@ $(function () {
         // 将富文本编辑器中无法serialize的部分存到隐藏的input中
         // $('input[name=messageDesc]').val($('textarea[name=messageDescBuffer]').val());
         // $('input[name=itemDesc]').val($('textarea[name=itemDescBuffer]').val());
-        editor.msgDescEditor.sync();
-        editor.itemDescEditor.sync();
+        if (isValidVar(editor.msgDescEditor) && isValidVar(editor.itemDescEditor)) {
+            editor.msgDescEditor.sync();
+            editor.itemDescEditor.sync();
+        } else {
+            console.error("富文本编辑器发生异常情况");
+        }
 
         $.ajax({
             type: 'post',
