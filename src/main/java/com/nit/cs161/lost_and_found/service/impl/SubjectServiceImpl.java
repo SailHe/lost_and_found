@@ -71,6 +71,12 @@ public class SubjectServiceImpl implements SubjectService {
         Tools.calcKeyMapBean(itemList, itemIdMapItem, bean -> bean.getItemId());
         // 显示时以item为主 然后是message @TODO 迷
         itemList.forEach(bean -> itemIdList.add(bean.getItemId()));
+        if (itemIdList.isEmpty()) {
+            // -1表示一个绝对不存在的主键
+            itemIdList.add(-1);
+        } else {
+            // DNT
+        }
         Specification<LafMessage> specification = (root, criteriaQuery, criteriaBuilder) -> {
             // 过滤条件 显示所有主题(不是普通消息就视为主题)
             Predicate filter = criteriaBuilder.notEqual(root.get("messageType"), EnumMessageType.ORDINARY.getValue());
