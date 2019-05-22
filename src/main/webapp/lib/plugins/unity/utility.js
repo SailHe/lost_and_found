@@ -655,8 +655,7 @@ deleteRowClosure = function (dataTableApi, deleteUrl, customTips = "") {
  * @date 2018/5/8 18:46
  */
 function instanceOf(obj) {
-    return
-    obj instanceof Map ? 'Map' :
+    return obj instanceof Map ? 'Map' :
         obj instanceof Set ? 'Set' :
             obj instanceof HTMLElement ? 'Dom' :
                 obj instanceof jQuery ? 'jQuery' :
