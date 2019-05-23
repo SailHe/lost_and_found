@@ -77,6 +77,11 @@ $(function () {
                     return divWrap(data);
                 }
             }, {
+                data: "userUsername",
+                render: (data, type, row) => {
+                    return divWrap(data);
+                }
+            }, {
                 data: "messageId",
                 render: (data, type, row) => {
                     /*
@@ -121,7 +126,16 @@ $(function () {
             $(".subject").on('click', function () {
                 const currentMsgId = this.getAttribute("messageId");
                 const currentItemName = this.getAttribute("itemName");
-                localStorage.setItem("pastPagePar", JSON.stringify({title: this.innerHTML, itemName: currentItemName}));
+                const currentTdIndex = this.closest("td")._DT_CellIndex; // row, column
+                const publishTime = this.closest("tbody").rows[currentTdIndex.row].cells[3];
+                const publisher = this.closest("tbody").rows[currentTdIndex.row].cells[4];
+                localStorage.setItem("pastPagePar", JSON.stringify({
+                    title: this.innerHTML,
+                    itemName: currentItemName,
+                    publishTime: publishTime.textContent,
+                    publisher: publisher.textContent
+                    })
+                );
                 jumperAndParser.jumperToTarget('topic.html', {
                     messageId: currentMsgId
                 });

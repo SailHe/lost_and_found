@@ -18,8 +18,6 @@ $(function () {
     const currentMsgId = currentPar.messageId;
     // 标题是上一次点击的html
     let pastPar = JSON.parse(localStorage.getItem("pastPagePar"));
-    document.title = pastPar.title;
-    $('#topInfo').text("关联物品: " + pastPar.itemName);
 
     $DataTableAPI = $DataTable.DataTable({
         /*ajax: {
@@ -34,7 +32,7 @@ $(function () {
         },*/
         columns: [
             {
-                data: "msgTitle",
+                data: "userUsername",
                 render: (data, type, row) => {
                     return divWrap(data);
                 }
@@ -82,7 +80,7 @@ $(function () {
                         if (ele.messageType != 0) {
                             // $('#currentSubjectInfo').text(ele.messageDesc);
                             // 哈哈 区别出现啦 text 是将其转换为文本了的
-                            $('#currentSubjectInfo').html(ele.messageDesc);
+                            $('#currentSubjectInfo').html(`<div style="background-color: aquamarine">${pastPar.publisher} 于 ${pastPar.publishTime} : </div> ${ele.messageDesc}`);
                             currentItemId = $('input[name=itemId]').val(ele.itemId);
                             if (ele.userUsername === username && isNotInited) {
                                 $('.publish-new-msg').after(
