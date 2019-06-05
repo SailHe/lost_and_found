@@ -83,3 +83,14 @@ fabric.properties
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+　
+# 忽略数据库配置文件(主要是用户名和密码 此处使用的是本地的) 不过貌似不能忽略...
+#*/application.properties
+#application-dev.properties
+*.properties
+
+.vs/*
+logs/*
+
+# 临时忽略这些插件
+src/main/webapp/lib/plugins/kindeditor/plugins/*
