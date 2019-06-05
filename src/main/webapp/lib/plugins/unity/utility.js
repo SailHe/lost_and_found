@@ -183,13 +183,13 @@ function loadDropSelect($select, gradeName, selectedValue) {
  * @author SailHe
  * @date 2018/4/22 10:32
  */
-function tipsCallbackClosure(reloadTable, tipsMessagePrefix, $informationModal, ajaxReload=true) {
+function tipsCallbackClosure(reloadTable, tipsMessagePrefix, $informationModal, ajaxReload = true) {
     tipsMessagePrefix == undefined ? tipsMessagePrefix = "操作" : '';
     return function tipsCallBack(result) {
         if (result.success) {
             $.messageBox(tipsMessagePrefix + "成功！");
             //initDataTable();
-            if(ajaxReload){
+            if (ajaxReload) {
                 reloadTable.ajax.reload(null, false);
             }
         }
@@ -1014,6 +1014,25 @@ function calcDiffDay(startDate, endDate) {
     return diffDay;
 }
 
+/**
+ * Descriptions: 计算这个日期的下一个日期(天数+dis)<p>
+ *
+ * @see https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Numbers_and_dates#Date%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%96%B9%E6%B3%95
+ * @author SailHe
+ * @return 下一个日期对象(原对象不变)
+ * @date 2019/6/5 22:56
+ */
+function calcNextDate(currentDate, dis) {
+    console.assert(currentDate instanceof Date);
+    // console.assert(betweenNumLORC(-10, dis, 10), "calcNextDate: dis值过大 可能引起越界!");
+    // currentDate.setTime(currentDate.getTime() + oneDayMSecond*dis);
+    // console.log(dis);
+    let result = new Date(currentDate);
+    result.setDate(currentDate.getDate() + dis);
+    // console.log(result);
+    return result;
+}
+
 
 var DATE_FORMAT_DATEPICKER = "yy-mm-dd";
 var DATE_FORMAT = "yyyy-MM-dd";
@@ -1052,6 +1071,23 @@ $.fn.initDatePicker = function () {
         dateFormat: DATE_FORMAT_DATEPICKER,
     });
 }
+
+/**
+ * Descriptions: 在给定范围内初始化一个时间选择器 [left, right] 注意此处是左闭右闭的<p>
+ *
+ * @author SailHe
+ * @date 2019/6/5 22:48
+ */
+$.fn.initDatePickerBetween = function (left, right) {
+    this.prop("readonly", true).datepicker({
+        changeMonth: true,
+        dateFormat: DATE_FORMAT_DATEPICKER,
+    });
+    let $currentNode = $(this);
+    $currentNode.datepicker("option", "minDate", left);
+    return $currentNode.datepicker("option", "maxDate", right);
+}
+
 /**
  * Descriptions: 范围日期<p>
  *
