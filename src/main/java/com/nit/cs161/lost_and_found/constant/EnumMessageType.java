@@ -34,7 +34,7 @@ public enum EnumMessageType {
      * @author SailHe
      * @date 2018/10/6 23:26
      */
-    , APPEAL_ITEM(new Byte("20"), "申诉物品");
+    , APPEAL_ITEM(new Byte("30"), "申诉物品");
     Byte value;
     private String name;
 
