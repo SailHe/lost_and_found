@@ -126,7 +126,11 @@ $(function () {
         }
     }
 
-    $('input[name=userBirthday]').initDatePicker().val(new Date().format(DATE_FORMAT));
+    const currentDate = new Date();
+    // 只能选择[now-365天, now]范围内的日期
+    $('input[name=userBirthday]').initDatePickerBetween(calcNextDate(currentDate, -365*100), currentDate)
+        .val(currentDate.format(DATE_FORMAT));
+
 
     $('#signUpForm').bootstrapValidator({
         feedbackIcons: {
