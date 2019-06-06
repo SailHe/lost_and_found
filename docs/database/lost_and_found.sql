@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : laf
+Source Server         : localhost_3306
 Source Server Version : 50717
 Source Host           : localhost:3306
 Source Database       : lost_and_found
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2019-01-07 19:04:19
+Date: 2019-06-06 22:52:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -93,11 +93,3 @@ CREATE TABLE `sys_user` (
   `edit_time` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='user table';
-DROP TRIGGER IF EXISTS `after_insert`;
-DELIMITER ;;
-CREATE TRIGGER `after_insert` AFTER INSERT ON `laf_message` FOR EACH ROW begin
-	  insert into op_log(op_name)
-		values( 'insert');
-end
-;;
-DELIMITER ;
