@@ -83,8 +83,14 @@ http://www.w3school.com.cn/cssref/pr_class_float.asp
     overflow-y: auto;
 }
 
-.time {
+.date-input {
     width: 125px;
+    padding: 0px 5px 0px 5px;
+    font-size: 12px;
+}
+
+.time-input {
+    width: 100%;
     padding: 0px 5px 0px 5px;
     font-size: 12px;
 }
