@@ -273,7 +273,7 @@ function datetimePicker(startDateTextBox, endDateTextBox, endSelectCallback) {
         changeMonth: true,
         dateFormat: "yy-mm-dd",
         showSecond: true, //显示秒
-        timeFormat: 'HH:mm:ss', //格式化时间
+        timeFormat: 'HH:mm:ss',//格式化时间 大写的HH表示24小时制
         onClose: function (selectedDate) {
             endDateTextBox.datetimepicker("option", "minDate", selectedDate);
         }
@@ -282,7 +282,7 @@ function datetimePicker(startDateTextBox, endDateTextBox, endSelectCallback) {
         changeMonth: true,
         dateFormat: "yy-mm-dd",
         showSecond: true, //显示秒
-        timeFormat: 'HH:mm:ss', //格式化时间
+        timeFormat: 'HH:mm:ss',//格式化时间 大写的HH表示24小时制
         onClose: function (selectedDate) {
             startDateTextBox.datetimepicker("option", "maxDate", selectedDate);
             endDateTextBox.val($(this).val());
@@ -1036,6 +1036,7 @@ function calcNextDate(currentDate, dis) {
 
 var DATE_FORMAT_DATEPICKER = "yy-mm-dd";
 var DATE_FORMAT = "yyyy-MM-dd";
+var DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 //原生日期类新增
 Date.prototype.format = function (fmt) {
@@ -1088,6 +1089,27 @@ $.fn.initDatePickerBetween = function (left, right) {
     return $currentNode.datepicker("option", "maxDate", right);
 }
 
+$.fn.initDateTimePickerBetween = function (left, right) {
+    this.prop("readonly", true).datetimepicker({
+        changeMonth: true,
+        dateFormat: DATE_FORMAT_DATEPICKER,
+
+        timeText: '时间',
+        hourText: '小时',
+        minuteText: '分钟',
+        secondText: '秒',
+        currentText: '现在',
+        closeText: '完成',
+        showSecond: true, //显示秒
+        timeFormat: 'HH:mm:ss',//格式化时间 大写的HH表示24小时制
+    });
+    let $currentNode = $(this);
+    $currentNode.datepicker("option", "minDate", left);
+    $currentNode.datepicker("option", "maxDate", right);
+    $currentNode.datetimepicker("option", "minDateTime", left);
+    return $currentNode.datetimepicker("option", "maxDateTime", right);
+}
+
 /**
  * Descriptions: 范围日期<p>
  *
@@ -1126,6 +1148,8 @@ $.fn.rangeDatePicker = function ($endDatePickerInput) {
 
 $.fn.rangeDateTimePicker = function ($endDatePickerInput) {
 
+    const currentDateTime = new Date();
+
     function initRangeDatePicker($start, $end) {
         //设置默认时间
         // $start.val(new Date().format(DATE_FORMAT));
@@ -1138,11 +1162,15 @@ $.fn.rangeDateTimePicker = function ($endDatePickerInput) {
             currentText: '现在',
             closeText: '完成',
             showSecond: true, //显示秒
-            timeFormat: 'hh:mm:ss',//格式化时间
+            timeFormat: 'HH:mm:ss',//格式化时间 大写的HH表示24小时制
+
+            maxDateTime: currentDateTime, // 若不设置初始值 那么只有当选择窗口关闭时才能触发选择范围限制(貌似没有onClose事件, 因此无法外部触发)
+            maxDate: currentDateTime,
+
             changeMonth: true,
             dateFormat: DATE_FORMAT_DATEPICKER,
             onClose: function (selectedDate) {
-                // $end.datepicker("option", "minDate", selectedDate);
+                $end.datepicker("option", "minDate", selectedDate);
                 $end.datetimepicker("option", "minDateTime", new Date(selectedDate));
                 // 注意 只要关闭了控件 就会触发
                 $start.trigger('input');
@@ -1156,11 +1184,15 @@ $.fn.rangeDateTimePicker = function ($endDatePickerInput) {
             currentText: '现在',
             closeText: '完成',
             showSecond: true, //显示秒
-            timeFormat: 'hh:mm:ss',//格式化时间
+            timeFormat: 'HH:mm:ss',//格式化时间 大写的HH表示24小时制
+
+            minDateTime: currentDateTime,
+            minDate: currentDateTime,
+
             changeMonth: true,
             dateFormat: DATE_FORMAT_DATEPICKER,
             onClose: function (selectedDate) {
-                // $start.datepicker("option", "maxDate", selectedDate);
+                $start.datepicker("option", "maxDate", selectedDate);
                 $start.datetimepicker("option", "maxDateTime", new Date(selectedDate));
                 $end.val($(this).val()).trigger('input');
             }
@@ -1168,6 +1200,8 @@ $.fn.rangeDateTimePicker = function ($endDatePickerInput) {
     }
 
     initRangeDatePicker(this, $endDatePickerInput);
+    //批量设置默认时间
+    $('.date-time-picker').val(new Date().format(DATE_TIME_FORMAT));
 }
 
 
