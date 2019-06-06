@@ -8,6 +8,8 @@
  * @date 2018/9/10 20:39
  */
 const PATTERN_PASSWORD = /^[\w_-]{6,16}$/;
+// 字母+数字+{_-}
+const PATTERN_NUMBER_ALPHA = /^[\w_-]$/;
 
 $(function () {
 
@@ -82,9 +84,15 @@ $(function () {
             validators: {
                 notEmpty: {
                     message: "请输入密码！！！"
+                },
+                //长度限制（中文字符算一个）
+                stringLength: {
+                    min: 6,
+                    max: 16,
+                    message: "长度在6到16位之间！！！"
                 }, regexp: {
-                    regexp: PATTERN_PASSWORD,
-                    message: "最短6位，最长16位, "
+                    regexp: PATTERN_NUMBER_ALPHA,
+                    message: "仅可包含{大小写字母; 数字; _; -}"
                 }, identical: {
                     field: 'confirmPassword',
                     message: "两次输入的密码不一致！！！"
