@@ -222,7 +222,8 @@ $(function () {
     // 只能选择[now-365天, now]范围内的日期
     $('input[name=itemPickUpTime]').initDatePickerBetween(calcNextDate(currentDate, -365), currentDate)
         .val(currentDate.format(DATE_FORMAT));
-    $('input[id=idStartTime]').rangeDatePicker($('input[id=idEndTime]'));
+    // $('input[id=idStartTime]').rangeDatePicker($('input[id=idEndTime]'));
+    $('input[id=idStartTime]').rangeDateTimePicker($('input[id=idEndTime]'));
 
     initDraggableModal($($('.btn-modal-show').get(0)), $addAndEditModal, "发布主题");
 

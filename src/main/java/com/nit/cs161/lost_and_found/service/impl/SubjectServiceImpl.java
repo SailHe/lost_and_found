@@ -115,11 +115,11 @@ public class SubjectServiceImpl implements SubjectService {
                             }
                             case '3': {
                                 int midIndex = sValue.indexOf("_");
-                                String startTime = sValue.substring(0, midIndex);
-                                String endTime = sValue.substring(midIndex + 1);
+                                String startDateTime = sValue.substring(0, midIndex);
+                                String endDateTime = sValue.substring(midIndex + 1);
                                 filter = criteriaBuilder.and(filter
                                         , criteriaBuilder.between(root.get("createTime").as(Timestamp.class)
-                                                , new DateGenerator(startTime + " 00:00:00").toTimestamp(), new DateGenerator(endTime + " 00:00:00").toTimestamp())
+                                                , new DateGenerator(startDateTime).toTimestamp(), new DateGenerator(endDateTime).toTimestamp())
                                 );
                                 break;
                             }
