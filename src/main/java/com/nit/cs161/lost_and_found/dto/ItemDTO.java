@@ -65,7 +65,7 @@ public class ItemDTO extends BaseDTO<LafItem> {
     @Override
     public LafItem toBean() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         LafItem lafItem = super.toBean();
-        lafItem.setItemPickUpTime(new DateGenerator(ProjectConstants.DATE_FORMAT, this.getItemPickUpTime()).toTimestamp());
+        lafItem.setItemPickUpTime(new DateGenerator(ProjectConstants.DATE_TIME_FORMAT, this.getItemPickUpTime()).toTimestamp());
         return lafItem;
     }
 

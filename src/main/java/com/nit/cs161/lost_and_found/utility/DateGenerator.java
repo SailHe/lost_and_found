@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class DateGenerator {
     /**
-     * Descriptions: default format<p>
+     * Descriptions: default format: HH表示24小时制<p>
      *
      * @author SailHe
      * @date 2018/4/3 16:52
