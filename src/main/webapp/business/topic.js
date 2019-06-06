@@ -210,7 +210,10 @@ $(function () {
         }
     }).trigger('change', {selectLinkList: [0, -1]});
 
-    $('input[name=itemPickUpTime]').initDatePicker().val(new Date().format(DATE_FORMAT));
+    const currentDate = new Date();
+    // 只能选择[now-365天, now]范围内的日期
+    $('input[name=itemPickUpTime]').initDateTimePickerBetween(calcNextDate(currentDate, -365), currentDate)
+        .val(currentDate.format(DATE_TIME_FORMAT));
 
 
     $dataTableForm.bootstrapValidator({
