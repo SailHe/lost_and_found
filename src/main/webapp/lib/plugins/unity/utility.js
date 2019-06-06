@@ -1124,6 +1124,52 @@ $.fn.rangeDatePicker = function ($endDatePickerInput) {
     $('.date-time-picker').val(new Date().format(DATE_FORMAT));
 }
 
+$.fn.rangeDateTimePicker = function ($endDatePickerInput) {
+
+    function initRangeDatePicker($start, $end) {
+        //设置默认时间
+        // $start.val(new Date().format(DATE_FORMAT));
+        // $end.val(new Date().format(DATE_FORMAT));
+        $start.prop("readonly", true).datetimepicker({
+            timeText: '时间',
+            hourText: '小时',
+            minuteText: '分钟',
+            secondText: '秒',
+            currentText: '现在',
+            closeText: '完成',
+            showSecond: true, //显示秒
+            timeFormat: 'hh:mm:ss',//格式化时间
+            changeMonth: true,
+            dateFormat: DATE_FORMAT_DATEPICKER,
+            onClose: function (selectedDate) {
+                // $end.datepicker("option", "minDate", selectedDate);
+                $end.datetimepicker("option", "minDateTime", new Date(selectedDate));
+                // 注意 只要关闭了控件 就会触发
+                $start.trigger('input');
+            }
+        });
+        $end.prop("readonly", true).datetimepicker({
+            timeText: '时间',
+            hourText: '小时',
+            minuteText: '分钟',
+            secondText: '秒',
+            currentText: '现在',
+            closeText: '完成',
+            showSecond: true, //显示秒
+            timeFormat: 'hh:mm:ss',//格式化时间
+            changeMonth: true,
+            dateFormat: DATE_FORMAT_DATEPICKER,
+            onClose: function (selectedDate) {
+                // $start.datepicker("option", "maxDate", selectedDate);
+                $start.datetimepicker("option", "maxDateTime", new Date(selectedDate));
+                $end.val($(this).val()).trigger('input');
+            }
+        });
+    }
+
+    initRangeDatePicker(this, $endDatePickerInput);
+}
+
 
 /**
  * Descriptions: 遍历指定table的指定列
