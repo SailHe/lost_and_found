@@ -9,7 +9,7 @@
  */
 const PATTERN_PASSWORD = /^[\w_-]{6,16}$/;
 // 字母+数字+{_-}
-const PATTERN_NUMBER_ALPHA = /^[\w_-]$/;
+const PATTERN_NUMBER_ALPHA = /^[\w_-]+/;
 
 $(function () {
 
