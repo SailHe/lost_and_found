@@ -1,14 +1,19 @@
 # 失物招领
-**软件工程程序设计**
+**软件工程程序设计-JavaWeb**
 
 ### 前端
-* html5
+* Html5
 * CSS3
-* javascript ES6 Jquery Ajax
+  - Bootstrap
+* javascript
+  - Jquery
+  - Ajax
 ### 后端
-* JavaWeb - MVC软件架构模式
+* MVC 软件架构模式
+* SpringMVC
 * SpringBoot 1.5.8
-* Jpa - 基于hibernate(3.2以上)
+* Jpa
+* hibernate 3.2+
 
 # 开发工具
 IntelliJ IDEA
