@@ -7,13 +7,12 @@
   - Bootstrap
 * javascript
   - Jquery
+  - Jquery UI
   - Ajax
 ### 后端
-* MVC 软件架构模式
-* SpringMVC
+* MVC 软件架构模式 -> SpringMVC
 * SpringBoot 1.5.8
-* Jpa
-* hibernate 3.2+
+* JPA -> Hibernate 3.2+
 
 # 开发工具
 IntelliJ IDEA
@@ -29,7 +28,9 @@ MySQL 6.3
 # 数据库管理软件
 Navicat 11.2.7
 # 目标浏览器
-chrome 58及以上(其余未作测试)
+- Chrome 58+
+- FireFox 65+
+- 其余均未作测试
 
 # Documentation
 ./docs目录中包含了开发文档:
