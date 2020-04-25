@@ -2,17 +2,20 @@
 
 ![image-20200425204300200](./_resources/image-20200425204300200.png)
 
-**软件工程程序设计**
+**软件工程程序设计-JavaWeb**
 
 ### 前端
-
-* html5
+* Html5
 * CSS3
-* javascript ES6 Jquery Ajax
+  - Bootstrap
+* javascript
+  - Jquery
+  - Jquery UI
+  - Ajax
 ### 后端
-* JavaWeb - MVC软件架构模式
+* MVC 软件架构模式 -> SpringMVC
 * SpringBoot 1.5.8
-* Jpa - 基于hibernate(3.2以上)
+* JPA -> Hibernate 3.2+
 
 # 开发工具
 IntelliJ IDEA
@@ -28,7 +31,9 @@ MySQL 6.3
 # 数据库管理软件
 Navicat 11.2.7
 # 目标浏览器
-chrome 58及以上(其余未作测试)
+- Chrome 58+
+- FireFox 65+
+- 其余均未作测试
 
 # Documentation
 ./docs目录中包含了开发文档:
