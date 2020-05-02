@@ -24,6 +24,8 @@ Git
 # 软件项目管理及自动构建工具
 Maven
 
+# 需求分析
+Visio
 # 建模和设计解决方案
 PowerDesigner 15
 # 数据库
